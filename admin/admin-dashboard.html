@@ -4,261 +4,189 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Kowri – Admin Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <style>
 :root{
-  --green:#22c55e;
-  --green-dark:#16a34a;
-  --green-dim:#dcfce7;
-  --green-border:rgba(34,197,94,0.2);
-  --bg:#f9fafb;
-  --sidebar:#fff;
-  --card:#fff;
-  --text:#111827;
-  --muted:#6b7280;
-  --border:#e5e7eb;
-  --radius:12px;
+  --green:#22c55e;--green-dark:#16a34a;--green-dim:#dcfce7;--green-border:rgba(34,197,94,0.2);
+  --bg:#f9fafb;--sidebar:#fff;--card:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--radius:12px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;}
 
 /* SIDEBAR */
-.sidebar{
-  width:240px;
-  background:var(--sidebar);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  position:fixed;top:0;left:0;height:100vh;
-  z-index:100;transition:transform .3s;
-}
-.sb-logo{
-  display:flex;align-items:center;gap:10px;
-  padding:22px 20px;
-  border-bottom:1px solid var(--border);
-}
-.sb-logo-icon{
-  width:32px;height:32px;
-  background:linear-gradient(135deg,var(--green-dark),var(--green));
-  border-radius:7px;
-  display:flex;align-items:center;justify-content:center;
-}
+.sidebar{width:240px;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:22px 20px;border-bottom:1px solid var(--border);}
+.sb-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:7px;display:flex;align-items:center;justify-content:center;}
 .sb-logo-text{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;color:var(--green);}
 .sb-nav{padding:16px 10px;flex:1;}
-.sb-item{
-  display:flex;align-items:center;gap:11px;
-  padding:11px 12px;border-radius:9px;
-  cursor:pointer;font-size:14px;font-weight:500;
-  color:var(--muted);transition:all .2s;margin-bottom:3px;
-  border:none;background:none;width:100%;text-align:left;
-  font-family:'DM Sans',sans-serif;
-}
+.sb-item{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:500;color:var(--muted);transition:all .2s;margin-bottom:3px;border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif;}
 .sb-item:hover{background:#f3f4f6;color:var(--text);}
 .sb-item.active{background:var(--green-dim);color:var(--green-dark);}
 .sb-item i{width:18px;text-align:center;font-size:15px;}
 .sb-footer{padding:16px 10px;border-top:1px solid var(--border);}
 .sb-admin{display:flex;align-items:center;gap:10px;padding:10px 12px;}
-.sb-avatar{
-  width:32px;height:32px;
-  background:linear-gradient(135deg,var(--green-dark),var(--green));
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Sora',sans-serif;font-weight:800;font-size:12px;color:#fff;
-}
+.sb-avatar{width:32px;height:32px;background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;font-size:12px;color:#fff;}
 .sb-name{font-size:13px;font-weight:600;color:var(--text);}
-.btn-logout{
-  width:100%;
-  background:rgba(239,68,68,0.06);
-  border:1px solid rgba(239,68,68,0.18);
-  border-radius:8px;padding:9px;
-  color:#ef4444;font-size:13px;font-weight:600;
-  cursor:pointer;transition:all .2s;
-  font-family:'DM Sans',sans-serif;margin-top:8px;
-}
+.btn-logout{width:100%;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:8px;padding:9px;color:#ef4444;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;margin-top:8px;}
 .btn-logout:hover{background:rgba(239,68,68,0.12);}
 
 /* MAIN */
 .main{margin-left:240px;flex:1;min-height:100vh;}
-.top-bar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 28px;
-  border-bottom:1px solid var(--border);
-  background:var(--card);
-  position:sticky;top:0;z-index:50;
-}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);background:var(--card);position:sticky;top:0;z-index:50;}
 .top-bar h1{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--text);}
-.top-badge{
-  background:var(--green-dim);
-  border:1px solid var(--green-border);
-  color:var(--green-dark);
-  font-size:12px;font-weight:600;
-  padding:5px 12px;border-radius:999px;
-}
+.top-badge{background:var(--green-dim);border:1px solid var(--green-border);color:var(--green-dark);font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;}
 .content{padding:28px;}
 
 /* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
-.stat-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:20px;
-}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
 .stat-card .sc-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
 .stat-card .sc-val{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:4px;}
 .stat-card .sc-label{font-size:13px;color:var(--muted);}
-.stat-card.green .sc-icon{background:#dcfce7;}
-.stat-card.green .sc-val{color:var(--green-dark);}
-.stat-card.yellow .sc-icon{background:#fef9c3;}
-.stat-card.yellow .sc-val{color:#a16207;}
-.stat-card.red .sc-icon{background:#fee2e2;}
-.stat-card.red .sc-val{color:#dc2626;}
-.stat-card.blue .sc-icon{background:#dbeafe;}
-.stat-card.blue .sc-val{color:#1d4ed8;}
+.stat-card.green .sc-icon{background:#dcfce7;}.stat-card.green .sc-val{color:var(--green-dark);}
+.stat-card.yellow .sc-icon{background:#fef9c3;}.stat-card.yellow .sc-val{color:#a16207;}
+.stat-card.red .sc-icon{background:#fee2e2;}.stat-card.red .sc-val{color:#dc2626;}
+.stat-card.blue .sc-icon{background:#dbeafe;}.stat-card.blue .sc-val{color:#1d4ed8;}
 
-/* SECTION TABS */
-.section-tabs{
-  display:flex;gap:4px;
-  background:#f3f4f6;
-  border-radius:10px;padding:4px;
-  margin-bottom:20px;width:fit-content;
-}
-.stab{
-  padding:8px 18px;border-radius:7px;
-  font-size:13px;font-weight:600;
-  cursor:pointer;border:none;background:none;
-  color:var(--muted);transition:all .2s;
-  font-family:'DM Sans',sans-serif;
-}
+/* TABS */
+.section-tabs{display:flex;gap:4px;background:#f3f4f6;border-radius:10px;padding:4px;margin-bottom:20px;width:fit-content;}
+.stab{padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);transition:all .2s;font-family:'DM Sans',sans-serif;}
 .stab.active{background:#fff;color:var(--green-dark);box-shadow:0 1px 4px rgba(0,0,0,0.08);}
 
 /* TABLE CARD */
-.table-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-}
-.table-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px 20px;
-  border-bottom:1px solid var(--border);
-}
+.table-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.table-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border);}
 .table-head h2{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:var(--text);}
-.search-box{
-  display:flex;align-items:center;gap:8px;
-  background:#f9fafb;
-  border:1px solid var(--border);
-  border-radius:8px;padding:8px 12px;
-}
-.search-box input{
-  background:none;border:none;
-  color:var(--text);font-size:13px;
-  outline:none;width:200px;
-  font-family:'DM Sans',sans-serif;
-}
+.search-box{display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid var(--border);border-radius:8px;padding:8px 12px;}
+.search-box input{background:none;border:none;color:var(--text);font-size:13px;outline:none;width:200px;font-family:'DM Sans',sans-serif;}
 .search-box input::placeholder{color:#9ca3af;}
-
-/* TABLE */
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 table{width:100%;border-collapse:collapse;}
-th{
-  text-align:left;font-size:11px;color:var(--muted);
-  padding:12px 16px;
-  background:#f9fafb;
-  font-weight:600;text-transform:uppercase;letter-spacing:.05em;
-  border-bottom:1px solid var(--border);
-}
-td{padding:14px 16px;font-size:13px;border-top:1px solid #f3f4f6;color:var(--text);}
+th{text-align:left;font-size:11px;color:var(--muted);padding:12px 16px;background:#f9fafb;font-weight:600;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);}
+td{padding:13px 16px;font-size:13px;border-top:1px solid #f3f4f6;color:var(--text);vertical-align:middle;}
 tr:hover td{background:#fafafa;}
 
-/* BADGES */
 .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;}
 .badge.PENDING{background:#fef9c3;color:#854d0e;}
 .badge.APPROVED{background:#dcfce7;color:#166534;}
 .badge.REJECTED{background:#fee2e2;color:#991b1b;}
 
-/* ACTION BUTTONS */
-.action-btns{display:flex;gap:6px;}
-.btn-approve{
-  background:#dcfce7;border:1px solid rgba(34,197,94,0.3);
-  color:#166534;border-radius:6px;padding:5px 12px;
-  font-size:12px;font-weight:700;cursor:pointer;
-  transition:all .2s;font-family:'DM Sans',sans-serif;
-}
+.action-btns{display:flex;gap:6px;align-items:center;}
+.btn-approve{background:#dcfce7;border:1px solid rgba(34,197,94,0.3);color:#166534;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
 .btn-approve:hover{background:#bbf7d0;}
-.btn-reject{
-  background:#fee2e2;border:1px solid rgba(239,68,68,0.25);
-  color:#991b1b;border-radius:6px;padding:5px 12px;
-  font-size:12px;font-weight:700;cursor:pointer;
-  transition:all .2s;font-family:'DM Sans',sans-serif;
-}
+.btn-reject{background:#fee2e2;border:1px solid rgba(239,68,68,0.25);color:#991b1b;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
 .btn-reject:hover{background:#fecaca;}
-.btn-view-img{
-  background:#dbeafe;border:1px solid rgba(59,130,246,0.25);
-  color:#1d4ed8;border-radius:6px;padding:5px 10px;
-  font-size:12px;cursor:pointer;transition:all .2s;
-  font-family:'DM Sans',sans-serif;
-}
-.btn-view-img:hover{background:#bfdbfe;}
+.btn-details{background:#f3f4f6;border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.btn-details:hover{background:#e5e7eb;}
 
 .empty{text-align:center;color:var(--muted);font-size:14px;padding:36px 0;}
 .loading{text-align:center;color:var(--muted);font-size:14px;padding:36px 0;}
 
+/* OVERVIEW */
+.recent-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.recent-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.recent-card h3{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;}
+.recent-card h3.green{color:var(--green-dark);}
+.recent-card h3.blue{color:#1d4ed8;}
+.recent-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #f3f4f6;cursor:pointer;transition:background .15s;border-radius:6px;padding:9px 6px;}
+.recent-row:last-child{border-bottom:none;}
+.recent-row:hover{background:#f9fafb;}
+
 /* TOAST */
-.toast{
-  position:fixed;bottom:24px;right:24px;
-  background:#fff;border:1px solid var(--border);
-  border-radius:10px;padding:14px 20px;
-  font-size:14px;font-weight:600;z-index:999;
-  transform:translateY(100px);opacity:0;transition:all .3s;
-  box-shadow:0 4px 20px rgba(0,0,0,0.08);
-}
+.toast{position:fixed;bottom:24px;right:24px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 20px;font-size:14px;font-weight:600;z-index:999;transform:translateY(100px);opacity:0;transition:all .3s;box-shadow:0 4px 20px rgba(0,0,0,0.08);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{border-color:rgba(34,197,94,0.4);color:#166534;}
 .toast.error{border-color:rgba(239,68,68,0.3);color:#dc2626;}
 
-/* IMAGE MODAL */
-.img-modal{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,0.6);
-  display:none;align-items:center;justify-content:center;z-index:500;
-}
+/* ── DETAIL DRAWER ── */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:200;display:none;opacity:0;transition:opacity .25s;}
+.drawer-overlay.open{display:block;opacity:1;}
+.drawer{position:fixed;top:0;right:0;height:100vh;width:480px;max-width:100vw;background:#fff;z-index:201;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+.drawer.open{transform:translateX(0);}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:10;}
+.drawer-header h2{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;}
+.drawer-close{background:none;border:1px solid var(--border);border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.drawer-close:hover{background:#f3f4f6;color:var(--text);}
+.drawer-body{padding:24px;flex:1;}
+
+/* Detail sections */
+.detail-section{margin-bottom:24px;}
+.detail-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.detail-section-title i{font-size:11px;}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.detail-item{background:#f9fafb;border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.detail-item.full{grid-column:1/-1;}
+.detail-label{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;}
+.detail-value{font-size:14px;font-weight:600;color:var(--text);word-break:break-all;}
+.detail-value.mono{font-family:'DM Mono',monospace;font-size:13px;}
+.detail-value.amount{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:var(--green-dark);}
+.detail-value.reward{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:#1d4ed8;}
+
+.proof-img-wrap{border-radius:10px;overflow:hidden;border:1px solid var(--border);margin-top:4px;cursor:pointer;position:relative;}
+.proof-img-wrap img{width:100%;display:block;max-height:260px;object-fit:cover;}
+.proof-img-wrap .img-overlay{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.proof-img-wrap:hover .img-overlay{background:rgba(0,0,0,0.3);}
+.proof-img-wrap .img-overlay i{color:#fff;font-size:24px;opacity:0;transition:opacity .2s;}
+.proof-img-wrap:hover .img-overlay i{opacity:1;}
+
+.drawer-actions{padding:20px 24px;border-top:1px solid var(--border);display:flex;gap:10px;position:sticky;bottom:0;background:#fff;}
+.drawer-btn-approve{flex:1;background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px;font-family:'Sora',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.drawer-btn-approve:hover{background:var(--green-dark);}
+.drawer-btn-reject{flex:1;background:#ef4444;color:#fff;border:none;border-radius:10px;padding:12px;font-family:'Sora',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.drawer-btn-reject:hover{background:#dc2626;}
+.drawer-status-done{flex:1;background:#f3f4f6;border:1px solid var(--border);border-radius:10px;padding:12px;font-family:'Sora',sans-serif;font-weight:700;font-size:14px;color:var(--muted);text-align:center;}
+
+/* IMAGE FULLSCREEN */
+.img-modal{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;z-index:500;}
 .img-modal.open{display:flex;}
-.img-modal img{max-width:90vw;max-height:85vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
-.img-modal .close-btn{
-  position:absolute;top:20px;right:20px;
-  background:#fff;border:1px solid var(--border);
-  color:var(--text);width:36px;height:36px;border-radius:50%;
-  font-size:16px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-}
+.img-modal img{max-width:90vw;max-height:88vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+.img-modal .close-btn{position:absolute;top:20px;right:20px;background:#fff;border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 
-/* OVERVIEW RECENT CARDS */
-.recent-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.recent-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);padding:20px;
-}
-.recent-card h3{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;}
-.recent-card h3.green{color:var(--green-dark);}
-.recent-card h3.blue{color:#1d4ed8;}
-.recent-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:9px 0;border-bottom:1px solid #f3f4f6;
-}
-.recent-row:last-child{border-bottom:none;}
+/* MOBILE */
+.hamburger{display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:8px 10px;cursor:pointer;color:var(--text);font-size:16px;}
 
-/* MOBILE HAMBURGER */
-.hamburger{
+/* Mobile card list — replaces table on small screens */
+.mobile-cards{display:none;flex-direction:column;gap:0;}
+.m-card{
+  padding:16px 20px;
+  border-bottom:1px solid #f3f4f6;
+  cursor:pointer;
+  transition:background .15s;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.m-card:last-child{border-bottom:none;}
+.m-card:hover{background:#fafafa;}
+.m-card:active{background:#f3f4f6;}
+.m-card-left{flex:1;min-width:0;}
+.m-card-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.m-card-sub{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.m-card-token{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:3px;}
+.m-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;}
+.m-card-amount{font-family:'Sora',sans-serif;font-size:15px;font-weight:800;color:var(--text);}
+.m-card-chevron{color:#d1d5db;font-size:12px;}
+
+/* Bottom nav for mobile */
+.mobile-bottom-nav{
   display:none;
-  background:none;border:1px solid var(--border);
-  border-radius:8px;padding:8px 10px;cursor:pointer;
-  color:var(--text);font-size:16px;
+  position:fixed;bottom:0;left:0;right:0;
+  background:#fff;
+  border-top:1px solid var(--border);
+  z-index:150;
+  padding:8px 0 max(8px, env(safe-area-inset-bottom));
+  box-shadow:0 -4px 16px rgba(0,0,0,0.06);
 }
-
-/* MOBILE TABLE SCROLL */
-.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.mobile-bottom-nav .nav-items{display:flex;justify-content:space-around;}
+.mobile-bottom-nav .nav-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 16px;border-radius:10px;cursor:pointer;
+  border:none;background:none;font-family:'DM Sans',sans-serif;
+  transition:all .15s;min-width:70px;
+}
+.mobile-bottom-nav .nav-item i{font-size:18px;color:var(--muted);}
+.mobile-bottom-nav .nav-item span{font-size:10px;font-weight:600;color:var(--muted);}
+.mobile-bottom-nav .nav-item.active i{color:var(--green-dark);}
+.mobile-bottom-nav .nav-item.active span{color:var(--green-dark);}
 
 @media(max-width:1024px){
   .stats-grid{grid-template-columns:1fr 1fr;}
@@ -267,17 +195,46 @@ tr:hover td{background:#fafafa;}
   .main{margin-left:0;}
   .hamburger{display:flex;align-items:center;}
   .recent-grid{grid-template-columns:1fr;}
+  .drawer{width:100vw;}
 }
-@media(max-width:600px){
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .content{padding:16px;}
-  .top-bar{padding:14px 16px;}
-  .search-box{display:none;}
-  .table-head{padding:14px 16px;}
+
+@media(max-width:640px){
+  body{padding-bottom:72px;} /* space for bottom nav */
+  .content{padding:14px;}
+  .top-bar{padding:12px 16px;}
+  .top-bar h1{font-size:17px;}
+  .hamburger{display:none !important;} /* replaced by bottom nav */
+  .stats-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  .stat-card{padding:14px;}
+  .stat-card .sc-val{font-size:22px;}
+  .stat-card .sc-label{font-size:12px;}
+  .stat-card .sc-icon{width:32px;height:32px;margin-bottom:8px;}
   .section-tabs{width:100%;overflow-x:auto;}
+  .table-head{padding:14px 16px;}
+  .search-box{display:none;}
+  .detail-grid{grid-template-columns:1fr;}
+  .drawer-body{padding:16px;}
+  .drawer-header{padding:16px 20px;}
+  .drawer-actions{padding:14px 16px;}
+
+  /* Hide desktop table, show mobile cards */
+  .table-scroll{display:none;}
+  .mobile-cards{display:flex;}
+
+  /* Bottom nav */
+  .mobile-bottom-nav{display:block;}
+
+  /* Toast goes above bottom nav */
+  .toast{bottom:80px;right:16px;left:16px;text-align:center;}
+
+  /* Recent grid stacks */
+  .recent-grid{grid-template-columns:1fr;}
+  .recent-card{padding:16px;}
 }
-@media(max-width:400px){
-  .stats-grid{grid-template-columns:1fr;}
+
+@media(max-width:380px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .stat-card .sc-val{font-size:18px;}
 }
 </style>
 </head>
@@ -302,8 +259,22 @@ tr:hover td{background:#fafafa;}
   </div>
 </aside>
 
-<!-- Sidebar overlay for mobile -->
 <div id="sidebar-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:99;" onclick="closeSidebar()"></div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-bottom-nav">
+  <div class="nav-items">
+    <button class="nav-item active" id="mbnav-overview" onclick="showSection('overview',document.querySelector('.sb-item'));mobileNavActive('overview')">
+      <i class="fa-solid fa-gauge"></i><span>Overview</span>
+    </button>
+    <button class="nav-item" id="mbnav-deposits" onclick="showSection('deposits',document.querySelectorAll('.sb-item')[1]);mobileNavActive('deposits')">
+      <i class="fa-solid fa-arrow-down-to-line"></i><span>Deposits</span>
+    </button>
+    <button class="nav-item" id="mbnav-withdrawals" onclick="showSection('withdrawals',document.querySelectorAll('.sb-item')[2]);mobileNavActive('withdrawals')">
+      <i class="fa-solid fa-arrow-up-from-line"></i><span>Withdrawals</span>
+    </button>
+  </div>
+</nav>
 
 <main class="main">
   <div class="top-bar">
@@ -362,11 +333,12 @@ tr:hover td{background:#fafafa;}
       <div class="table-card">
         <div class="table-head">
           <h2>Deposits</h2>
-          <div class="search-box"><i class="fa-solid fa-search" style="color:#9ca3af;font-size:12px;"></i><input type="text" placeholder="Search deposits..." oninput="searchDep(this.value)"/></div>
+          <div class="search-box"><i class="fa-solid fa-search" style="color:#9ca3af;font-size:12px;"></i><input type="text" placeholder="Search by name, email, token..." oninput="searchDep(this.value)"/></div>
         </div>
         <div class="table-scroll">
           <div id="dep-table-wrap"><div class="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading...</div></div>
         </div>
+        <div class="mobile-cards" id="dep-mobile-wrap"></div>
       </div>
     </div>
 
@@ -386,19 +358,34 @@ tr:hover td{background:#fafafa;}
         <div class="table-scroll">
           <div id="wit-table-wrap"><div class="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading...</div></div>
         </div>
+        <div class="mobile-cards" id="wit-mobile-wrap"></div>
       </div>
     </div>
 
   </div>
 </main>
 
-<!-- Image modal -->
+<!-- ── DEPOSIT DETAIL DRAWER ── -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="detail-drawer">
+  <div class="drawer-header">
+    <h2>Transaction Details</h2>
+    <button class="drawer-close" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="drawer-body" id="drawer-body">
+    <!-- filled by JS -->
+  </div>
+  <div class="drawer-actions" id="drawer-actions">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- Fullscreen image modal -->
 <div class="img-modal" id="img-modal" onclick="closeImgModal()">
   <button class="close-btn" onclick="closeImgModal()"><i class="fa-solid fa-xmark"></i></button>
   <img src="" id="modal-img" alt="Proof"/>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -406,14 +393,15 @@ const API = 'https://kowriwebbackend.onrender.com';
 let allDeposits = [], allWithdrawals = [];
 let depFilter = 'ALL', depSearch = '';
 let witFilter = 'ALL', witSearch = '';
+let activeDrawerDeposit = null;
 
+/* ── AUTH ── */
 function logout() {
-  localStorage.removeItem('kowri_admin_token');
-  localStorage.removeItem('kowri_admin');
-  localStorage.removeItem('kowri_admin_refresh');
+  ['kowri_admin_token','kowri_admin','kowri_admin_refresh','kowri_token','kowri_user'].forEach(k => localStorage.removeItem(k));
   location.href = '../signin.html';
 }
 
+/* ── SIDEBAR ── */
 function toggleSidebar() {
   const sb = document.getElementById('sidebar');
   const ov = document.getElementById('sidebar-overlay');
@@ -425,6 +413,7 @@ function closeSidebar() {
   document.getElementById('sidebar-overlay').style.display = 'none';
 }
 
+/* ── TOAST ── */
 function toast(msg, type='success') {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -432,13 +421,14 @@ function toast(msg, type='success') {
   setTimeout(() => { t.className = 'toast'; }, 3000);
 }
 
-function fmt(amt) { return 'GH₵ ' + parseFloat(amt||0).toFixed(2); }
-function fmtDate(d) { return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }
+/* ── FORMATTERS ── */
+function fmt(amt)  { return 'GH₵ ' + parseFloat(amt||0).toLocaleString('en-GH', {minimumFractionDigits:2}); }
+function fmtDate(d){ return new Date(d).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function initials(name){ return (name||'?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2); }
 
+/* ── SECTIONS ── */
 function showSection(name, el) {
-  ['overview','deposits','withdrawals'].forEach(s => {
-    document.getElementById('sec-'+s).style.display = 'none';
-  });
+  ['overview','deposits','withdrawals'].forEach(s => document.getElementById('sec-'+s).style.display = 'none');
   document.getElementById('sec-'+name).style.display = 'block';
   document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
@@ -446,6 +436,14 @@ function showSection(name, el) {
   closeSidebar();
 }
 
+function mobileNavActive(name) {
+  ['overview','deposits','withdrawals'].forEach(n => {
+    const el = document.getElementById('mbnav-'+n);
+    if (el) el.classList.toggle('active', n === name);
+  });
+}
+
+/* ── FILTER / SEARCH ── */
 function filterDep(status, el) {
   depFilter = status;
   el.closest('.section-tabs').querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
@@ -461,36 +459,64 @@ function filterWit(status, el) {
 function searchDep(q) { depSearch = q.toLowerCase(); renderDep(); }
 function searchWit(q) { witSearch = q.toLowerCase(); renderWit(); }
 
+/* ── RENDER DEPOSITS TABLE ── */
 function renderDep() {
   let items = allDeposits;
   if (depFilter !== 'ALL') items = items.filter(d => d.status === depFilter);
   if (depSearch) items = items.filter(d =>
     (d.tokenId||'').toLowerCase().includes(depSearch) ||
     (d.walletId||'').toLowerCase().includes(depSearch) ||
+    (d.userFullName||'').toLowerCase().includes(depSearch) ||
+    (d.userEmail||'').toLowerCase().includes(depSearch) ||
     (d.amount+'').includes(depSearch)
   );
   const wrap = document.getElementById('dep-table-wrap');
   if (!items.length) { wrap.innerHTML = '<div class="empty">No deposits found.</div>'; return; }
   wrap.innerHTML = `<table>
-    <thead><tr><th>Date</th><th>Token ID</th><th>Wallet ID</th><th>Amount</th><th>Status</th><th>Proof</th><th>Actions</th></tr></thead>
+    <thead><tr>
+      <th>Date</th><th>User</th><th>Token ID</th><th>Amount</th><th>Reward</th><th>Status</th><th>Actions</th>
+    </tr></thead>
     <tbody>
     ${items.map(d => `<tr>
-      <td>${fmtDate(d.createdAt)}</td>
-      <td style="font-family:'Sora',sans-serif;font-weight:600;">${d.tokenId||'—'}</td>
-      <td>${d.walletId||'—'}</td>
+      <td style="white-space:nowrap;color:var(--muted);font-size:12px;">${fmtDate(d.createdAt)}</td>
+      <td>
+        <div style="font-weight:600;font-size:13px;">${d.userFullName||'—'}</div>
+        <div style="font-size:11px;color:var(--muted);">${d.userEmail||''}</div>
+      </td>
+      <td><span style="font-family:'DM Mono',monospace;font-size:12px;background:#f3f4f6;padding:2px 7px;border-radius:5px;">${d.tokenId||'—'}</span></td>
       <td style="font-family:'Sora',sans-serif;font-weight:700;">${fmt(d.amount)}</td>
+      <td style="font-family:'Sora',sans-serif;font-weight:700;color:#1d4ed8;">${fmt(d.rewardAmount)}</td>
       <td><span class="badge ${d.status}">${d.status}</span></td>
-      <td>${d.proofImageUrl ? `<button class="btn-view-img" onclick="viewImg('${d.proofImageUrl}')"><i class="fa-solid fa-image"></i></button>` : '—'}</td>
-      <td><div class="action-btns">
-        ${d.status === 'PENDING' ? `
-          <button class="btn-approve" onclick="updateDep('${d.id}','APPROVED')"><i class="fa-solid fa-check"></i> Approve</button>
-          <button class="btn-reject" onclick="updateDep('${d.id}','REJECTED')"><i class="fa-solid fa-xmark"></i> Reject</button>
-        ` : `<span style="color:#9ca3af;font-size:12px;">${d.status}</span>`}
-      </div></td>
+      <td>
+        <div class="action-btns">
+          <button class="btn-details" onclick="openDepositDrawer('${d.id}')"><i class="fa-solid fa-eye"></i> Details</button>
+          ${d.status === 'PENDING' ? `
+            <button class="btn-approve" onclick="updateDep('${d.id}','APPROVED')"><i class="fa-solid fa-check"></i></button>
+            <button class="btn-reject"  onclick="updateDep('${d.id}','REJECTED')"><i class="fa-solid fa-xmark"></i></button>
+          ` : ''}
+        </div>
+      </td>
     </tr>`).join('')}
     </tbody></table>`;
+
+  // Mobile cards
+  const mwrap = document.getElementById('dep-mobile-wrap');
+  mwrap.innerHTML = items.length ? items.map(d => `
+    <div class="m-card" onclick="openDepositDrawer('${d.id}')">
+      <div class="m-card-left">
+        <div class="m-card-name">${d.userFullName||'Unknown User'}</div>
+        <div class="m-card-sub">${d.userEmail||'—'}</div>
+        <div class="m-card-token">${d.tokenId||'No token'} · ${fmtDate(d.createdAt)}</div>
+      </div>
+      <div class="m-card-right">
+        <div class="m-card-amount">${fmt(d.amount)}</div>
+        <span class="badge ${d.status}">${d.status}</span>
+        <i class="fa-solid fa-chevron-right m-card-chevron"></i>
+      </div>
+    </div>`).join('') : '<div class="empty">No deposits found.</div>';
 }
 
+/* ── RENDER WITHDRAWALS TABLE ── */
 function renderWit() {
   let items = allWithdrawals;
   if (witFilter !== 'ALL') items = items.filter(w => w.status === witFilter);
@@ -503,52 +529,278 @@ function renderWit() {
   const wrap = document.getElementById('wit-table-wrap');
   if (!items.length) { wrap.innerHTML = '<div class="empty">No withdrawals found.</div>'; return; }
   wrap.innerHTML = `<table>
-    <thead><tr><th>Date</th><th>Account Name</th><th>Network</th><th>Account #</th><th>Amount</th><th>Service</th><th>Status</th><th>Actions</th></tr></thead>
+    <thead><tr>
+      <th>Date</th><th>Account Name</th><th>Network</th><th>Account #</th><th>Amount</th><th>Status</th><th>Actions</th>
+    </tr></thead>
     <tbody>
     ${items.map(w => `<tr>
-      <td>${fmtDate(w.createdAt)}</td>
+      <td style="white-space:nowrap;color:var(--muted);font-size:12px;">${fmtDate(w.createdAt)}</td>
       <td style="font-weight:600;">${w.accountName||'—'}</td>
       <td>${w.networkProvider||'—'}</td>
-      <td style="font-family:monospace;">${w.accountNumber||'—'}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;">${w.accountNumber||'—'}</td>
       <td style="font-family:'Sora',sans-serif;font-weight:700;">${fmt(w.amount)}</td>
-      <td><span style="font-size:12px;color:var(--muted);">${w.agentService||'—'}</span></td>
       <td><span class="badge ${w.status}">${w.status}</span></td>
       <td><div class="action-btns">
         ${w.status === 'PENDING' ? `
           <button class="btn-approve" onclick="updateWit('${w.id}','APPROVED')"><i class="fa-solid fa-check"></i> Approve</button>
-          <button class="btn-reject" onclick="updateWit('${w.id}','REJECTED')"><i class="fa-solid fa-xmark"></i> Reject</button>
+          <button class="btn-reject"  onclick="updateWit('${w.id}','REJECTED')"><i class="fa-solid fa-xmark"></i> Reject</button>
         ` : `<span style="color:#9ca3af;font-size:12px;">${w.status}</span>`}
       </div></td>
     </tr>`).join('')}
     </tbody></table>`;
+
+  // Mobile cards
+  const mwrap = document.getElementById('wit-mobile-wrap');
+  mwrap.innerHTML = items.length ? items.map(w => `
+    <div class="m-card" onclick="openWithdrawalDrawer('${w.id}')">
+      <div class="m-card-left">
+        <div class="m-card-name">${w.accountName||'—'}</div>
+        <div class="m-card-sub">${w.networkProvider||'—'} · ${w.accountNumber||'—'}</div>
+        <div class="m-card-token">${fmtDate(w.createdAt)}</div>
+      </div>
+      <div class="m-card-right">
+        <div class="m-card-amount">${fmt(w.amount)}</div>
+        <span class="badge ${w.status}">${w.status}</span>
+        <i class="fa-solid fa-chevron-right m-card-chevron"></i>
+      </div>
+    </div>`).join('') : '<div class="empty">No withdrawals found.</div>';
 }
 
+/* ── OVERVIEW ── */
 function renderOverview() {
-  const pd = allDeposits.filter(d => d.status === 'PENDING').length;
-  const ad = allDeposits.filter(d => d.status === 'APPROVED').length;
-  const pw = allWithdrawals.filter(w => w.status === 'PENDING').length;
-  const rej = allDeposits.filter(d => d.status === 'REJECTED').length + allWithdrawals.filter(w => w.status === 'REJECTED').length;
-  document.getElementById('stat-pending-dep').textContent = pd;
-  document.getElementById('stat-approved-dep').textContent = ad;
-  document.getElementById('stat-pending-wit').textContent = pw;
-  document.getElementById('stat-rejected').textContent = rej;
+  document.getElementById('stat-pending-dep').textContent  = allDeposits.filter(d=>d.status==='PENDING').length;
+  document.getElementById('stat-approved-dep').textContent = allDeposits.filter(d=>d.status==='APPROVED').length;
+  document.getElementById('stat-pending-wit').textContent  = allWithdrawals.filter(w=>w.status==='PENDING').length;
+  document.getElementById('stat-rejected').textContent     = allDeposits.filter(d=>d.status==='REJECTED').length + allWithdrawals.filter(w=>w.status==='REJECTED').length;
 
-  const recentDep = [...allDeposits].sort((a,b) => new Date(b.createdAt)-new Date(a.createdAt)).slice(0,4);
-  const recentWit = [...allWithdrawals].sort((a,b) => new Date(b.createdAt)-new Date(a.createdAt)).slice(0,4);
+  const recentDep = [...allDeposits].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,5);
+  const recentWit = [...allWithdrawals].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,5);
 
-  document.getElementById('recent-deposits-list').innerHTML = recentDep.length ?
-    recentDep.map(d => `<div class="recent-row">
-      <div><div style="font-size:13px;font-weight:600;color:var(--text);">${d.tokenId||'—'}</div><div style="font-size:11px;color:var(--muted);">${fmtDate(d.createdAt)}</div></div>
-      <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:13px;">${fmt(d.amount)}</span><span class="badge ${d.status}" style="font-size:10px;">${d.status}</span></div>
-    </div>`).join('') : '<div style="color:var(--muted);font-size:13px;padding:8px 0;">No deposits yet.</div>';
+  document.getElementById('recent-deposits-list').innerHTML = recentDep.length
+    ? recentDep.map(d=>`<div class="recent-row" onclick="openDepositDrawer('${d.id}')">
+        <div>
+          <div style="font-size:13px;font-weight:600;">${d.userFullName||d.tokenId||'—'}</div>
+          <div style="font-size:11px;color:var(--muted);">${d.userEmail||''} · ${fmtDate(d.createdAt)}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:13px;">${fmt(d.amount)}</span>
+          <span class="badge ${d.status}" style="font-size:10px;">${d.status}</span>
+        </div>
+      </div>`).join('')
+    : '<div style="color:var(--muted);font-size:13px;padding:8px 0;">No deposits yet.</div>';
 
-  document.getElementById('recent-withdrawals-list').innerHTML = recentWit.length ?
-    recentWit.map(w => `<div class="recent-row">
-      <div><div style="font-size:13px;font-weight:600;color:var(--text);">${w.accountName||'—'}</div><div style="font-size:11px;color:var(--muted);">${fmtDate(w.createdAt)} · ${w.networkProvider||''}</div></div>
-      <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:13px;">${fmt(w.amount)}</span><span class="badge ${w.status}" style="font-size:10px;">${w.status}</span></div>
-    </div>`).join('') : '<div style="color:var(--muted);font-size:13px;padding:8px 0;">No withdrawals yet.</div>';
+  document.getElementById('recent-withdrawals-list').innerHTML = recentWit.length
+    ? recentWit.map(w=>`<div class="recent-row">
+        <div>
+          <div style="font-size:13px;font-weight:600;">${w.accountName||'—'}</div>
+          <div style="font-size:11px;color:var(--muted);">${w.networkProvider||''} · ${fmtDate(w.createdAt)}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:13px;">${fmt(w.amount)}</span>
+          <span class="badge ${w.status}" style="font-size:10px;">${w.status}</span>
+        </div>
+      </div>`).join('')
+    : '<div style="color:var(--muted);font-size:13px;padding:8px 0;">No withdrawals yet.</div>';
 }
 
+/* ── WITHDRAWAL QUICK DETAIL (mobile tap) ── */
+function openWithdrawalDrawer(id) {
+  const w = allWithdrawals.find(x => x.id === id);
+  if (!w) return;
+
+  const body = document.getElementById('drawer-body');
+  document.getElementById('detail-drawer').querySelector('h2').textContent = 'Withdrawal Details';
+  body.innerHTML = `
+    <div style="margin-bottom:20px;">
+      <span class="badge ${w.status}" style="font-size:13px;padding:6px 16px;">${w.status}</span>
+      <span style="font-size:12px;color:var(--muted);margin-left:10px;">${fmtDate(w.createdAt)}</span>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title"><i class="fa-solid fa-money-bill-transfer"></i> Withdrawal Details</div>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label">Amount</div>
+          <div class="detail-value amount">${fmt(w.amount)}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Network</div>
+          <div class="detail-value">${w.networkProvider||'—'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Account Name</div>
+          <div class="detail-value">${w.accountName||'—'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Account Number</div>
+          <div class="detail-value mono">${w.accountNumber||'—'}</div>
+        </div>
+        <div class="detail-item full">
+          <div class="detail-label">Agent Service</div>
+          <div class="detail-value">${w.agentService||'—'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Submitted</div>
+          <div class="detail-value" style="font-size:12px;">${fmtDate(w.createdAt)}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Transaction ID</div>
+          <div class="detail-value mono" style="font-size:11px;">${w.id||'—'}</div>
+        </div>
+      </div>
+    </div>`;
+
+  const actions = document.getElementById('drawer-actions');
+  if (w.status === 'PENDING') {
+    actions.innerHTML = `
+      <button class="drawer-btn-approve" onclick="updateWit('${w.id}','APPROVED');closeDrawer()">
+        <i class="fa-solid fa-check"></i> Approve
+      </button>
+      <button class="drawer-btn-reject" onclick="updateWit('${w.id}','REJECTED');closeDrawer()">
+        <i class="fa-solid fa-xmark"></i> Reject
+      </button>`;
+  } else {
+    actions.innerHTML = `<div class="drawer-status-done"><i class="fa-solid fa-circle-check"></i> Already ${w.status}</div>`;
+  }
+
+  document.getElementById('drawer-overlay').classList.add('open');
+  document.getElementById('detail-drawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+/* ── DEPOSIT DETAIL DRAWER ── */
+function openDepositDrawer(id) {
+  const d = allDeposits.find(x => x.id === id);
+  if (!d) return;
+  activeDrawerDeposit = d;
+
+  const body = document.getElementById('drawer-body');
+  body.innerHTML = `
+
+    <!-- STATUS BANNER -->
+    <div style="margin-bottom:20px;">
+      <span class="badge ${d.status}" style="font-size:13px;padding:6px 16px;">${d.status}</span>
+      <span style="font-size:12px;color:var(--muted);margin-left:10px;">${fmtDate(d.createdAt)}</span>
+    </div>
+
+    <!-- USER INFO -->
+    <div class="detail-section">
+      <div class="detail-section-title"><i class="fa-solid fa-user"></i> User Information</div>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label">Full Name</div>
+          <div class="detail-value">${d.userFullName||'—'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Email</div>
+          <div class="detail-value mono">${d.userEmail||'—'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Current Balance</div>
+          <div class="detail-value" style="color:var(--green-dark);">${fmt(d.userBalance)}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">User ID</div>
+          <div class="detail-value mono" style="font-size:11px;">${d.userId||'—'}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSACTION INFO -->
+    <div class="detail-section">
+      <div class="detail-section-title"><i class="fa-solid fa-receipt"></i> Transaction Details</div>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label">Deposit Amount</div>
+          <div class="detail-value amount">${fmt(d.amount)}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Reward Amount</div>
+          <div class="detail-value reward">${fmt(d.rewardAmount)}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Token ID</div>
+          <div class="detail-value mono">${d.tokenId||'—'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Secret Code</div>
+          <div class="detail-value mono">${d.secretCode||'—'}</div>
+        </div>
+        <div class="detail-item full">
+          <div class="detail-label">Wallet ID</div>
+          <div class="detail-value mono">${d.walletId||'—'}</div>
+        </div>
+        <div class="detail-item full">
+          <div class="detail-label">Transaction ID</div>
+          <div class="detail-value mono" style="font-size:11px;">${d.id||'—'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Submitted</div>
+          <div class="detail-value" style="font-size:12px;">${fmtDate(d.createdAt)}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Last Updated</div>
+          <div class="detail-value" style="font-size:12px;">${fmtDate(d.updatedAt)}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROOF IMAGE -->
+    ${d.proofImageUrl ? `
+    <div class="detail-section">
+      <div class="detail-section-title"><i class="fa-solid fa-image"></i> Proof of Payment</div>
+      <div class="proof-img-wrap" onclick="viewImg('${d.proofImageUrl}')">
+        <img src="${d.proofImageUrl}" alt="Payment proof"/>
+        <div class="img-overlay"><i class="fa-solid fa-expand"></i></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">Click image to view full size</div>
+    </div>
+    ` : `
+    <div class="detail-section">
+      <div class="detail-section-title"><i class="fa-solid fa-image"></i> Proof of Payment</div>
+      <div style="background:#f9fafb;border:1px dashed var(--border);border-radius:10px;padding:24px;text-align:center;color:var(--muted);font-size:13px;">
+        <i class="fa-solid fa-image" style="font-size:24px;margin-bottom:8px;display:block;opacity:.3;"></i>
+        No proof image uploaded
+      </div>
+    </div>
+    `}
+  `;
+
+  /* Action buttons */
+  const actions = document.getElementById('drawer-actions');
+  if (d.status === 'PENDING') {
+    actions.innerHTML = `
+      <button class="drawer-btn-approve" onclick="updateDepFromDrawer('${d.id}','APPROVED')">
+        <i class="fa-solid fa-check"></i> Approve
+      </button>
+      <button class="drawer-btn-reject" onclick="updateDepFromDrawer('${d.id}','REJECTED')">
+        <i class="fa-solid fa-xmark"></i> Reject
+      </button>`;
+  } else {
+    actions.innerHTML = `<div class="drawer-status-done"><i class="fa-solid fa-circle-check"></i> Already ${d.status}</div>`;
+  }
+
+  /* Open */
+  document.getElementById('drawer-overlay').classList.add('open');
+  document.getElementById('detail-drawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer() {
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.getElementById('detail-drawer').classList.remove('open');
+  document.body.style.overflow = '';
+  activeDrawerDeposit = null;
+}
+
+/* ── APPROVE / REJECT FROM DRAWER ── */
+async function updateDepFromDrawer(id, status) {
+  await updateDep(id, status);
+  // Refresh drawer with new status
+  const d = allDeposits.find(x => x.id === id);
+  if (d) openDepositDrawer(id);
+}
+
+/* ── API: UPDATE DEPOSIT ── */
 async function updateDep(id, status) {
   const token = localStorage.getItem('kowri_admin_token');
   try {
@@ -559,11 +811,15 @@ async function updateDep(id, status) {
     if (!res.ok) throw new Error('Failed');
     const idx = allDeposits.findIndex(d => d.id === id);
     if (idx > -1) allDeposits[idx].status = status;
-    renderDep(); renderOverview();
+    renderDep();
+    renderOverview();
     toast(`Deposit ${status.toLowerCase()} successfully`, status === 'APPROVED' ? 'success' : 'error');
-  } catch(e) { toast('Action failed: ' + e.message, 'error'); }
+  } catch(e) {
+    toast('Action failed: ' + e.message, 'error');
+  }
 }
 
+/* ── API: UPDATE WITHDRAWAL ── */
 async function updateWit(id, status) {
   const token = localStorage.getItem('kowri_admin_token');
   try {
@@ -574,38 +830,54 @@ async function updateWit(id, status) {
     if (!res.ok) throw new Error('Failed');
     const idx = allWithdrawals.findIndex(w => w.id === id);
     if (idx > -1) allWithdrawals[idx].status = status;
-    renderWit(); renderOverview();
+    renderWit();
+    renderOverview();
     toast(`Withdrawal ${status.toLowerCase()} successfully`, status === 'APPROVED' ? 'success' : 'error');
-  } catch(e) { toast('Action failed: ' + e.message, 'error'); }
+  } catch(e) {
+    toast('Action failed: ' + e.message, 'error');
+  }
 }
 
+/* ── IMAGE FULLSCREEN ── */
 function viewImg(url) {
   document.getElementById('modal-img').src = url;
   document.getElementById('img-modal').classList.add('open');
 }
-function closeImgModal() { document.getElementById('img-modal').classList.remove('open'); }
+function closeImgModal(e) {
+  document.getElementById('img-modal').classList.remove('open');
+}
 
+/* ── KEYBOARD: ESC closes drawer / modal ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeDrawer();
+    closeImgModal();
+  }
+});
+
+/* ── INIT ── */
 async function init() {
   const stored = localStorage.getItem('kowri_admin');
-  const token = localStorage.getItem('kowri_admin_token');
+  const token  = localStorage.getItem('kowri_admin_token');
   if (!stored || !token) { location.href = '../signin.html'; return; }
 
   const admin = JSON.parse(stored);
-  const initials = (admin.fullName||'A').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
-  document.getElementById('admin-avatar').textContent = initials;
-  document.getElementById('admin-name').textContent = admin.fullName || admin.email;
+  document.getElementById('admin-avatar').textContent = initials(admin.fullName || admin.email);
+  document.getElementById('admin-name').textContent   = admin.fullName || admin.email;
 
   const headers = { 'Authorization': `Bearer ${token}` };
   try {
     const [dRes, wRes] = await Promise.all([
-      fetch(`${API}/api/admin/deposits`, { headers }),
+      fetch(`${API}/api/admin/deposits`,    { headers }),
       fetch(`${API}/api/admin/withdrawals`, { headers })
     ]);
-    allDeposits = dRes.ok ? (await dRes.json()) : [];
-    allWithdrawals = wRes.ok ? (await wRes.json()) : [];
+    allDeposits    = dRes.ok ? await dRes.json() : [];
+    allWithdrawals = wRes.ok ? await wRes.json() : [];
   } catch(e) {
     allDeposits = []; allWithdrawals = [];
+    toast('Failed to load data. Check connection.', 'error');
   }
+
   renderOverview();
   renderDep();
   renderWit();
