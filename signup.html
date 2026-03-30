@@ -24,6 +24,9 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
 .field input{width:100%;padding:13px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s;font-family:'DM Sans',sans-serif;}
 .field input::placeholder{color:#4b5563;}
 .field input:focus{border-color:var(--green);}
+.field input.input-error{border-color:rgba(239,68,68,0.6);}
+.field-hint{font-size:11px;color:#ef4444;margin-top:5px;display:none;}
+.field-hint.show{display:block;}
 
 /* Password wrapper */
 .pass-wrap{position:relative;}
@@ -38,8 +41,15 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
 .foot{text-align:center;margin-top:18px;font-size:13px;color:#9ca3af;}
 .foot a{color:var(--green);text-decoration:none;font-weight:600;}
 .foot a:hover{text-decoration:underline;}
-.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 14px;font-size:13px;color:#fca5a5;margin-bottom:16px;display:none;}
-.success{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:8px;padding:12px 14px;font-size:13px;color:#86efac;margin-bottom:16px;display:none;}
+
+/* Error / success banners */
+.banner{border-radius:10px;padding:13px 16px;font-size:13px;margin-bottom:18px;display:none;align-items:flex-start;gap:10px;line-height:1.5;}
+.banner i{margin-top:1px;flex-shrink:0;font-size:14px;}
+.banner-body strong{display:block;font-weight:600;margin-bottom:2px;font-size:13px;}
+.banner-body span{color:inherit;opacity:.85;}
+.error-banner{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.35);color:#fca5a5;}
+.success-banner{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#86efac;}
+
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,0.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @media(max-width:560px){
@@ -61,19 +71,39 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
     </div>
     <h2>Create Account</h2>
     <div class="sub">Join Kowri and start earning rewards today</div>
-    <div class="error" id="err-box"></div>
-    <div class="success" id="suc-box"></div>
+
+    <!-- Error banner -->
+    <div class="banner error-banner" id="err-box">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <div class="banner-body">
+        <strong id="err-title">Something went wrong</strong>
+        <span id="err-msg"></span>
+      </div>
+    </div>
+
+    <!-- Success banner -->
+    <div class="banner success-banner" id="suc-box">
+      <i class="fa-solid fa-circle-check"></i>
+      <div class="banner-body">
+        <strong>Account created!</strong>
+        <span>Redirecting you to your dashboard…</span>
+      </div>
+    </div>
+
     <div class="field">
       <label>Full Name</label>
       <input type="text" id="fullName" placeholder="John Doe"/>
+      <div class="field-hint" id="hint-name">Please enter your full name</div>
     </div>
     <div class="field">
       <label>Email Address</label>
       <input type="email" id="email" placeholder="john@example.com"/>
+      <div class="field-hint" id="hint-email">Please enter a valid email address</div>
     </div>
     <div class="field">
       <label>Phone Number</label>
       <input type="tel" id="phone" placeholder="+233240000000"/>
+      <div class="field-hint" id="hint-phone">Please enter your phone number</div>
     </div>
     <div class="row">
       <div class="field">
@@ -84,6 +114,7 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
             <i class="fa-regular fa-eye"></i>
           </button>
         </div>
+        <div class="field-hint" id="hint-password">Password must be at least 6 characters</div>
       </div>
       <div class="field">
         <label>Confirm Password</label>
@@ -93,6 +124,7 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
             <i class="fa-regular fa-eye"></i>
           </button>
         </div>
+        <div class="field-hint" id="hint-confirm">Passwords do not match</div>
       </div>
     </div>
     <button class="btn-submit" id="reg-btn" onclick="doRegister()">Create Account</button>
@@ -117,37 +149,79 @@ function togglePass(inputId, btn) {
   }
 }
 
+function clearErrors() {
+  document.getElementById('err-box').style.display = 'none';
+  ['fullName','email','phone','password','confirmPassword'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('input-error');
+  });
+  document.querySelectorAll('.field-hint').forEach(h => h.classList.remove('show'));
+}
+
+function fieldError(inputId, hintId) {
+  const el = document.getElementById(inputId);
+  if (el) el.classList.add('input-error');
+  const hint = document.getElementById(hintId);
+  if (hint) hint.classList.add('show');
+}
+
+function showBanner(title, msg) {
+  document.getElementById('err-title').textContent = title;
+  document.getElementById('err-msg').textContent = msg;
+  const box = document.getElementById('err-box');
+  box.style.display = 'flex';
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Map backend error messages to friendly user-facing text
+function friendlyError(rawMsg) {
+  const m = (rawMsg || '').toLowerCase();
+  if (m.includes('email') && (m.includes('exist') || m.includes('taken') || m.includes('already') || m.includes('registered')))
+    return { title: 'Email already in use', msg: 'An account with this email already exists. Try signing in instead.' };
+  if (m.includes('phone') && (m.includes('exist') || m.includes('taken') || m.includes('already')))
+    return { title: 'Phone number already registered', msg: 'This phone number is linked to another account.' };
+  if (m.includes('password') && m.includes('weak'))
+    return { title: 'Password too weak', msg: 'Choose a stronger password with letters, numbers, and symbols.' };
+  if (m.includes('invalid email') || m.includes('email format'))
+    return { title: 'Invalid email', msg: 'Please enter a valid email address like name@example.com.' };
+  if (m.includes('invalid phone') || m.includes('phone format') || m.includes('phone number'))
+    return { title: 'Invalid phone number', msg: 'Enter your number in international format, e.g. +233240000000.' };
+  if (m.includes('network') || m.includes('fetch') || m.includes('failed to fetch'))
+    return { title: 'No internet connection', msg: 'Check your connection and try again.' };
+  if (m.includes('server') || m.includes('500') || m.includes('internal'))
+    return { title: 'Server error', msg: 'Something went wrong on our end. Please try again in a moment.' };
+  // Fallback: show whatever the server said
+  return { title: 'Registration failed', msg: rawMsg || 'Please check your details and try again.' };
+}
+
 async function doRegister() {
   const btn = document.getElementById('reg-btn');
-  const errBox = document.getElementById('err-box');
-  const sucBox = document.getElementById('suc-box');
-  errBox.style.display = 'none';
-  sucBox.style.display = 'none';
+  clearErrors();
 
-  const fullName = document.getElementById('fullName').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phoneNumber = document.getElementById('phone').value.trim();
-  const password = document.getElementById('password').value;
+  const fullName        = document.getElementById('fullName').value.trim();
+  const email           = document.getElementById('email').value.trim();
+  const phoneNumber     = document.getElementById('phone').value.trim();
+  const password        = document.getElementById('password').value;
   const confirmPassword = document.getElementById('confirmPassword').value;
 
-  if (!fullName || !email || !phoneNumber || !password || !confirmPassword) {
-    errBox.textContent = 'Please fill in all fields.';
-    errBox.style.display = 'block';
-    return;
-  }
-  if (password.length < 6) {
-    errBox.textContent = 'Password must be at least 6 characters.';
-    errBox.style.display = 'block';
-    return;
-  }
-  if (password !== confirmPassword) {
-    errBox.textContent = 'Passwords do not match.';
-    errBox.style.display = 'block';
+  // Client-side validation with per-field hints
+  let hasError = false;
+  if (!fullName)        { fieldError('fullName', 'hint-name');     hasError = true; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+                        { fieldError('email', 'hint-email');       hasError = true; }
+  if (!phoneNumber)     { fieldError('phone', 'hint-phone');       hasError = true; }
+  if (!password || password.length < 6)
+                        { fieldError('password', 'hint-password'); hasError = true; }
+  if (password !== confirmPassword)
+                        { fieldError('confirmPassword', 'hint-confirm'); hasError = true; }
+
+  if (hasError) {
+    showBanner('Please fix the errors below', 'Fill in all highlighted fields correctly before continuing.');
     return;
   }
 
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Creating Account...';
+  btn.innerHTML = '<span class="spinner"></span>Creating Account…';
 
   try {
     const res = await fetch(`${API}/api/users/register`, {
@@ -155,19 +229,28 @@ async function doRegister() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fullName, email, password, confirmPassword, phoneNumber })
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Registration failed');
 
-    localStorage.setItem('kowri_token', data.token);
+    let data = {};
+    try { data = await res.json(); } catch(_) {}
+
+    if (!res.ok) {
+      const { title, msg } = friendlyError(data.message || data.error || `HTTP ${res.status}`);
+      showBanner(title, msg);
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+      return;
+    }
+
+    localStorage.setItem('kowri_token',   data.token);
     localStorage.setItem('kowri_refresh', data.refreshToken);
-    localStorage.setItem('kowri_user', JSON.stringify(data));
+    localStorage.setItem('kowri_user',    JSON.stringify(data));
 
-    sucBox.textContent = 'Account created! Redirecting to dashboard...';
-    sucBox.style.display = 'block';
-    setTimeout(() => location.href = 'dashboard.html', 1500);
+    document.getElementById('suc-box').style.display = 'flex';
+    setTimeout(() => location.href = 'dashboard.html', 1800);
+
   } catch(e) {
-    errBox.textContent = e.message || 'Something went wrong. Please try again.';
-    errBox.style.display = 'block';
+    const { title, msg } = friendlyError(e.message);
+    showBanner(title, msg);
     btn.disabled = false;
     btn.textContent = 'Create Account';
   }
