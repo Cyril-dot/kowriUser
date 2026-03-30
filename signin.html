@@ -27,6 +27,18 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
 .btn-submit{width:100%;background:var(--green);color:#000;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:all .2s;margin-top:8px;}
 .btn-submit:hover{background:#16a34a;transform:translateY(-1px);}
 .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.07);}
+.divider span{font-size:12px;color:#4b5563;white-space:nowrap;}
+
+/* Admin button */
+.btn-admin{width:100%;background:transparent;color:#9ca3af;font-family:'Sora',sans-serif;font-weight:600;font-size:14px;padding:13px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:9px;}
+.btn-admin:hover{border-color:rgba(255,255,255,0.22);color:var(--text);background:rgba(255,255,255,0.04);}
+.btn-admin i{font-size:13px;color:#6b7280;transition:color .2s;}
+.btn-admin:hover i{color:#9ca3af;}
+
 .foot{text-align:center;margin-top:18px;font-size:13px;color:#9ca3af;}
 .foot a{color:var(--green);text-decoration:none;font-weight:600;}
 .foot a:hover{text-decoration:underline;}
@@ -58,6 +70,8 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
       <input type="password" id="password" placeholder="Your password"/>
     </div>
     <button class="btn-submit" id="si-btn" onclick="doSignIn()">Sign In</button>
+
+    <div class="divider"><span>or</span></div>
     <div class="foot">Don't have an account? <a href="signup.html">Sign Up</a></div>
   </div>
 </div>

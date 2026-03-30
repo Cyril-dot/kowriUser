@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kowri – Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+:root{--amber:#f59e0b;--amber-dark:#d97706;--bg:#0d0d0d;--sidebar:#111;--card:#181818;--text:#fafafa;--muted:#9ca3af;--border:rgba(255,255,255,0.07);--radius:12px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;}
+
+/* SIDEBAR */
+.sidebar{width:240px;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:22px 20px;border-bottom:1px solid var(--border);}
+.sb-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--amber-dark),var(--amber));border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.sb-logo-text{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;color:var(--amber);}
+.sb-nav{padding:16px 10px;flex:1;}
+.sb-item{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:500;color:var(--muted);transition:all .2s;margin-bottom:3px;border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif;}
+.sb-item:hover{background:rgba(255,255,255,0.05);color:var(--text);}
+.sb-item.active{background:rgba(245,158,11,0.12);color:var(--amber);}
+.sb-item i{width:18px;text-align:center;font-size:15px;}
+.sb-footer{padding:16px 10px;border-top:1px solid var(--border);}
+.sb-admin{display:flex;align-items:center;gap:10px;padding:10px 12px;}
+.sb-avatar{width:32px;height:32px;background:linear-gradient(135deg,var(--amber-dark),var(--amber));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;font-size:12px;color:#000;}
+.sb-name{font-size:13px;font-weight:600;}
+.btn-logout{width:100%;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:9px;color:#fca5a5;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;margin-top:8px;}
+.btn-logout:hover{background:rgba(239,68,68,0.15);}
+
+/* MAIN */
+.main{margin-left:240px;flex:1;min-height:100vh;}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);background:var(--sidebar);}
+.top-bar h1{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;}
+.top-badge{background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);color:var(--amber);font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;}
+.content{padding:28px;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.stat-card .sc-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+.stat-card .sc-val{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:4px;}
+.stat-card .sc-label{font-size:13px;color:var(--muted);}
+.stat-card.amber .sc-icon{background:rgba(245,158,11,0.15);}
+.stat-card.amber .sc-val{color:var(--amber);}
+.stat-card.green .sc-icon{background:rgba(34,197,94,0.12);}
+.stat-card.green .sc-val{color:#22c55e;}
+.stat-card.red .sc-icon{background:rgba(239,68,68,0.12);}
+.stat-card.red .sc-val{color:#ef4444;}
+.stat-card.blue .sc-icon{background:rgba(59,130,246,0.12);}
+.stat-card.blue .sc-val{color:#3b82f6;}
+
+/* SECTION TABS */
+.section-tabs{display:flex;gap:4px;background:rgba(255,255,255,0.04);border-radius:10px;padding:4px;margin-bottom:20px;width:fit-content;}
+.stab{padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);transition:all .2s;font-family:'DM Sans',sans-serif;}
+.stab.active{background:var(--amber);color:#000;}
+
+/* TABLE */
+.table-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.table-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border);}
+.table-head h2{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;}
+.search-box{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:8px 12px;}
+.search-box input{background:none;border:none;color:var(--text);font-size:13px;outline:none;width:200px;font-family:'DM Sans',sans-serif;}
+.search-box input::placeholder{color:#4b5563;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:11px;color:var(--muted);padding:12px 16px;background:rgba(255,255,255,0.03);font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
+td{padding:14px 16px;font-size:13px;border-top:1px solid var(--border);}
+tr:hover td{background:rgba(255,255,255,0.02);}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;}
+.badge.PENDING{background:rgba(245,158,11,0.15);color:var(--amber);}
+.badge.APPROVED{background:rgba(34,197,94,0.12);color:#22c55e;}
+.badge.REJECTED{background:rgba(239,68,68,0.12);color:#ef4444;}
+.action-btns{display:flex;gap:6px;}
+.btn-approve{background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);color:#22c55e;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.btn-approve:hover{background:rgba(34,197,94,0.2);}
+.btn-reject{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);color:#ef4444;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.btn-reject:hover{background:rgba(239,68,68,0.15);}
+.btn-view-img{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);color:#60a5fa;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.btn-view-img:hover{background:rgba(59,130,246,0.18);}
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:36px 0;}
+.loading{text-align:center;color:var(--muted);font-size:14px;padding:36px 0;}
+.toast{position:fixed;bottom:24px;right:24px;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:14px 20px;font-size:14px;font-weight:600;z-index:999;transform:translateY(100px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-color:rgba(34,197,94,0.4);color:#22c55e;}
+.toast.error{border-color:rgba(239,68,68,0.4);color:#ef4444;}
+/* Image modal */
+.img-modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:500;}
+.img-modal.open{display:flex;}
+.img-modal img{max-width:90vw;max-height:85vh;border-radius:12px;}
+.img-modal .close-btn{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:1024px){.stats-grid{grid-template-columns:1fr 1fr;}.sidebar{transform:translateX(-100%);}.main{margin-left:0;}}
+@media(max-width:600px){.stats-grid{grid-template-columns:1fr;}.content{padding:16px;}.top-bar{padding:14px 16px;}.search-box input{width:140px;}}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon"><i class="fa-solid fa-user-shield" style="color:#000;font-size:14px;"></i></div>
+    <span class="sb-logo-text">Admin Panel</span>
+  </div>
+  <div class="sb-nav">
+    <button class="sb-item active" onclick="showSection('overview',this)"><i class="fa-solid fa-gauge"></i> Overview</button>
+    <button class="sb-item" onclick="showSection('deposits',this)"><i class="fa-solid fa-arrow-down-to-line"></i> Deposits</button>
+    <button class="sb-item" onclick="showSection('withdrawals',this)"><i class="fa-solid fa-arrow-up-from-line"></i> Withdrawals</button>
+  </div>
+  <div class="sb-footer">
+    <div class="sb-admin">
+      <div class="sb-avatar" id="admin-avatar">A</div>
+      <span class="sb-name" id="admin-name">Admin</span>
+    </div>
+    <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="top-bar">
+    <h1 id="page-title">Overview</h1>
+    <span class="top-badge"><i class="fa-solid fa-shield-halved"></i> Admin</span>
+  </div>
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div id="sec-overview">
+      <div class="stats-grid">
+        <div class="stat-card amber">
+          <div class="sc-icon"><i class="fa-solid fa-hourglass-half" style="color:var(--amber);font-size:16px;"></i></div>
+          <div class="sc-val" id="stat-pending-dep">—</div>
+          <div class="sc-label">Pending Deposits</div>
+        </div>
+        <div class="stat-card green">
+          <div class="sc-icon"><i class="fa-solid fa-circle-check" style="color:#22c55e;font-size:16px;"></i></div>
+          <div class="sc-val" id="stat-approved-dep">—</div>
+          <div class="sc-label">Approved Deposits</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="sc-icon"><i class="fa-solid fa-clock" style="color:#3b82f6;font-size:16px;"></i></div>
+          <div class="sc-val" id="stat-pending-wit">—</div>
+          <div class="sc-label">Pending Withdrawals</div>
+        </div>
+        <div class="stat-card red">
+          <div class="sc-icon"><i class="fa-solid fa-circle-xmark" style="color:#ef4444;font-size:16px;"></i></div>
+          <div class="sc-val" id="stat-rejected">—</div>
+          <div class="sc-label">Rejected (Total)</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+          <h3 style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;color:var(--amber);">Recent Deposits</h3>
+          <div id="recent-deposits-list"><div class="loading" style="padding:16px 0;"><i class="fa-solid fa-circle-notch fa-spin"></i></div></div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+          <h3 style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;color:#3b82f6;">Recent Withdrawals</h3>
+          <div id="recent-withdrawals-list"><div class="loading" style="padding:16px 0;"><i class="fa-solid fa-circle-notch fa-spin"></i></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPOSITS -->
+    <div id="sec-deposits" style="display:none;">
+      <div class="section-tabs">
+        <button class="stab active" onclick="filterDep('ALL',this)">All</button>
+        <button class="stab" onclick="filterDep('PENDING',this)">Pending</button>
+        <button class="stab" onclick="filterDep('APPROVED',this)">Approved</button>
+        <button class="stab" onclick="filterDep('REJECTED',this)">Rejected</button>
+      </div>
+      <div class="table-card">
+        <div class="table-head">
+          <h2>Deposits</h2>
+          <div class="search-box"><i class="fa-solid fa-search" style="color:#4b5563;font-size:12px;"></i><input type="text" placeholder="Search deposits..." oninput="searchDep(this.value)"/></div>
+        </div>
+        <div id="dep-table-wrap"><div class="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- WITHDRAWALS -->
+    <div id="sec-withdrawals" style="display:none;">
+      <div class="section-tabs">
+        <button class="stab active" onclick="filterWit('ALL',this)">All</button>
+        <button class="stab" onclick="filterWit('PENDING',this)">Pending</button>
+        <button class="stab" onclick="filterWit('APPROVED',this)">Approved</button>
+        <button class="stab" onclick="filterWit('REJECTED',this)">Rejected</button>
+      </div>
+      <div class="table-card">
+        <div class="table-head">
+          <h2>Withdrawals</h2>
+          <div class="search-box"><i class="fa-solid fa-search" style="color:#4b5563;font-size:12px;"></i><input type="text" placeholder="Search withdrawals..." oninput="searchWit(this.value)"/></div>
+        </div>
+        <div id="wit-table-wrap"><div class="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading...</div></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Image preview modal -->
+<div class="img-modal" id="img-modal" onclick="closeImgModal()">
+  <button class="close-btn" onclick="closeImgModal()"><i class="fa-solid fa-xmark"></i></button>
+  <img src="" id="modal-img" alt="Proof"/>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'https://kowriwebbackend.onrender.com';
+let allDeposits = [], allWithdrawals = [];
+let depFilter = 'ALL', depSearch = '';
+let witFilter = 'ALL', witSearch = '';
+
+function logout() {
+  localStorage.removeItem('kowri_admin_token');
+  localStorage.removeItem('kowri_admin');
+  localStorage.removeItem('kowri_admin_refresh');
+  location.href = 'admin-login.html';
+}
+
+function toast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => { t.className = 'toast'; }, 3000);
+}
+
+function fmt(amt) { return 'GH₵ ' + parseFloat(amt||0).toFixed(2); }
+function fmtDate(d) { return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }
+
+function showSection(name, el) {
+  ['overview','deposits','withdrawals'].forEach(s => {
+    document.getElementById('sec-'+s).style.display = 'none';
+  });
+  document.getElementById('sec-'+name).style.display = 'block';
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('page-title').textContent = name.charAt(0).toUpperCase()+name.slice(1);
+}
+
+function filterDep(status, el) {
+  depFilter = status;
+  el.closest('.section-tabs').querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderDep();
+}
+function filterWit(status, el) {
+  witFilter = status;
+  el.closest('.section-tabs').querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderWit();
+}
+function searchDep(q) { depSearch = q.toLowerCase(); renderDep(); }
+function searchWit(q) { witSearch = q.toLowerCase(); renderWit(); }
+
+function renderDep() {
+  let items = allDeposits;
+  if (depFilter !== 'ALL') items = items.filter(d => d.status === depFilter);
+  if (depSearch) items = items.filter(d =>
+    (d.tokenId||'').toLowerCase().includes(depSearch) ||
+    (d.walletId||'').toLowerCase().includes(depSearch) ||
+    (d.amount+'').includes(depSearch)
+  );
+  const wrap = document.getElementById('dep-table-wrap');
+  if (!items.length) { wrap.innerHTML = '<div class="empty">No deposits found.</div>'; return; }
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Date</th><th>Token ID</th><th>Wallet ID</th><th>Amount</th><th>Status</th><th>Proof</th><th>Actions</th></tr></thead>
+    <tbody>
+    ${items.map(d => `<tr>
+      <td>${fmtDate(d.createdAt)}</td>
+      <td style="font-family:'Sora',sans-serif;font-weight:600;">${d.tokenId||'—'}</td>
+      <td>${d.walletId||'—'}</td>
+      <td style="font-family:'Sora',sans-serif;font-weight:700;">${fmt(d.amount)}</td>
+      <td><span class="badge ${d.status}">${d.status}</span></td>
+      <td>${d.proofImageUrl ? `<button class="btn-view-img" onclick="viewImg('${d.proofImageUrl}')"><i class="fa-solid fa-image"></i></button>` : '—'}</td>
+      <td><div class="action-btns">
+        ${d.status === 'PENDING' ? `
+          <button class="btn-approve" onclick="updateDep('${d.id}','APPROVED')"><i class="fa-solid fa-check"></i> Approve</button>
+          <button class="btn-reject" onclick="updateDep('${d.id}','REJECTED')"><i class="fa-solid fa-xmark"></i> Reject</button>
+        ` : `<span style="color:#4b5563;font-size:12px;">${d.status}</span>`}
+      </div></td>
+    </tr>`).join('')}
+    </tbody></table>`;
+}
+
+function renderWit() {
+  let items = allWithdrawals;
+  if (witFilter !== 'ALL') items = items.filter(w => w.status === witFilter);
+  if (witSearch) items = items.filter(w =>
+    (w.accountName||'').toLowerCase().includes(witSearch) ||
+    (w.accountNumber||'').toLowerCase().includes(witSearch) ||
+    (w.networkProvider||'').toLowerCase().includes(witSearch) ||
+    (w.amount+'').includes(witSearch)
+  );
+  const wrap = document.getElementById('wit-table-wrap');
+  if (!items.length) { wrap.innerHTML = '<div class="empty">No withdrawals found.</div>'; return; }
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Date</th><th>Account Name</th><th>Network</th><th>Account #</th><th>Amount</th><th>Service</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>
+    ${items.map(w => `<tr>
+      <td>${fmtDate(w.createdAt)}</td>
+      <td style="font-weight:600;">${w.accountName||'—'}</td>
+      <td>${w.networkProvider||'—'}</td>
+      <td style="font-family:monospace;">${w.accountNumber||'—'}</td>
+      <td style="font-family:'Sora',sans-serif;font-weight:700;">${fmt(w.amount)}</td>
+      <td><span style="font-size:12px;color:var(--muted);">${w.agentService||'—'}</span></td>
+      <td><span class="badge ${w.status}">${w.status}</span></td>
+      <td><div class="action-btns">
+        ${w.status === 'PENDING' ? `
+          <button class="btn-approve" onclick="updateWit('${w.id}','APPROVED')"><i class="fa-solid fa-check"></i> Approve</button>
+          <button class="btn-reject" onclick="updateWit('${w.id}','REJECTED')"><i class="fa-solid fa-xmark"></i> Reject</button>
+        ` : `<span style="color:#4b5563;font-size:12px;">${w.status}</span>`}
+      </div></td>
+    </tr>`).join('')}
+    </tbody></table>`;
+}
+
+function renderOverview() {
+  const pd = allDeposits.filter(d => d.status === 'PENDING').length;
+  const ad = allDeposits.filter(d => d.status === 'APPROVED').length;
+  const pw = allWithdrawals.filter(w => w.status === 'PENDING').length;
+  const rej = allDeposits.filter(d => d.status === 'REJECTED').length + allWithdrawals.filter(w => w.status === 'REJECTED').length;
+  document.getElementById('stat-pending-dep').textContent = pd;
+  document.getElementById('stat-approved-dep').textContent = ad;
+  document.getElementById('stat-pending-wit').textContent = pw;
+  document.getElementById('stat-rejected').textContent = rej;
+
+  const recentDep = [...allDeposits].sort((a,b) => new Date(b.createdAt)-new Date(a.createdAt)).slice(0,4);
+  const recentWit = [...allWithdrawals].sort((a,b) => new Date(b.createdAt)-new Date(a.createdAt)).slice(0,4);
+
+  document.getElementById('recent-deposits-list').innerHTML = recentDep.length ?
+    recentDep.map(d => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div><div style="font-size:13px;font-weight:600;">${d.tokenId||'—'}</div><div style="font-size:11px;color:var(--muted);">${fmtDate(d.createdAt)}</div></div>
+      <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:13px;">${fmt(d.amount)}</span><span class="badge ${d.status}" style="font-size:10px;">${d.status}</span></div>
+    </div>`).join('') : '<div style="color:var(--muted);font-size:13px;padding:8px 0;">No deposits yet.</div>';
+
+  document.getElementById('recent-withdrawals-list').innerHTML = recentWit.length ?
+    recentWit.map(w => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div><div style="font-size:13px;font-weight:600;">${w.accountName||'—'}</div><div style="font-size:11px;color:var(--muted);">${fmtDate(w.createdAt)} · ${w.networkProvider||''}</div></div>
+      <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:13px;">${fmt(w.amount)}</span><span class="badge ${w.status}" style="font-size:10px;">${w.status}</span></div>
+    </div>`).join('') : '<div style="color:var(--muted);font-size:13px;padding:8px 0;">No withdrawals yet.</div>';
+}
+
+async function updateDep(id, status) {
+  const token = localStorage.getItem('kowri_admin_token');
+  try {
+    const res = await fetch(`${API}/api/admin/deposits/${id}/status?status=${status}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!res.ok) throw new Error('Failed');
+    const idx = allDeposits.findIndex(d => d.id === id);
+    if (idx > -1) allDeposits[idx].status = status;
+    renderDep(); renderOverview();
+    toast(`Deposit ${status.toLowerCase()} successfully`, status === 'APPROVED' ? 'success' : 'error');
+  } catch(e) { toast('Action failed: ' + e.message, 'error'); }
+}
+
+async function updateWit(id, status) {
+  const token = localStorage.getItem('kowri_admin_token');
+  try {
+    const res = await fetch(`${API}/api/admin/withdrawals/${id}/status?status=${status}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!res.ok) throw new Error('Failed');
+    const idx = allWithdrawals.findIndex(w => w.id === id);
+    if (idx > -1) allWithdrawals[idx].status = status;
+    renderWit(); renderOverview();
+    toast(`Withdrawal ${status.toLowerCase()} successfully`, status === 'APPROVED' ? 'success' : 'error');
+  } catch(e) { toast('Action failed: ' + e.message, 'error'); }
+}
+
+function viewImg(url) {
+  document.getElementById('modal-img').src = url;
+  document.getElementById('img-modal').classList.add('open');
+}
+function closeImgModal() { document.getElementById('img-modal').classList.remove('open'); }
+
+async function init() {
+  const stored = localStorage.getItem('kowri_admin');
+  const token = localStorage.getItem('kowri_admin_token');
+  if (!stored || !token) { location.href = 'admin-login'; return; }
+
+  const admin = JSON.parse(stored);
+  const initials = (admin.fullName||'A').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('admin-avatar').textContent = initials;
+  document.getElementById('admin-name').textContent = admin.fullName || admin.email;
+
+  const headers = { 'Authorization': `Bearer ${token}` };
+  try {
+    const [dRes, wRes] = await Promise.all([
+      fetch(`${API}/api/admin/deposits`, { headers }),
+      fetch(`${API}/api/admin/withdrawals`, { headers })
+    ]);
+    allDeposits = dRes.ok ? (await dRes.json()) : [];
+    allWithdrawals = wRes.ok ? (await wRes.json()) : [];
+  } catch(e) {
+    allDeposits = []; allWithdrawals = [];
+  }
+  renderOverview();
+  renderDep();
+  renderWit();
+}
+
+init();
+</script>
+</body>
+</html>
