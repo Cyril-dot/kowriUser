@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kowri – Withdraw</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+:root{--green:#22c55e;--green-dark:#16a34a;--bg:#f9fafb;--card:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--radius:14px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.dash-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;}
+.logo{display:flex;align-items:center;gap:9px;font-family:'Sora',sans-serif;font-weight:800;font-size:18px;color:var(--green);}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.btn-back{background:none;border:1px solid var(--border);border-radius:8px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;}
+.btn-back:hover{border-color:#1d4ed8;color:#1d4ed8;}
+.body{padding:40px 24px;max-width:600px;margin:0 auto;}
+.page-head{margin-bottom:28px;}
+.page-head h1{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;}
+.page-head p{font-size:14px;color:var(--muted);margin-top:5px;}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;}
+.field{margin-bottom:20px;}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:#374151;}
+.field input,.field select{width:100%;padding:12px 14px;background:#fff;border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s;font-family:'DM Sans',sans-serif;appearance:none;}
+.field input:focus,.field select:focus{border-color:#1d4ed8;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.select-wrap{position:relative;}
+.select-wrap::after{content:'\f107';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+.btn-submit{width:100%;background:#1d4ed8;color:#fff;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:all .2s;margin-top:8px;}
+.btn-submit:hover{background:#1e40af;}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;}
+.error{background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:12px 14px;font-size:13px;color:#991b1b;margin-bottom:16px;display:none;}
+.success-card{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:28px;text-align:center;display:none;}
+.success-card .s-icon{width:56px;height:56px;background:#1d4ed8;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.success-card h3{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#1e3a8a;margin-bottom:6px;}
+.success-card p{font-size:14px;color:#1e40af;}
+.success-card .btn-go{display:inline-block;margin-top:18px;background:#1d4ed8;color:#fff;font-family:'Sora',sans-serif;font-weight:700;padding:11px 24px;border-radius:9px;border:none;cursor:pointer;font-size:14px;}
+.info-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:14px 16px;font-size:13px;color:#166534;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(max-width:560px){.row2{grid-template-columns:1fr;}.body{padding:24px 16px;}.dash-nav{padding:12px 16px;}}
+</style>
+</head>
+<body>
+<nav class="dash-nav">
+  <div class="logo">
+    <div class="logo-icon"><i class="fa-solid fa-shield-halved" style="color:#fff;font-size:14px;"></i></div>
+    Kowri
+  </div>
+  <button class="btn-back" onclick="location.href='dashboard.html'"><i class="fa-solid fa-arrow-left"></i> Back</button>
+</nav>
+
+<div class="body">
+  <div class="page-head">
+    <h1>Withdraw Funds</h1>
+    <p>Request a withdrawal to your mobile money or bank account</p>
+  </div>
+
+  <div class="error" id="err-box"></div>
+  <div class="success-card" id="success-box">
+    <div class="s-icon"><i class="fa-solid fa-check" style="color:#fff;font-size:22px;"></i></div>
+    <h3>Withdrawal Requested!</h3>
+    <p>Your withdrawal request is pending admin approval. Funds will be sent to your account shortly.</p>
+    <button class="btn-go" onclick="location.href='dashboard'">Back to Dashboard</button>
+  </div>
+
+  <div class="form-card" id="form-section">
+    <div class="info-box">
+      <i class="fa-solid fa-circle-info" style="margin-top:1px;flex-shrink:0;"></i>
+      <span>Withdrawals are processed within 24 hours after admin approval.</span>
+    </div>
+    <div class="field">
+      <label>Account Name</label>
+      <input type="text" id="accountName" placeholder="Full name on account"/>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>Agent Service</label>
+        <div class="select-wrap">
+          <select id="agentService">
+            <option value="">Select service</option>
+            <option value="MOMO_AGENT">Mobile Money (MoMo)</option>
+            <option value="BANK_TRANSFER">Bank Transfer</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Network Provider</label>
+        <div class="select-wrap">
+          <select id="networkProvider">
+            <option value="">Select network</option>
+            <option value="MTN">MTN</option>
+            <option value="VODAFONE">Vodafone</option>
+            <option value="AIRTEL">Airtel</option>
+            <option value="TIGO">Tigo</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Account Number</label>
+      <input type="tel" id="accountNumber" placeholder="e.g. 0240000000"/>
+    </div>
+    <div class="field">
+      <label>Amount (GH₵)</label>
+      <input type="number" id="amount" placeholder="0.00" min="1" step="0.01"/>
+    </div>
+    <button class="btn-submit" id="wit-btn" onclick="doWithdraw()">
+      <i class="fa-solid fa-paper-plane"></i> Submit Withdrawal
+    </button>
+  </div>
+</div>
+
+<script>
+const API = 'https://kowriwebbackend.onrender.com';
+
+function init() {
+  const stored = localStorage.getItem('kowri_user');
+  const token = localStorage.getItem('kowri_token');
+  if (!stored || !token) { location.href = 'signin'; }
+}
+
+async function doWithdraw() {
+  const btn = document.getElementById('wit-btn');
+  const errBox = document.getElementById('err-box');
+  errBox.style.display = 'none';
+
+  const accountName = document.getElementById('accountName').value.trim();
+  const agentService = document.getElementById('agentService').value;
+  const networkProvider = document.getElementById('networkProvider').value;
+  const accountNumber = document.getElementById('accountNumber').value.trim();
+  const amount = parseFloat(document.getElementById('amount').value);
+
+  if (!accountName || !agentService || !networkProvider || !accountNumber || !amount) {
+    errBox.textContent = 'Please fill in all fields.';
+    errBox.style.display = 'block';
+    return;
+  }
+  if (amount <= 0) {
+    errBox.textContent = 'Please enter a valid amount.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  const userData = JSON.parse(localStorage.getItem('kowri_user'));
+  const token = localStorage.getItem('kowri_token');
+  const userId = userData.userId || userData.id;
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Submitting...';
+
+  try {
+    const res = await fetch(`${API}/api/users/${userId}/withdrawals`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ accountName, agentService, networkProvider, accountNumber, amount })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Withdrawal request failed');
+
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('success-box').style.display = 'block';
+  } catch(e) {
+    errBox.textContent = e.message;
+    errBox.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Withdrawal';
+  }
+}
+
+init();
+</script>
+</body>
+</html>

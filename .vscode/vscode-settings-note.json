@@ -1,0 +1,14 @@
+{
+  "liveServer.settings.file": "/index.html",
+  "liveServer.settings.donotVerifyTags": true,
+  "liveServer.settings.rewriteRules": [
+    { "from": "^/$",            "to": "/index.html"        },
+    { "from": "^/signup$",      "to": "/signup.html"       },
+    { "from": "^/signin$",      "to": "/signin.html"       },
+    { "from": "^/dashboard$",   "to": "/dashboard.html"    },
+    { "from": "^/deposit$",     "to": "/deposit.html"      },
+    { "from": "^/withdraw$",    "to": "/withdraw.html"     },
+    { "from": "^/admin-login$",      "to": "/admin-login.html"      },
+    { "from": "^/admin-dashboard$",  "to": "/admin-dashboard.html"  }
+  ]
+}
