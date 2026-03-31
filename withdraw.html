@@ -69,11 +69,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 
   <div class="error" id="err-box"></div>
+
   <div class="success-card" id="success-box">
     <div class="s-icon"><i class="fa-solid fa-check" style="color:#fff;font-size:22px;"></i></div>
     <h3>Withdrawal Requested!</h3>
     <p>Your withdrawal request is pending admin approval. Funds will be sent to your account shortly.</p>
-    <button class="btn-go" onclick="location.href='dashboard'">Back to Dashboard</button>
+    <!-- ✅ FIXED: was 'dashboard', now 'dashboard.html' -->
+    <button class="btn-go" onclick="location.href='dashboard.html'">Back to Dashboard</button>
   </div>
 
   <div class="form-card" id="form-section">
@@ -125,15 +127,15 @@ let currentBalance = 0;
 
 async function init() {
   const stored = localStorage.getItem('kowri_user');
-  const token = localStorage.getItem('kowri_token');
-  if (!stored || !token) { location.href = 'signin'; return; }
+  const token  = localStorage.getItem('kowri_token');
+  if (!stored || !token) { location.href = 'signin.html'; return; }
 
   const userData = JSON.parse(stored);
-  const userId = userData.userId || userData.id;
+  const userId   = userData.userId || userData.id;
 
-  // Fetch live balance and show it in the banner
+  // Fetch live balance from financial-summary and show in banner
   try {
-    const res = await fetch(`${API}/api/users/${userId}`, {
+    const res  = await fetch(`${API}/api/users/${userId}/financial-summary`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     const data = await res.json();
@@ -141,6 +143,7 @@ async function init() {
       currentBalance = parseFloat(data.balance);
       const formatted = currentBalance.toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       document.getElementById('bal-display').textContent = 'GH₵ ' + formatted;
+
       // Warn visually if balance is zero or negative
       if (currentBalance <= 0) {
         document.getElementById('bal-display').style.color = '#dc2626';
@@ -156,58 +159,58 @@ async function init() {
 }
 
 async function doWithdraw() {
-  const btn = document.getElementById('wit-btn');
+  const btn    = document.getElementById('wit-btn');
   const errBox = document.getElementById('err-box');
   errBox.style.display = 'none';
 
-  const accountName = document.getElementById('accountName').value.trim();
-  const agentService = document.getElementById('agentService').value;
+  const accountName     = document.getElementById('accountName').value.trim();
+  const agentService    = document.getElementById('agentService').value;
   const networkProvider = document.getElementById('networkProvider').value;
-  const accountNumber = document.getElementById('accountNumber').value.trim();
-  const amount = parseFloat(document.getElementById('amount').value);
+  const accountNumber   = document.getElementById('accountNumber').value.trim();
+  const amount          = parseFloat(document.getElementById('amount').value);
 
   if (!accountName || !agentService || !networkProvider || !accountNumber || !amount) {
-    errBox.textContent = 'Please fill in all fields.';
+    errBox.textContent   = 'Please fill in all fields.';
     errBox.style.display = 'block';
     return;
   }
   if (amount <= 0) {
-    errBox.textContent = 'Please enter a valid amount.';
+    errBox.textContent   = 'Please enter a valid amount.';
     errBox.style.display = 'block';
     return;
   }
 
   // Client-side balance guard — catches it before hitting the server
   if (currentBalance > 0 && amount > currentBalance) {
-    errBox.textContent = `Insufficient balance. Your available balance is GH₵ ${currentBalance.toLocaleString('en-GH', { minimumFractionDigits: 2 })}.`;
+    errBox.textContent   = `Insufficient balance. Your available balance is GH₵ ${currentBalance.toLocaleString('en-GH', { minimumFractionDigits: 2 })}.`;
     errBox.style.display = 'block';
     return;
   }
 
   const userData = JSON.parse(localStorage.getItem('kowri_user'));
-  const token = localStorage.getItem('kowri_token');
-  const userId = userData.userId || userData.id;
+  const token    = localStorage.getItem('kowri_token');
+  const userId   = userData.userId || userData.id;
 
-  btn.disabled = true;
+  btn.disabled  = true;
   btn.innerHTML = '<span class="spinner"></span>Submitting...';
 
   try {
-    const res = await fetch(`${API}/api/users/${userId}/withdrawals`, {
-      method: 'POST',
+    const res  = await fetch(`${API}/api/users/${userId}/withdrawals`, {
+      method:  'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-      body: JSON.stringify({ accountName, agentService, networkProvider, accountNumber, amount })
+      body:    JSON.stringify({ accountName, agentService, networkProvider, accountNumber, amount })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Withdrawal request failed');
 
-    document.getElementById('form-section').style.display = 'none';
-    document.getElementById('balance-banner').style.display = 'none';
-    document.getElementById('success-box').style.display = 'block';
+    document.getElementById('form-section').style.display    = 'none';
+    document.getElementById('balance-banner').style.display  = 'none';
+    document.getElementById('success-box').style.display     = 'block';
   } catch(e) {
-    errBox.textContent = e.message;
+    errBox.textContent   = e.message;
     errBox.style.display = 'block';
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Withdrawal';
+    btn.disabled         = false;
+    btn.innerHTML        = '<i class="fa-solid fa-paper-plane"></i> Submit Withdrawal';
   }
 }
 
