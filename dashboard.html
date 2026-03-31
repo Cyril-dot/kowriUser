@@ -70,7 +70,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-deposit{background:var(--green);color:#fff;}
 .btn-deposit:hover{background:var(--green-dark);}
 .btn-withdraw{background:#1d4ed8;color:#fff;}
-.btn-withdraw:hover{background:#1e40af;}
+.btn-withdraw:hover:not(:disabled){background:#1e40af;}
+.btn-withdraw:disabled{opacity:.5;cursor:not-allowed;}
 
 /* TX CARD */
 .tx-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
@@ -185,7 +186,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <button class="btn-action btn-deposit" onclick="location.href='deposit.html'">
       <i class="fa-solid fa-arrow-down"></i> Make Deposit
     </button>
-    <button class="btn-action btn-withdraw" onclick="location.href='withdraw.html'">
+    <button id="withdraw-btn" class="btn-action btn-withdraw" onclick="goWithdraw()">
       <i class="fa-solid fa-arrow-up"></i> Withdraw
     </button>
   </div>
@@ -205,16 +206,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <script>
 const API = 'https://kowriwebbackend.onrender.com';
-let userData = null;
-let allDeposits = [];
+let userData       = null;
+let allDeposits    = [];
 let allWithdrawals = [];
-let currentTab = 'all';
+let currentTab     = 'all';
+let currentBalance = 0;
 
 function logout() {
   localStorage.removeItem('kowri_token');
   localStorage.removeItem('kowri_user');
   localStorage.removeItem('kowri_refresh');
   location.href = 'signin.html';
+}
+
+// ✅ Guard: only navigate to withdraw if balance > 0
+function goWithdraw() {
+  if (currentBalance <= 0) return;
+  location.href = 'withdraw.html';
 }
 
 function fmt(amt) { return 'GH₵ ' + parseFloat(amt || 0).toFixed(2); }
@@ -235,32 +243,27 @@ async function loadData() {
   const headers = { 'Authorization': `Bearer ${token}` };
 
   try {
-    // ✅ Fetch deposits, withdrawals AND the live user record (for real server balance)
-    const [dRes, wRes, userRes] = await Promise.all([
-      fetch(`${API}/api/users/${userId}/deposits`,    { headers }),
-      fetch(`${API}/api/users/${userId}/withdrawals`, { headers }),
-      fetch(`${API}/api/users/${userId}`,             { headers })
+    // ✅ Three parallel fetches: deposits, withdrawals, financial summary
+    const [dRes, wRes, sumRes] = await Promise.all([
+      fetch(`${API}/api/users/${userId}/deposits`,          { headers }),
+      fetch(`${API}/api/users/${userId}/withdrawals`,       { headers }),
+      fetch(`${API}/api/users/${userId}/financial-summary`, { headers })
     ]);
 
-    allDeposits    = dRes.ok    ? (await dRes.json())    : [];
-    allWithdrawals = wRes.ok    ? (await wRes.json())    : [];
-    const userInfo = userRes.ok ? (await userRes.json()) : null;
+    allDeposits    = dRes.ok   ? (await dRes.json())   : [];
+    allWithdrawals = wRes.ok   ? (await wRes.json())   : [];
+    const summary  = sumRes.ok ? (await sumRes.json()) : null;
 
-    // Deposited / withdrawn totals (raw amounts, for display only)
-    const depTotal = allDeposits
-      .filter(d => d.status === 'APPROVED')
-      .reduce((s, d) => s + (d.amount || 0), 0);
+    // ✅ All three figures come from the server — no client-side math
+    currentBalance = parseFloat(summary?.balance ?? 0);
+    document.getElementById('bal-val').textContent = fmt(summary?.balance        ?? 0);
+    document.getElementById('dep-val').textContent = fmt(summary?.totalDeposited ?? 0);
+    document.getElementById('wit-val').textContent = fmt(summary?.totalWithdrawn ?? 0);
 
-    const witTotal = allWithdrawals
-      .filter(w => w.status === 'APPROVED')
-      .reduce((s, w) => s + (w.amount || 0), 0);
-
-    document.getElementById('dep-val').textContent = fmt(depTotal);
-    document.getElementById('wit-val').textContent = fmt(witTotal);
-
-    // ✅ Use real server balance (includes reward credits, not just raw deposit amounts)
-    const realBalance = userInfo?.balance ?? userData.balance ?? 0;
-    document.getElementById('bal-val').textContent = fmt(realBalance);
+    // ✅ Disable withdraw button when balance is zero or negative
+    const wBtn = document.getElementById('withdraw-btn');
+    wBtn.disabled = currentBalance <= 0;
+    wBtn.title    = currentBalance <= 0 ? 'Insufficient balance to withdraw' : '';
 
     renderList(currentTab);
   } catch(e) {
