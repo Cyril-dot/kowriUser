@@ -92,7 +92,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 }
 .tab.active{background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.08);}
 
-/* TX LIST — card style for mobile */
+/* TX LIST */
 .tx-list{padding:8px 0;}
 .tx-item{
   display:flex;align-items:center;justify-content:space-between;
@@ -222,7 +222,7 @@ function fmtDate(d) { return new Date(d).toLocaleDateString('en-GB', {day:'2-dig
 
 function init() {
   const stored = localStorage.getItem('kowri_user');
-  const token = localStorage.getItem('kowri_token');
+  const token  = localStorage.getItem('kowri_token');
   if (!stored || !token) { location.href = 'signin.html'; return; }
   userData = JSON.parse(stored);
   document.getElementById('nav-name').textContent = userData.fullName || userData.email;
@@ -230,27 +230,42 @@ function init() {
 }
 
 async function loadData() {
-  const token = localStorage.getItem('kowri_token');
+  const token  = localStorage.getItem('kowri_token');
   const userId = userData.userId || userData.id;
   const headers = { 'Authorization': `Bearer ${token}` };
 
   try {
-    const [dRes, wRes] = await Promise.all([
-      fetch(`${API}/api/users/${userId}/deposits`, { headers }),
-      fetch(`${API}/api/users/${userId}/withdrawals`, { headers })
+    // ✅ Fetch deposits, withdrawals AND the live user record (for real server balance)
+    const [dRes, wRes, userRes] = await Promise.all([
+      fetch(`${API}/api/users/${userId}/deposits`,    { headers }),
+      fetch(`${API}/api/users/${userId}/withdrawals`, { headers }),
+      fetch(`${API}/api/users/${userId}`,             { headers })
     ]);
-    allDeposits = dRes.ok ? (await dRes.json()) : [];
-    allWithdrawals = wRes.ok ? (await wRes.json()) : [];
 
-    const depTotal = allDeposits.filter(d => d.status === 'APPROVED').reduce((s,d) => s + (d.amount||0), 0);
-    const witTotal = allWithdrawals.filter(w => w.status === 'APPROVED').reduce((s,w) => s + (w.amount||0), 0);
+    allDeposits    = dRes.ok    ? (await dRes.json())    : [];
+    allWithdrawals = wRes.ok    ? (await wRes.json())    : [];
+    const userInfo = userRes.ok ? (await userRes.json()) : null;
+
+    // Deposited / withdrawn totals (raw amounts, for display only)
+    const depTotal = allDeposits
+      .filter(d => d.status === 'APPROVED')
+      .reduce((s, d) => s + (d.amount || 0), 0);
+
+    const witTotal = allWithdrawals
+      .filter(w => w.status === 'APPROVED')
+      .reduce((s, w) => s + (w.amount || 0), 0);
+
     document.getElementById('dep-val').textContent = fmt(depTotal);
     document.getElementById('wit-val').textContent = fmt(witTotal);
-    document.getElementById('bal-val').textContent = fmt(userData.balance || (depTotal - witTotal));
+
+    // ✅ Use real server balance (includes reward credits, not just raw deposit amounts)
+    const realBalance = userInfo?.balance ?? userData.balance ?? 0;
+    document.getElementById('bal-val').textContent = fmt(realBalance);
 
     renderList(currentTab);
   } catch(e) {
-    document.getElementById('tx-body').innerHTML = '<div class="empty">Failed to load transactions.</div>';
+    document.getElementById('tx-body').innerHTML =
+      '<div class="empty">Failed to load transactions.</div>';
   }
 }
 
@@ -263,12 +278,15 @@ function switchTab(type, el) {
 
 function renderList(type) {
   const items = [];
-  if (type === 'all' || type === 'deposits') allDeposits.forEach(d => items.push({...d, _type:'Deposit'}));
-  if (type === 'all' || type === 'withdrawals') allWithdrawals.forEach(w => items.push({...w, _type:'Withdrawal'}));
-  items.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+  if (type === 'all' || type === 'deposits')
+    allDeposits.forEach(d => items.push({...d, _type:'Deposit'}));
+  if (type === 'all' || type === 'withdrawals')
+    allWithdrawals.forEach(w => items.push({...w, _type:'Withdrawal'}));
+  items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   if (!items.length) {
-    document.getElementById('tx-body').innerHTML = '<div class="empty">No transactions found.</div>';
+    document.getElementById('tx-body').innerHTML =
+      '<div class="empty">No transactions found.</div>';
     return;
   }
 
