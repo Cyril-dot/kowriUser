@@ -3,53 +3,335 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Kowri – Create Account</title>
+<title>Kowri – Create Account | Fresh & Light</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <style>
-:root{--bg:#060e0a;--card:#0d1c14;--green:#22c55e;--green-dark:#16a34a;--text:#f0fdf4;--border:rgba(34,197,94,0.15);--radius:14px;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:radial-gradient(ellipse 60% 60% at 20% 50%,rgba(34,197,94,0.12) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 80% 50%,rgba(22,163,74,0.07) 0%,transparent 55%),var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
-.back-btn{padding:20px 32px;display:flex;align-items:center;gap:8px;font-size:14px;color:#9ca3af;cursor:pointer;background:none;border:none;transition:color .2s;font-family:'DM Sans',sans-serif;}
-.back-btn:hover{color:var(--text);}
-.center{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;}
-.auth-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:44px;width:100%;max-width:480px;}
-.logo-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
-.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;}
-.logo-text{font-family:'Sora',sans-serif;font-weight:800;font-size:18px;color:var(--green);}
-h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;}
-.sub{font-size:14px;color:#9ca3af;margin-bottom:28px;}
-.field{margin-bottom:18px;}
-.field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:#d1fae5;}
-.field input{width:100%;padding:13px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s;font-family:'DM Sans',sans-serif;}
-.field input::placeholder{color:#4b5563;}
-.field input:focus{border-color:var(--green);}
-.field input.input-error{border-color:rgba(239,68,68,0.6);}
-.field-hint{font-size:11px;color:#ef4444;margin-top:5px;display:none;}
-.field-hint.show{display:block;}
-.pass-wrap{position:relative;}
-.pass-wrap input{padding-right:44px;}
-.pass-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#6b7280;font-size:15px;padding:0;line-height:1;transition:color .2s;}
-.pass-toggle:hover{color:#9ca3af;}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.btn-submit{width:100%;background:var(--green);color:#000;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:all .2s;margin-top:8px;}
-.btn-submit:hover{background:#16a34a;transform:translateY(-1px);}
-.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-.foot{text-align:center;margin-top:18px;font-size:13px;color:#9ca3af;}
-.foot a{color:var(--green);text-decoration:none;font-weight:600;}
-.foot a:hover{text-decoration:underline;}
-.banner{border-radius:10px;padding:13px 16px;font-size:13px;margin-bottom:18px;display:none;align-items:flex-start;gap:10px;line-height:1.5;}
-.banner i{margin-top:1px;flex-shrink:0;font-size:14px;}
-.banner-body strong{display:block;font-weight:600;margin-bottom:2px;font-size:13px;}
-.banner-body span{color:inherit;opacity:.85;}
-.error-banner{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.35);color:#fca5a5;}
-.success-banner{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#86efac;}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,0.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
+:root{
+  /* Fresh white & light green palette - clean, bright, modern */
+  --bg: #FFFFFF;
+  --card: #FFFFFF;
+  --green-light: #bef264;
+  --green-primary: #4ade80;
+  --green-hover: #22c55e;
+  --green-soft: #86efac;
+  --text-dark: #1f2937;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+  --border-light: #eef2f6;
+  --border-focus: #d9f99d;
+  --shadow-sm: 0 8px 20px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.05);
+  --shadow-md: 0 20px 35px -12px rgba(74,222,128,0.15);
+  --radius-card: 32px;
+  --radius-input: 24px;
+}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body{
+  font-family:'DM Sans', sans-serif;
+  background: linear-gradient(125deg, #ffffff 0%, #fafef7 100%);
+  color: var(--text-dark);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  position: relative;
+}
+/* soft leaf particles - light green accent */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 20% 45%, rgba(134,239,172,0.12) 1.2%, transparent 1.8%),
+                    radial-gradient(circle at 85% 70%, rgba(74,222,128,0.08) 1%, transparent 1.5%),
+                    repeating-linear-gradient(45deg, rgba(190,242,100,0.02) 0px, rgba(190,242,100,0.02) 2px, transparent 2px, transparent 8px);
+  background-size: 52px 52px, 38px 38px, 16px 16px;
+  z-index: 0;
+}
+.back-btn{
+  position: relative;
+  z-index: 2;
+  padding: 24px 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: all 0.25s ease;
+  font-family: 'DM Sans', sans-serif;
+  width: fit-content;
+  letter-spacing: 0.2px;
+}
+.back-btn i {
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+.back-btn:hover{
+  color: var(--green-primary);
+  gap: 12px;
+}
+.back-btn:hover i {
+  transform: translateX(-4px);
+}
+.center{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+}
+.auth-box{
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 48px 44px;
+  width:100%;
+  max-width: 540px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  backdrop-filter: blur(0px);
+  transition: all 0.2s;
+}
+.logo-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom: 32px;
+}
+.logo-text{
+  font-family:'Sora', sans-serif;
+  font-weight:800;
+  font-size: 28px;
+  background: linear-gradient(135deg, #1e2b20 0%, #2b4b2a 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: -0.3px;
+}
+.logo-text span{
+  color: var(--green-primary);
+  background: none;
+  -webkit-background-clip: unset;
+}
+h2{
+  font-family:'Sora', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+}
+.sub{
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  font-weight: 400;
+  border-left: 3px solid var(--green-primary);
+  padding-left: 14px;
+  background: linear-gradient(90deg, #f9fffc, transparent);
+}
+.field{
+  margin-bottom: 22px;
+}
+.field label{
+  display:block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #374151;
+  letter-spacing: 0.2px;
+}
+.field label i {
+  margin-right: 6px;
+  color: var(--green-primary);
+  font-size: 12px;
+}
+.field input{
+  width:100%;
+  padding: 14px 20px;
+  background: #ffffff;
+  border: 1.5px solid #edf2f0;
+  border-radius: var(--radius-input);
+  color: var(--text-dark);
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s;
+  font-family:'DM Sans', sans-serif;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+.field input::placeholder{
+  color: #cbd5e6;
+  font-weight: 400;
+}
+.field input:focus{
+  border-color: var(--green-primary);
+  box-shadow: 0 0 0 4px rgba(74,222,128,0.12);
+}
+.field input.input-error{
+  border-color: #f87171;
+  background-color: #fffef9;
+}
+.field-hint{
+  font-size: 11px;
+  color: #ef4444;
+  margin-top: 6px;
+  margin-left: 12px;
+  display: none;
+  font-weight: 500;
+}
+.field-hint.show{
+  display: block;
+}
+.pass-wrap{
+  position: relative;
+}
+.pass-wrap input{
+  padding-right: 52px;
+}
+.pass-toggle{
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light);
+  font-size: 16px;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.pass-toggle:hover{
+  color: var(--green-primary);
+}
+.row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.btn-submit{
+  width:100%;
+  background: var(--green-primary);
+  color: #1f2e1c;
+  font-family:'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-top: 16px;
+  box-shadow: 0 2px 10px rgba(74,222,128,0.25);
+}
+.btn-submit:hover{
+  background: var(--green-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px -12px rgba(74,222,128,0.45);
+}
+.btn-submit:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.foot{
+  text-align: center;
+  margin-top: 26px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.foot a{
+  color: var(--green-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.foot a:hover{
+  color: var(--green-hover);
+  text-decoration: underline;
+}
+/* Banners - light green & white themed */
+.banner{
+  border-radius: 20px;
+  padding: 14px 18px;
+  font-size: 13px;
+  margin-bottom: 24px;
+  display: none;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.45;
+  backdrop-filter: blur(2px);
+}
+.banner i{
+  margin-top: 2px;
+  flex-shrink: 0;
+  font-size: 16px;
+}
+.banner-body strong{
+  display: block;
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+.error-banner{
+  background: #fff6f0;
+  border-left: 4px solid #f97316;
+  color: #9b2c1d;
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+.success-banner{
+  background: #f0fdf4;
+  border-left: 4px solid var(--green-primary);
+  color: #166534;
+  border-radius: 20px;
+}
+.spinner{
+  display:inline-block;
+  width:18px;
+  height:18px;
+  border:2px solid rgba(31,41,55,0.2);
+  border-top-color: #1f2937;
+  border-radius:50%;
+  animation:spin 0.6s linear infinite;
+  vertical-align:middle;
+  margin-right: 8px;
+}
 @keyframes spin{to{transform:rotate(360deg);}}
-@media(max-width:560px){
-  .auth-box{padding:28px 20px;border-radius:16px;}
-  .row{grid-template-columns:1fr;}
-  .back-btn{padding:16px;}
+@media(max-width:620px){
+  .auth-box{
+    padding: 34px 24px;
+    border-radius: 28px;
+  }
+  .row{
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .back-btn{
+    padding: 18px 22px;
+  }
+  h2{
+    font-size: 28px;
+  }
+  .logo-text{
+    font-size: 24px;
+  }
+}
+/* custom autofill style */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s;
+  -webkit-text-fill-color: var(--text-dark);
 }
 </style>
 </head>
@@ -60,8 +342,20 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
 <div class="center">
   <div class="auth-box">
     <div class="logo-row">
-      <div class="logo-icon"><i class="fa-solid fa-shield-halved" style="color:#fff;font-size:15px;"></i></div>
-      <span class="logo-text">Kowri</span>
+      <!-- fresh leaf with light green gradient -->
+      <svg width="42" height="42" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="leafSignupGrad" x1="15%" y1="5%" x2="85%" y2="90%">
+            <stop offset="0%" stop-color="#bef264"/>
+            <stop offset="60%" stop-color="#4ade80"/>
+            <stop offset="100%" stop-color="#22c55e"/>
+          </linearGradient>
+        </defs>
+        <path d="M22 2C22 2 6 10 6 24C6 33.8 14.2 42 24 42C33.8 42 42 33.8 42 24C42 10 22 2 22 2Z" fill="url(#leafSignupGrad)"/>
+        <path d="M22 10C18.5 16.5 15 21 15 25C15 29.5 18.5 33 22 35C18 32 16.5 28.5 17.5 24C19 18.5 22 10 22 10Z" fill="white" opacity="0.5"/>
+        <circle cx="26" cy="20" r="2.2" fill="#fefce8" fill-opacity="0.9"/>
+      </svg>
+      <span class="logo-text">kowri<span>.</span></span>
     </div>
     <h2>Create Account</h2>
     <div class="sub">Join Kowri and start earning rewards today</div>
@@ -77,26 +371,26 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
     <div class="banner success-banner" id="suc-box">
       <i class="fa-solid fa-circle-check"></i>
       <div class="banner-body">
-        <strong>Account created!</strong>
+        <strong>✨ Account created!</strong>
         <span>Redirecting you to your dashboard…</span>
       </div>
     </div>
 
     <div class="field">
-      <label>Full Name</label>
-      <input type="text" id="fullName" placeholder="John Doe"/>
+      <label><i class="fa-regular fa-user"></i> Full Name</label>
+      <input type="text" id="fullName" placeholder="e.g., Alex Morgan" autocomplete="name"/>
       <div class="field-hint" id="hint-name">Please enter your full name</div>
     </div>
     <div class="field">
-      <label>Email Address</label>
-      <input type="email" id="email" placeholder="john@example.com"/>
+      <label><i class="fa-regular fa-envelope"></i> Email Address</label>
+      <input type="email" id="email" placeholder="hello@kowri.com" autocomplete="email"/>
       <div class="field-hint" id="hint-email">Please enter a valid email address</div>
     </div>
     <div class="row">
       <div class="field">
-        <label>Password</label>
+        <label><i class="fa-regular fa-lock"></i> Password</label>
         <div class="pass-wrap">
-          <input type="password" id="password" placeholder="Min 6 characters"/>
+          <input type="password" id="password" placeholder="Min 6 characters" autocomplete="new-password"/>
           <button type="button" class="pass-toggle" onclick="togglePass('password', this)" tabindex="-1" aria-label="Show password">
             <i class="fa-regular fa-eye"></i>
           </button>
@@ -104,9 +398,9 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
         <div class="field-hint" id="hint-password">Password must be at least 6 characters</div>
       </div>
       <div class="field">
-        <label>Confirm Password</label>
+        <label><i class="fa-regular fa-check-circle"></i> Confirm Password</label>
         <div class="pass-wrap">
-          <input type="password" id="confirmPassword" placeholder="Re-enter password"/>
+          <input type="password" id="confirmPassword" placeholder="Re-enter password" autocomplete="off"/>
           <button type="button" class="pass-toggle" onclick="togglePass('confirmPassword', this)" tabindex="-1" aria-label="Show password">
             <i class="fa-regular fa-eye"></i>
           </button>
@@ -114,7 +408,7 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
         <div class="field-hint" id="hint-confirm">Passwords do not match</div>
       </div>
     </div>
-    <button class="btn-submit" id="reg-btn" onclick="doRegister()">Create Account</button>
+    <button class="btn-submit" id="reg-btn" onclick="doRegister()">Create Account →</button>
     <div class="foot">Already have an account? <a href="signin.html">Sign In</a></div>
   </div>
 </div>
@@ -122,12 +416,10 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
 <script>
 const API = 'https://kowriwebbackend.onrender.com';
 
-// Generate a unique phone number for every registration.
-// Format: +233 + 9 random digits. Uses timestamp + crypto random to avoid collisions.
 function generateUniquePhone() {
-  const ts = Date.now().toString().slice(-6); // last 6 digits of timestamp
-  const rand = Math.floor(Math.random() * 1000).toString().padStart(3, '0'); // 3 random digits
-  return '+233' + ts + rand; // +233 + 9 digits = valid-looking unique number
+  const ts = Date.now().toString().slice(-6);
+  const rand = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+  return '+233' + ts + rand;
 }
 
 function togglePass(inputId, btn) {
@@ -171,18 +463,18 @@ function showBanner(title, msg) {
 function friendlyError(rawMsg) {
   const m = (rawMsg || '').toLowerCase();
   if (m.includes('email') && (m.includes('exist') || m.includes('taken') || m.includes('already') || m.includes('registered')))
-    return { title: 'Email already in use', msg: 'An account with this email already exists. Try signing in instead.' };
-  if (m.includes('phone') && (m.includes('exist') || m.includes('taken') || m.includes('already')))
-    return { title: 'Registration error', msg: 'Please try again.' };
-  if (m.includes('password') && m.includes('weak'))
-    return { title: 'Password too weak', msg: 'Choose a stronger password with letters, numbers, and symbols.' };
+    return { title: '🌿 Email already in use', msg: 'An account with this email already exists. Try signing in instead.' };
+  if (m.includes('phone') && (m.includes('exist') || m.includes('taken')))
+    return { title: 'Registration hiccup', msg: 'Please try again with a different contact.' };
+  if (m.includes('password') && (m.includes('weak') || m.includes('strength')))
+    return { title: 'Password too weak', msg: 'Choose a stronger password with letters and numbers.' };
   if (m.includes('invalid email') || m.includes('email format'))
     return { title: 'Invalid email', msg: 'Please enter a valid email address like name@example.com.' };
   if (m.includes('network') || m.includes('fetch') || m.includes('failed to fetch'))
-    return { title: 'No internet connection', msg: 'Check your connection and try again.' };
+    return { title: 'Connection issue', msg: 'Check your internet connection and try again.' };
   if (m.includes('server') || m.includes('500') || m.includes('internal'))
-    return { title: 'Server error', msg: 'Something went wrong on our end. Please try again in a moment.' };
-  return { title: 'Registration failed', msg: rawMsg || 'Please check your details and try again.' };
+    return { title: 'Server delay', msg: 'Something went wrong on our side. Please retry in a moment.' };
+  return { title: 'Could not sign up', msg: rawMsg || 'Please review your details and try again.' };
 }
 
 async function doRegister() {
@@ -195,24 +487,21 @@ async function doRegister() {
   const confirmPassword = document.getElementById('confirmPassword').value;
 
   let hasError = false;
-  if (!fullName)        { fieldError('fullName', 'hint-name');     hasError = true; }
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-                        { fieldError('email', 'hint-email');       hasError = true; }
-  if (!password || password.length < 6)
-                        { fieldError('password', 'hint-password'); hasError = true; }
-  if (password !== confirmPassword)
-                        { fieldError('confirmPassword', 'hint-confirm'); hasError = true; }
+  if (!fullName)                              { fieldError('fullName', 'hint-name'); hasError = true; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) 
+                                            { fieldError('email', 'hint-email'); hasError = true; }
+  if (!password || password.length < 6)       { fieldError('password', 'hint-password'); hasError = true; }
+  if (password !== confirmPassword)           { fieldError('confirmPassword', 'hint-confirm'); hasError = true; }
 
   if (hasError) {
-    showBanner('Please fix the errors below', 'Fill in all highlighted fields correctly before continuing.');
+    showBanner('Please fix the fields below', 'Make sure all highlighted fields are filled correctly.');
     return;
   }
 
-  // Auto-generate a unique phone number — not shown to user
   const phoneNumber = generateUniquePhone();
 
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Creating Account…';
+  btn.innerHTML = '<span class="spinner"></span> Creating account…';
 
   try {
     const res = await fetch(`${API}/api/users/register`, {
@@ -228,26 +517,31 @@ async function doRegister() {
       const { title, msg } = friendlyError(data.message || data.error || `HTTP ${res.status}`);
       showBanner(title, msg);
       btn.disabled = false;
-      btn.textContent = 'Create Account';
+      btn.textContent = 'Create Account →';
       return;
     }
 
+    // Store session
     localStorage.setItem('kowri_token',   data.token);
     localStorage.setItem('kowri_refresh', data.refreshToken);
     localStorage.setItem('kowri_user',    JSON.stringify(data));
 
-    document.getElementById('suc-box').style.display = 'flex';
-    setTimeout(() => location.href = 'dashboard.html', 1800);
+    const successBox = document.getElementById('suc-box');
+    successBox.style.display = 'flex';
+    setTimeout(() => location.href = 'dashboard.html', 1600);
 
   } catch(e) {
     const { title, msg } = friendlyError(e.message);
     showBanner(title, msg);
     btn.disabled = false;
-    btn.textContent = 'Create Account';
+    btn.textContent = 'Create Account →';
   }
 }
 
 document.addEventListener('keydown', e => { if(e.key === 'Enter') doRegister(); });
+window.addEventListener('load', () => {
+  document.getElementById('fullName').focus();
+});
 </script>
 </body>
 </html>
