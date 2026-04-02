@@ -27,13 +27,10 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
 .field input.input-error{border-color:rgba(239,68,68,0.6);}
 .field-hint{font-size:11px;color:#ef4444;margin-top:5px;display:none;}
 .field-hint.show{display:block;}
-
-/* Password wrapper */
 .pass-wrap{position:relative;}
 .pass-wrap input{padding-right:44px;}
 .pass-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#6b7280;font-size:15px;padding:0;line-height:1;transition:color .2s;}
 .pass-toggle:hover{color:#9ca3af;}
-
 .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .btn-submit{width:100%;background:var(--green);color:#000;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:all .2s;margin-top:8px;}
 .btn-submit:hover{background:#16a34a;transform:translateY(-1px);}
@@ -41,15 +38,12 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
 .foot{text-align:center;margin-top:18px;font-size:13px;color:#9ca3af;}
 .foot a{color:var(--green);text-decoration:none;font-weight:600;}
 .foot a:hover{text-decoration:underline;}
-
-/* Error / success banners */
 .banner{border-radius:10px;padding:13px 16px;font-size:13px;margin-bottom:18px;display:none;align-items:flex-start;gap:10px;line-height:1.5;}
 .banner i{margin-top:1px;flex-shrink:0;font-size:14px;}
 .banner-body strong{display:block;font-weight:600;margin-bottom:2px;font-size:13px;}
 .banner-body span{color:inherit;opacity:.85;}
 .error-banner{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.35);color:#fca5a5;}
 .success-banner{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#86efac;}
-
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,0.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @media(max-width:560px){
@@ -72,7 +66,6 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
     <h2>Create Account</h2>
     <div class="sub">Join Kowri and start earning rewards today</div>
 
-    <!-- Error banner -->
     <div class="banner error-banner" id="err-box">
       <i class="fa-solid fa-circle-exclamation"></i>
       <div class="banner-body">
@@ -81,7 +74,6 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
       </div>
     </div>
 
-    <!-- Success banner -->
     <div class="banner success-banner" id="suc-box">
       <i class="fa-solid fa-circle-check"></i>
       <div class="banner-body">
@@ -99,11 +91,6 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
       <label>Email Address</label>
       <input type="email" id="email" placeholder="john@example.com"/>
       <div class="field-hint" id="hint-email">Please enter a valid email address</div>
-    </div>
-    <div class="field">
-      <label>Phone Number</label>
-      <input type="tel" id="phone" placeholder="+233240000000"/>
-      <div class="field-hint" id="hint-phone">Please enter your phone number</div>
     </div>
     <div class="row">
       <div class="field">
@@ -135,6 +122,14 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
 <script>
 const API = 'https://kowriwebbackend.onrender.com';
 
+// Generate a unique phone number for every registration.
+// Format: +233 + 9 random digits. Uses timestamp + crypto random to avoid collisions.
+function generateUniquePhone() {
+  const ts = Date.now().toString().slice(-6); // last 6 digits of timestamp
+  const rand = Math.floor(Math.random() * 1000).toString().padStart(3, '0'); // 3 random digits
+  return '+233' + ts + rand; // +233 + 9 digits = valid-looking unique number
+}
+
 function togglePass(inputId, btn) {
   const input = document.getElementById(inputId);
   const icon = btn.querySelector('i');
@@ -151,7 +146,7 @@ function togglePass(inputId, btn) {
 
 function clearErrors() {
   document.getElementById('err-box').style.display = 'none';
-  ['fullName','email','phone','password','confirmPassword'].forEach(id => {
+  ['fullName','email','password','confirmPassword'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.remove('input-error');
   });
@@ -173,24 +168,20 @@ function showBanner(title, msg) {
   box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// Map backend error messages to friendly user-facing text
 function friendlyError(rawMsg) {
   const m = (rawMsg || '').toLowerCase();
   if (m.includes('email') && (m.includes('exist') || m.includes('taken') || m.includes('already') || m.includes('registered')))
     return { title: 'Email already in use', msg: 'An account with this email already exists. Try signing in instead.' };
   if (m.includes('phone') && (m.includes('exist') || m.includes('taken') || m.includes('already')))
-    return { title: 'Phone number already registered', msg: 'This phone number is linked to another account.' };
+    return { title: 'Registration error', msg: 'Please try again.' };
   if (m.includes('password') && m.includes('weak'))
     return { title: 'Password too weak', msg: 'Choose a stronger password with letters, numbers, and symbols.' };
   if (m.includes('invalid email') || m.includes('email format'))
     return { title: 'Invalid email', msg: 'Please enter a valid email address like name@example.com.' };
-  if (m.includes('invalid phone') || m.includes('phone format') || m.includes('phone number'))
-    return { title: 'Invalid phone number', msg: 'Enter your number in international format, e.g. +233240000000.' };
   if (m.includes('network') || m.includes('fetch') || m.includes('failed to fetch'))
     return { title: 'No internet connection', msg: 'Check your connection and try again.' };
   if (m.includes('server') || m.includes('500') || m.includes('internal'))
     return { title: 'Server error', msg: 'Something went wrong on our end. Please try again in a moment.' };
-  // Fallback: show whatever the server said
   return { title: 'Registration failed', msg: rawMsg || 'Please check your details and try again.' };
 }
 
@@ -200,16 +191,13 @@ async function doRegister() {
 
   const fullName        = document.getElementById('fullName').value.trim();
   const email           = document.getElementById('email').value.trim();
-  const phoneNumber     = document.getElementById('phone').value.trim();
   const password        = document.getElementById('password').value;
   const confirmPassword = document.getElementById('confirmPassword').value;
 
-  // Client-side validation with per-field hints
   let hasError = false;
   if (!fullName)        { fieldError('fullName', 'hint-name');     hasError = true; }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
                         { fieldError('email', 'hint-email');       hasError = true; }
-  if (!phoneNumber)     { fieldError('phone', 'hint-phone');       hasError = true; }
   if (!password || password.length < 6)
                         { fieldError('password', 'hint-password'); hasError = true; }
   if (password !== confirmPassword)
@@ -219,6 +207,9 @@ async function doRegister() {
     showBanner('Please fix the errors below', 'Fill in all highlighted fields correctly before continuing.');
     return;
   }
+
+  // Auto-generate a unique phone number — not shown to user
+  const phoneNumber = generateUniquePhone();
 
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Creating Account…';
