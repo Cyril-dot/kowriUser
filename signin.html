@@ -3,37 +3,253 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Kowri – Login</title>
+<title>Kowri – Login | Fresh & Light</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <style>
-:root{--bg:#060e0a;--card:#0d1c14;--green:#22c55e;--green-dark:#16a34a;--text:#f0fdf4;--border:rgba(34,197,94,0.15);}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:radial-gradient(ellipse 60% 60% at 80% 50%,rgba(34,197,94,0.12) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 20% 50%,rgba(22,163,74,0.07) 0%,transparent 55%),var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
-.back-btn{padding:20px 32px;display:flex;align-items:center;gap:8px;font-size:14px;color:#9ca3af;cursor:pointer;background:none;border:none;transition:color .2s;font-family:'DM Sans',sans-serif;}
-.back-btn:hover{color:var(--text);}
-.center{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;}
-.auth-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:44px;width:100%;max-width:440px;}
-.logo-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
-.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;}
-.logo-text{font-family:'Sora',sans-serif;font-weight:800;font-size:18px;color:var(--green);}
-h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;}
-.sub{font-size:14px;color:#9ca3af;margin-bottom:28px;}
-.field{margin-bottom:18px;}
-.field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:#d1fae5;}
-.field input{width:100%;padding:13px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s;font-family:'DM Sans',sans-serif;}
-.field input::placeholder{color:#4b5563;}
-.field input:focus{border-color:var(--green);}
-.btn-submit{width:100%;background:var(--green);color:#000;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:all .2s;margin-top:8px;}
-.btn-submit:hover{background:#16a34a;transform:translateY(-1px);}
-.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-.foot{text-align:center;margin-top:18px;font-size:13px;color:#9ca3af;}
-.foot a{color:var(--green);text-decoration:none;font-weight:600;}
-.foot a:hover{text-decoration:underline;}
-.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 14px;font-size:13px;color:#fca5a5;margin-bottom:16px;display:none;}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,0.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
+:root{
+  /* Fresh white & light green palette */
+  --bg: #FFFFFF;                /* pure white background */
+  --card: #FFFFFF;              /* card same white for clean look */
+  --green-light: #86efac;       /* soft light green accents */
+  --green-primary: #4ade80;     /* vibrant light green */
+  --green-hover: #22c55e;       /* slightly deeper green on hover */
+  --text-dark: #1f2937;         /* dark gray for readability */
+  --text-muted: #6b7280;        /* muted gray for secondary text */
+  --border-light: #e5e7eb;      /* subtle light border */
+  --shadow-sm: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+  --focus-ring: rgba(74, 222, 128, 0.4);
+}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body{
+  font-family:'DM Sans', sans-serif;
+  background: linear-gradient(145deg, #f9fef7 0%, #ffffff 100%);
+  color: var(--text-dark);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  position: relative;
+}
+/* Subtle organic wave / leaf pattern (very light green abstract) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 10% 30%, rgba(134,239,172,0.08) 2%, transparent 2.5%),
+                    radial-gradient(circle at 85% 70%, rgba(74,222,128,0.06) 1.5%, transparent 2%);
+  background-size: 48px 48px, 36px 36px;
+  z-index: 0;
+}
+.back-btn{
+  position: relative;
+  z-index: 2;
+  padding:24px 36px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  font-weight:500;
+  color:var(--text-muted);
+  cursor:pointer;
+  background:none;
+  border:none;
+  transition:all 0.2s ease;
+  font-family:'DM Sans',sans-serif;
+  width:fit-content;
+}
+.back-btn i {
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+.back-btn:hover{
+  color:var(--green-primary);
+  gap:12px;
+}
+.back-btn:hover i {
+  transform: translateX(-3px);
+}
+.center{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  position: relative;
+  z-index: 2;
+}
+.auth-box{
+  background: var(--card);
+  border-radius: 36px;
+  padding: 48px 44px;
+  width:100%;
+  max-width: 480px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  backdrop-filter: blur(0px);
+  transition: transform 0.2s ease;
+}
+.logo-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:32px;
+}
+.logo-text{
+  font-family:'Sora',sans-serif;
+  font-weight:800;
+  font-size:26px;
+  background: linear-gradient(135deg, #1f2937 0%, #2d3e2b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: -0.3px;
+}
+.logo-text span{
+  color: var(--green-primary);
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+}
+h2{
+  font-family:'Sora',sans-serif;
+  font-size:32px;
+  font-weight:800;
+  margin-bottom:8px;
+  color: var(--text-dark);
+  letter-spacing: -0.5px;
+}
+.sub{
+  font-size:15px;
+  color: var(--text-muted);
+  margin-bottom:32px;
+  font-weight: 400;
+  border-left: 3px solid var(--green-primary);
+  padding-left: 12px;
+}
+.field{
+  margin-bottom:24px;
+}
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:8px;
+  color: #374151;
+  letter-spacing: 0.2px;
+}
+.field input{
+  width:100%;
+  padding:14px 18px;
+  background: #ffffff;
+  border:1.5px solid #e9ecef;
+  border-radius:20px;
+  color: var(--text-dark);
+  font-size:15px;
+  outline:none;
+  transition: all 0.2s;
+  font-family:'DM Sans',sans-serif;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+.field input::placeholder{
+  color: #cbd5e1;
+  font-weight: 400;
+}
+.field input:focus{
+  border-color: var(--green-primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+.btn-submit{
+  width:100%;
+  background: var(--green-primary);
+  color: #1f2937;
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  font-size:16px;
+  padding:14px 18px;
+  border:none;
+  border-radius:40px;
+  cursor:pointer;
+  transition: all 0.25s ease;
+  margin-top:8px;
+  box-shadow: 0 2px 6px rgba(74,222,128,0.2);
+}
+.btn-submit:hover{
+  background: var(--green-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px -12px rgba(74,222,128,0.4);
+}
+.btn-submit:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
+  transform:none;
+  box-shadow: none;
+}
+.foot{
+  text-align:center;
+  margin-top:24px;
+  font-size:14px;
+  color: var(--text-muted);
+}
+.foot a{
+  color: var(--green-primary);
+  text-decoration:none;
+  font-weight:600;
+  transition: all 0.2s;
+}
+.foot a:hover{
+  color: var(--green-hover);
+  text-decoration:underline;
+}
+.error{
+  background: #fef2f2;
+  border-left: 4px solid #f87171;
+  border-radius: 18px;
+  padding: 12px 18px;
+  font-size: 13px;
+  color: #b91c1c;
+  margin-bottom: 24px;
+  display:none;
+  font-weight: 500;
+}
+.spinner{
+  display:inline-block;
+  width:18px;
+  height:18px;
+  border:2px solid rgba(31,41,55,0.2);
+  border-top-color:#1f2937;
+  border-radius:50%;
+  animation:spin .6s linear infinite;
+  vertical-align:middle;
+  margin-right:8px;
+}
 @keyframes spin{to{transform:rotate(360deg);}}
-@media(max-width:560px){.auth-box{padding:28px 20px;}.back-btn{padding:16px;}}
+/* responsive touch */
+@media(max-width:560px){
+  .auth-box{
+    padding: 32px 24px;
+    border-radius: 32px;
+  }
+  .back-btn{
+    padding: 18px 20px;
+  }
+  h2{
+    font-size: 28px;
+  }
+  .logo-text{
+    font-size: 22px;
+  }
+}
+/* light green micro highlight */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s;
+  -webkit-text-fill-color: var(--text-dark);
+}
 </style>
 </head>
 <body>
@@ -43,22 +259,33 @@ h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6p
 <div class="center">
   <div class="auth-box">
     <div class="logo-row">
-      <div class="logo-icon"><i class="fa-solid fa-shield-halved" style="color:#fff;font-size:15px;"></i></div>
-      <span class="logo-text">Kowri</span>
+      <!-- refined leaf icon with light green gradient -->
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="leafGradNew" x1="20%" y1="10%" x2="80%" y2="90%">
+            <stop offset="0%" stop-color="#bef264"/>
+            <stop offset="100%" stop-color="#4ade80"/>
+          </linearGradient>
+        </defs>
+        <path d="M20 2C20 2 6 10 6 22C6 30.8 13.2 38 22 38C30.8 38 38 30.8 38 22C38 10 20 2 20 2Z" fill="url(#leafGradNew)"/>
+        <path d="M20 9C17 15 14 19 14 23C14 27 17 30 20 32C17 29 15 26 16 22C17.5 17 20 9 20 9Z" fill="white" opacity="0.45"/>
+        <circle cx="23" cy="18" r="2" fill="#f9fef7" fill-opacity="0.8"/>
+      </svg>
+      <span class="logo-text">kowri<span>.</span></span>
     </div>
     <h2>Welcome back</h2>
-    <div class="sub">Login to your Kowri account</div>
+    <div class="sub">Login to your Kowri account · fresh start</div>
     <div class="error" id="err-box"></div>
     <div class="field">
-      <label>Email Address</label>
-      <input type="email" id="email" placeholder="john@example.com"/>
+      <label><i class="fa-regular fa-envelope" style="margin-right: 6px; font-size: 12px; color: #86efac;"></i> Email Address</label>
+      <input type="email" id="email" placeholder="hello@kowri.com" autocomplete="email"/>
     </div>
     <div class="field">
-      <label>Password</label>
-      <input type="password" id="password" placeholder="Your password"/>
+      <label><i class="fa-regular fa-lock" style="margin-right: 6px; font-size: 12px; color: #86efac;"></i> Password</label>
+      <input type="password" id="password" placeholder="··············" autocomplete="current-password"/>
     </div>
-    <button class="btn-submit" id="si-btn" onclick="doSignIn()">Login</button>
-    <div class="foot">Don't have an account? <a href="signup.html">Register</a></div>
+    <button class="btn-submit" id="si-btn" onclick="doSignIn()">Login →</button>
+    <div class="foot">Don't have an account? <a href="signup.html">Create account</a></div>
   </div>
 </div>
 
@@ -79,17 +306,23 @@ async function doSignIn() {
   const password = document.getElementById('password').value;
 
   if (!email || !password) {
-    errBox.textContent = 'Please enter your email and password.';
+    errBox.textContent = '📧 Please enter your email and password to continue.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  // Basic email format hint
+  if (!email.includes('@')) {
+    errBox.textContent = '✉️ Please enter a valid email address.';
     errBox.style.display = 'block';
     return;
   }
 
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Logging in...';
+  btn.innerHTML = '<span class="spinner"></span> Securing access...';
 
   try {
     if (isAdminEmail(email)) {
-      // ── Admin login path ──
       const res = await fetch(`${API}/api/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -106,13 +339,11 @@ async function doSignIn() {
         email: data.email,
         role: data.role || 'admin'
       }));
-      // Also store as regular user token in case any shared util reads it
       localStorage.setItem('kowri_token', data.token);
       localStorage.setItem('kowri_user', JSON.stringify(data));
 
       location.href = 'admin/admin-dashboard.html';
     } else {
-      // ── Regular user login path ──
       const res = await fetch(`${API}/api/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -128,14 +359,19 @@ async function doSignIn() {
       location.href = 'dashboard.html';
     }
   } catch(e) {
-    errBox.textContent = e.message;
+    errBox.textContent = e.message || '⚠️ Connection issue. Please try again.';
     errBox.style.display = 'block';
     btn.disabled = false;
-    btn.textContent = 'Login';
+    btn.textContent = 'Login →';
   }
 }
 
 document.addEventListener('keydown', e => { if(e.key === 'Enter') doSignIn(); });
+
+// small micro-interaction: focus on email on load
+window.addEventListener('load', () => {
+  document.getElementById('email').focus();
+});
 </script>
 </body>
 </html>
