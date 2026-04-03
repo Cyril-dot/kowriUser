@@ -10,187 +10,243 @@
 :root{
   --green:#22c55e;
   --green-dark:#16a34a;
-  --bg:#f9fafb;
+  --orange:#f97316;
+  --bg:#f3f4f6;
   --card:#fff;
   --text:#111827;
   --muted:#6b7280;
   --border:#e5e7eb;
-  --radius:14px;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{ font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
 
 /* NAV */
 .dash-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 32px;
-  background:#fff;border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 40px;
+  background:#fff; border-bottom:1px solid var(--border);
+  position:sticky; top:0; z-index:50;
 }
-.logo{display:flex;align-items:center;gap:9px;font-family:'Sora',sans-serif;font-weight:800;font-size:18px;color:var(--green);}
-.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:7px;display:flex;align-items:center;justify-content:center;}
-.nav-right{display:flex;align-items:center;gap:12px;}
-.nav-user{font-size:14px;color:var(--muted);font-weight:500;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.btn-logout{
-  background:none;border:1px solid var(--border);
-  border-radius:8px;padding:8px 16px;
-  font-size:13px;font-weight:600;cursor:pointer;
-  color:var(--muted);transition:all .2s;
+.nav-logo{
+  display:flex; align-items:center; gap:10px;
+  font-family:'Sora',sans-serif; font-weight:800; font-size:22px; color:var(--text);
+  letter-spacing:-0.02em; text-decoration:none;
+}
+.nav-logo img{
+  height: 40px; width: auto;
+}
+.nav-logo .logo-fallback-svg{ display:none; }
+.nav-center{
+  display:flex; gap:0;
+}
+.nav-link{
+  padding:10px 20px;
+  font-size:16px; font-weight:600; color:var(--muted);
+  text-decoration:none; border-bottom:2px solid transparent;
+  transition:all 0.15s;
+}
+.nav-link.active{ color:var(--text); border-bottom-color:#1f2937; }
+.nav-right{ display:flex; align-items:center; gap:16px; }
+.nav-user-btn{
+  display:flex; align-items:center; gap:8px;
+  font-size:15px; font-weight:600; color:var(--text);
+  background:none; border:none; cursor:pointer;
   font-family:'DM Sans',sans-serif;
-  white-space:nowrap;
 }
-.btn-logout:hover{border-color:#ef4444;color:#ef4444;}
+.nav-user-btn i{ color:var(--muted); font-size:13px; }
 
 /* BODY */
-.body{padding:24px 32px;max-width:960px;margin:0 auto;}
-.page-title{font-family:'Sora',sans-serif;font-size:24px;font-weight:800;margin-bottom:20px;}
+.page-body{ padding:36px 40px; max-width:1080px; margin:0 auto; }
+.welcome-row{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:32px; flex-wrap:wrap; gap:16px;
+}
+.welcome-text{
+  font-family:'Sora',sans-serif; font-size:22px; font-weight:700; color:var(--text);
+}
+.welcome-text span{ font-size:20px; }
 
-/* SUMMARY CARDS */
-.cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
-.sum-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
-.sum-card .sc-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
-.sum-card .sc-label{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:6px;}
-.sum-card .sc-val{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:var(--text);}
-.sum-card.balance .sc-icon{background:#dcfce7;}
-.sum-card.balance .sc-val{color:var(--green);}
-.sum-card.deposits .sc-icon{background:#dbeafe;}
-.sum-card.deposits .sc-val{color:#1d4ed8;}
-.sum-card.withdrawals .sc-icon{background:#fef3c7;}
-.sum-card.withdrawals .sc-val{color:#d97706;}
+/* BALANCE CARD */
+.balance-card{
+  background: linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #16a34a 100%);
+  border-radius:8px;
+  padding: 0;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.balance-card-inner{
+  background: #fff;
+  border-radius:6px;
+  padding: 28px 48px;
+  text-align: center;
+  min-width: 260px;
+  position: relative;
+  z-index:2;
+}
+.balance-label{
+  font-size:15px; color:var(--muted); font-weight:500; margin-bottom:8px;
+}
+.balance-amount{
+  font-family:'Sora',sans-serif; font-size:42px; font-weight:800;
+  color:var(--green); letter-spacing:-0.02em;
+}
+.balance-currency{ font-size:24px; font-weight:600; color:var(--muted); margin-right:4px; }
 
 /* ACTION BUTTONS */
-.action-bar{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
-.btn-action{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  padding:16px;border-radius:12px;
-  font-family:'Sora',sans-serif;font-weight:700;font-size:15px;
-  cursor:pointer;border:none;transition:all .2s;
-  min-height:56px;
+.action-bar{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:16px; margin-bottom:32px;
+  max-width:520px;
+  margin-left:auto; margin-right:auto;
 }
-.btn-deposit{background:var(--green);color:#fff;}
-.btn-deposit:hover{background:var(--green-dark);}
-.btn-withdraw{background:#1d4ed8;color:#fff;}
-.btn-withdraw:hover:not(:disabled){background:#1e40af;}
-.btn-withdraw:disabled{opacity:.5;cursor:not-allowed;}
+.btn-action{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  padding:18px 20px; border-radius:8px;
+  font-family:'Sora',sans-serif; font-weight:700; font-size:16px;
+  cursor:pointer; border:none; transition:all .2s;
+  letter-spacing:0.01em;
+}
+.btn-deposit{ background:var(--orange); color:#fff; }
+.btn-deposit:hover{ background:#ea6c00; }
+.btn-withdraw{ background:var(--green); color:#fff; }
+.btn-withdraw:hover:not(:disabled){ background:var(--green-dark); }
+.btn-withdraw:disabled{ opacity:.5; cursor:not-allowed; }
 
 /* TX CARD */
-.tx-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.tx-card{ background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
 .tx-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px 20px;border-bottom:1px solid var(--border);
-  flex-wrap:wrap;gap:12px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 24px; border-bottom:1px solid var(--border); flex-wrap:wrap; gap:12px;
 }
-.tx-header h2{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;}
+.tx-header h2{ font-family:'Sora',sans-serif; font-size:18px; font-weight:700; }
 
 /* TABS */
-.tabs{display:flex;gap:4px;background:#f3f4f6;border-radius:8px;padding:3px;width:100%;}
+.tabs{ display:flex; gap:4px; background:#f3f4f6; border-radius:6px; padding:3px; }
 .tab{
-  flex:1;padding:9px 8px;border-radius:6px;
-  font-size:13px;font-weight:600;cursor:pointer;
-  border:none;background:none;color:var(--muted);
-  transition:all .2s;font-family:'DM Sans',sans-serif;
-  text-align:center;
+  flex:1; padding:10px 16px; border-radius:4px;
+  font-size:14px; font-weight:600; cursor:pointer;
+  border:none; background:none; color:var(--muted);
+  transition:all .2s; font-family:'DM Sans',sans-serif; text-align:center;
 }
-.tab.active{background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.tab.active{ background:#fff; color:var(--text); box-shadow:0 1px 4px rgba(0,0,0,0.08); }
 
 /* TX LIST */
-.tx-list{padding:8px 0;}
+.tx-list{ padding:8px 0; }
 .tx-item{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 20px;
-  border-bottom:1px solid #f3f4f6;
-  gap:12px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 24px; border-bottom:1px solid #f3f4f6; gap:12px;
 }
-.tx-item:last-child{border-bottom:none;}
-.tx-left{display:flex;align-items:center;gap:12px;}
+.tx-item:last-child{ border-bottom:none; }
+.tx-left{ display:flex; align-items:center; gap:14px; }
 .tx-icon{
-  width:38px;height:38px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;font-size:15px;
+  width:42px; height:42px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-size:16px;
 }
-.tx-icon.dep{background:#dcfce7;color:#16a34a;}
-.tx-icon.wit{background:#fef3c7;color:#d97706;}
-.tx-info .tx-type{font-size:14px;font-weight:600;color:var(--text);}
-.tx-info .tx-date{font-size:12px;color:var(--muted);margin-top:2px;}
-.tx-right{text-align:right;flex-shrink:0;}
-.tx-amount{font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:var(--text);}
-.tx-status{margin-top:4px;}
-.badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;}
-.badge.PENDING{background:#fef9c3;color:#854d0e;}
-.badge.APPROVED{background:#dcfce7;color:#166534;}
-.badge.REJECTED{background:#fee2e2;color:#991b1b;}
-.empty{text-align:center;color:var(--muted);font-size:14px;padding:32px 20px;}
-.loading{text-align:center;color:var(--muted);font-size:14px;padding:32px 20px;}
+.tx-icon.dep{ background:#dcfce7; color:#16a34a; }
+.tx-icon.wit{ background:#fef3c7; color:#d97706; }
+.tx-info .tx-type{ font-size:15px; font-weight:600; color:var(--text); }
+.tx-info .tx-date{ font-size:13px; color:var(--muted); margin-top:3px; }
+.tx-right{ text-align:right; flex-shrink:0; }
+.tx-amount{ font-family:'Sora',sans-serif; font-size:15px; font-weight:800; color:var(--text); }
+.tx-status{ margin-top:4px; }
+.badge{ display:inline-block; padding:3px 10px; border-radius:4px; font-size:12px; font-weight:600; }
+.badge.PENDING{ background:#fef9c3; color:#854d0e; }
+.badge.APPROVED{ background:#dcfce7; color:#166534; }
+.badge.REJECTED{ background:#fee2e2; color:#991b1b; }
+.empty{ text-align:center; color:var(--muted); font-size:15px; padding:40px 20px; }
+.loading{ text-align:center; color:var(--muted); font-size:15px; padding:40px 20px; }
 
-/* MOBILE */
-@media(max-width:640px){
-  .dash-nav{padding:12px 16px;}
-  .nav-user{display:none;}
-  .body{padding:16px;}
-  .page-title{font-size:20px;margin-bottom:16px;}
-  .cards-row{grid-template-columns:1fr;gap:10px;}
-  .sum-card{padding:16px;display:flex;align-items:center;gap:14px;}
-  .sum-card .sc-icon{margin-bottom:0;flex-shrink:0;}
-  .sum-card .sc-val{font-size:20px;}
-  .action-bar{gap:10px;}
-  .btn-action{font-size:14px;padding:15px 10px;}
-  .tx-header{padding:14px 16px;}
-  .tx-item{padding:12px 16px;}
-  .tx-icon{width:34px;height:34px;font-size:13px;}
+/* LOGOUT */
+.btn-logout{
+  background:none; border:1px solid var(--border);
+  border-radius:6px; padding:9px 18px;
+  font-size:14px; font-weight:600; cursor:pointer;
+  color:var(--muted); transition:all .2s;
+  font-family:'DM Sans',sans-serif; white-space:nowrap;
 }
-@media(max-width:360px){
-  .action-bar{grid-template-columns:1fr;}
+.btn-logout:hover{ border-color:#ef4444; color:#ef4444; }
+
+@media(max-width:640px){
+  .dash-nav{ padding:14px 16px; }
+  .nav-center{ display:none; }
+  .page-body{ padding:20px 16px; }
+  .welcome-text{ font-size:18px; }
+  .balance-card{ min-height:160px; }
+  .balance-amount{ font-size:32px; }
+  .action-bar{ max-width:100%; }
+  .btn-action{ font-size:15px; padding:16px 12px; }
+  .tx-header{ padding:16px; }
+  .tx-item{ padding:14px 16px; }
 }
 </style>
 </head>
 <body>
+
 <nav class="dash-nav">
-  <div class="logo">
-    <div class="logo-icon"><i class="fa-solid fa-shield-halved" style="color:#fff;font-size:14px;"></i></div>
-    Kowri
+  <a class="nav-logo" href="#">
+    <img src="07d3a4e2-8cf5-43b7-8c90-df4419da67de.jfif" alt="Kowri"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+    <svg class="logo-fallback-svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <defs>
+        <radialGradient id="lg2" cx="40%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#4ade80"/>
+          <stop offset="100%" stop-color="#16a34a"/>
+        </radialGradient>
+      </defs>
+      <path d="M18 2C18 2 4 10 4 21C4 28.7 10.3 35 18 35C25.7 35 32 28.7 32 21C32 10 18 2 18 2Z" fill="url(#lg2)"/>
+      <path d="M18 8C15 14 12 18 12 22C12 26 14.5 29.5 18 31.5C14 28.5 13 25 14 21C15.5 16 18 8 18 8Z" fill="white" opacity="0.28"/>
+    </svg>
+    <span id="nav-wordmark">kowri</span>
+  </a>
+
+  <div class="nav-center">
+    <a href="dashboard.html" class="nav-link active">Dashboard</a>
   </div>
+
   <div class="nav-right">
-    <span class="nav-user" id="nav-name"></span>
-    <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+    <button class="nav-user-btn" id="nav-name-btn">
+      <span id="nav-name">Account</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <button class="btn-logout" onclick="logout()">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+    </button>
   </div>
 </nav>
 
-<div class="body">
-  <div class="page-title">Dashboard</div>
+<div class="page-body">
+  <div class="welcome-row">
+    <div class="welcome-text">Welcome <span id="welcome-name">back</span> 🎉</div>
+  </div>
 
-  <div class="cards-row">
-    <div class="sum-card balance">
-      <div class="sc-icon"><i class="fa-solid fa-wallet" style="color:#16a34a;font-size:17px;"></i></div>
-      <div>
-        <div class="sc-label">Total Balance</div>
-        <div class="sc-val" id="bal-val">GH₵ 0.00</div>
-      </div>
-    </div>
-    <div class="sum-card deposits">
-      <div class="sc-icon"><i class="fa-solid fa-arrow-down" style="color:#1d4ed8;font-size:17px;"></i></div>
-      <div>
-        <div class="sc-label">Total Deposited</div>
-        <div class="sc-val" id="dep-val">GH₵ 0.00</div>
-      </div>
-    </div>
-    <div class="sum-card withdrawals">
-      <div class="sc-icon"><i class="fa-solid fa-arrow-up" style="color:#d97706;font-size:17px;"></i></div>
-      <div>
-        <div class="sc-label">Total Withdrawn</div>
-        <div class="sc-val" id="wit-val">GH₵ 0.00</div>
+  <!-- Balance Card -->
+  <div class="balance-card">
+    <div class="balance-card-inner">
+      <div class="balance-label">Total balance</div>
+      <div class="balance-amount">
+        <span class="balance-currency">GHS</span>
+        <span id="bal-val">0.00</span>
       </div>
     </div>
   </div>
 
+  <!-- Action Buttons -->
   <div class="action-bar">
     <button class="btn-action btn-deposit" onclick="location.href='deposit.html'">
-      <i class="fa-solid fa-arrow-down"></i> Make Deposit
+      DepositToken
     </button>
     <button id="withdraw-btn" class="btn-action btn-withdraw" onclick="goWithdraw()">
-      <i class="fa-solid fa-arrow-up"></i> Withdraw
+      Withdraw
     </button>
   </div>
 
+  <!-- Transactions -->
   <div class="tx-card">
     <div class="tx-header">
       <h2>Transaction History</h2>
@@ -219,13 +275,12 @@ function logout() {
   location.href = 'signin.html';
 }
 
-// ✅ Guard: only navigate to withdraw if balance > 0
 function goWithdraw() {
   if (currentBalance <= 0) return;
   location.href = 'withdraw.html';
 }
 
-function fmt(amt) { return 'GH₵ ' + parseFloat(amt || 0).toFixed(2); }
+function fmt(amt) { return parseFloat(amt || 0).toFixed(2); }
 function fmtDate(d) { return new Date(d).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}); }
 
 function init() {
@@ -233,7 +288,9 @@ function init() {
   const token  = localStorage.getItem('kowri_token');
   if (!stored || !token) { location.href = 'signin.html'; return; }
   userData = JSON.parse(stored);
-  document.getElementById('nav-name').textContent = userData.fullName || userData.email;
+  const name = userData.fullName || userData.email || 'User';
+  document.getElementById('nav-name').textContent = name;
+  document.getElementById('welcome-name').textContent = name;
   loadData();
 }
 
@@ -243,7 +300,6 @@ async function loadData() {
   const headers = { 'Authorization': `Bearer ${token}` };
 
   try {
-    // ✅ Three parallel fetches: deposits, withdrawals, financial summary
     const [dRes, wRes, sumRes] = await Promise.all([
       fetch(`${API}/api/users/${userId}/deposits`,          { headers }),
       fetch(`${API}/api/users/${userId}/withdrawals`,       { headers }),
@@ -254,21 +310,15 @@ async function loadData() {
     allWithdrawals = wRes.ok   ? (await wRes.json())   : [];
     const summary  = sumRes.ok ? (await sumRes.json()) : null;
 
-    // ✅ All three figures come from the server — no client-side math
     currentBalance = parseFloat(summary?.balance ?? 0);
-    document.getElementById('bal-val').textContent = fmt(summary?.balance        ?? 0);
-    document.getElementById('dep-val').textContent = fmt(summary?.totalDeposited ?? 0);
-    document.getElementById('wit-val').textContent = fmt(summary?.totalWithdrawn ?? 0);
+    document.getElementById('bal-val').textContent = fmt(summary?.balance ?? 0);
 
-    // ✅ Disable withdraw button when balance is zero or negative
     const wBtn = document.getElementById('withdraw-btn');
     wBtn.disabled = currentBalance <= 0;
-    wBtn.title    = currentBalance <= 0 ? 'Insufficient balance to withdraw' : '';
 
     renderList(currentTab);
   } catch(e) {
-    document.getElementById('tx-body').innerHTML =
-      '<div class="empty">Failed to load transactions.</div>';
+    document.getElementById('tx-body').innerHTML = '<div class="empty">Failed to load transactions.</div>';
   }
 }
 
@@ -281,15 +331,12 @@ function switchTab(type, el) {
 
 function renderList(type) {
   const items = [];
-  if (type === 'all' || type === 'deposits')
-    allDeposits.forEach(d => items.push({...d, _type:'Deposit'}));
-  if (type === 'all' || type === 'withdrawals')
-    allWithdrawals.forEach(w => items.push({...w, _type:'Withdrawal'}));
+  if (type === 'all' || type === 'deposits')    allDeposits.forEach(d => items.push({...d, _type:'Deposit'}));
+  if (type === 'all' || type === 'withdrawals') allWithdrawals.forEach(w => items.push({...w, _type:'Withdrawal'}));
   items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   if (!items.length) {
-    document.getElementById('tx-body').innerHTML =
-      '<div class="empty">No transactions found.</div>';
+    document.getElementById('tx-body').innerHTML = '<div class="empty">No transactions found.</div>';
     return;
   }
 
@@ -306,7 +353,7 @@ function renderList(type) {
         </div>
       </div>
       <div class="tx-right">
-        <div class="tx-amount">${fmt(tx.amount)}</div>
+        <div class="tx-amount">GH₵ ${fmt(tx.amount)}</div>
         <div class="tx-status"><span class="badge ${tx.status}">${tx.status}</span></div>
       </div>
     </div>`;
