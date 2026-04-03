@@ -10,16 +10,20 @@
 :root{--green:#22c55e;--green-dark:#16a34a;--bg:#f9fafb;--card:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--radius:14px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
 .dash-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;}
 .logo{display:flex;align-items:center;gap:9px;font-family:'Sora',sans-serif;font-weight:800;font-size:18px;color:var(--green);}
 .logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:7px;display:flex;align-items:center;justify-content:center;}
 .btn-back{background:none;border:1px solid var(--border);border-radius:8px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;}
 .btn-back:hover{border-color:var(--green);color:var(--green);}
+
 .body{padding:40px 24px;max-width:600px;margin:0 auto;}
 .page-head{margin-bottom:28px;}
 .page-head h1{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;}
 .page-head p{font-size:14px;color:var(--muted);margin-top:5px;}
+
 .form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;}
+
 .field{margin-bottom:20px;}
 .field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:#374151;}
 .field input,.field select{width:100%;padding:12px 14px;background:#fff;border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s;font-family:'DM Sans',sans-serif;}
@@ -28,20 +32,39 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .field input[type="file"]{padding:8px 14px;font-size:13px;}
 .field-hint{font-size:11px;color:var(--muted);margin-top:4px;}
 .field-error{font-size:11px;color:#dc2626;margin-top:4px;display:none;}
+
+/* Amount input with type badge */
+.amount-wrap{position:relative;}
+.amount-wrap input{padding-right:110px;}
+.amount-type-badge{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;
+  letter-spacing:.04em;pointer-events:none;transition:all .25s;
+  opacity:0;
+}
+.amount-type-badge.fixed{background:#dcfce7;color:#16a34a;opacity:1;}
+.amount-type-badge.flexible{background:#dbeafe;color:#2563eb;opacity:1;}
+
+/* Tier hint pills */
+.tier-hints{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.tier-pill{
+  padding:4px 11px;border-radius:999px;font-size:11px;font-weight:600;
+  border:1px solid var(--border);background:#f9fafb;color:var(--muted);
+  cursor:pointer;transition:all .18s;user-select:none;
+}
+.tier-pill:hover{border-color:var(--green);color:var(--green);background:#f0fdf4;}
+
+/* Upload */
 .upload-hint{font-size:12px;color:var(--muted);margin-top:5px;}
 .preview-wrap{margin-top:10px;display:none;}
 .preview-wrap img{max-width:100%;max-height:180px;border-radius:8px;border:1px solid var(--border);}
-
-.amount-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px;}
-.amount-btn{padding:12px 8px;border:1px solid var(--border);border-radius:9px;background:#fff;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;color:var(--text);cursor:pointer;transition:all .2s;text-align:center;}
-.amount-btn:hover{border-color:var(--green);color:var(--green);}
-.amount-btn.selected{border-color:var(--green);background:#f0fdf4;color:var(--green-dark);}
 
 .btn-submit{width:100%;background:var(--green);color:#fff;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:all .2s;margin-top:8px;}
 .btn-submit:hover{background:var(--green-dark);}
 .btn-submit:disabled{opacity:.6;cursor:not-allowed;}
 
 .error{background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:12px 14px;font-size:13px;color:#991b1b;margin-bottom:16px;display:none;}
+
 .success-card{background:#dcfce7;border:1px solid #86efac;border-radius:12px;padding:28px;text-align:center;display:none;}
 .success-card .s-icon{width:56px;height:56px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
 .success-card h3{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#166534;margin-bottom:6px;}
@@ -51,16 +74,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-@media(max-width:560px){.row2{grid-template-columns:1fr;}.body{padding:24px 16px;}.dash-nav{padding:12px 16px;}.amount-grid{grid-template-columns:repeat(3,1fr);}}
+
+@media(max-width:560px){
+  .row2{grid-template-columns:1fr;}
+  .body{padding:24px 16px;}
+  .dash-nav{padding:12px 16px;}
+}
 </style>
 </head>
 <body>
+
 <nav class="dash-nav">
   <div class="logo">
     <div class="logo-icon"><i class="fa-solid fa-shield-halved" style="color:#fff;font-size:14px;"></i></div>
     Kowri
   </div>
-  <button class="btn-back" onclick="location.href='dashboard.html'"><i class="fa-solid fa-arrow-left"></i> Back</button>
+  <button class="btn-back" onclick="location.href='dashboard.html'">
+    <i class="fa-solid fa-arrow-left"></i> Back
+  </button>
 </nav>
 
 <div class="body">
@@ -70,6 +101,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 
   <div class="error" id="err-box"></div>
+
   <div class="success-card" id="success-box">
     <div class="s-icon"><i class="fa-solid fa-check" style="color:#fff;font-size:22px;"></i></div>
     <h3>Deposit Submitted!</h3>
@@ -78,16 +110,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 
   <div class="form-card" id="form-section">
+
     <div class="row2">
       <div class="field">
         <label>Token ID</label>
-        <input type="text" id="tokenId" placeholder="12-digit Token ID" maxlength="12" autocomplete="off" oninput="validateField(this, /^\d{12}$/, 'tokenId-err')"/>
+        <input type="text" id="tokenId" placeholder="12-digit Token ID" maxlength="12" autocomplete="off"
+               oninput="validateField(this,/^\d{12}$/,'tokenId-err')"/>
         <div class="field-hint">Must be exactly 12 digits</div>
         <div class="field-error" id="tokenId-err">Token ID must be 12 digits.</div>
       </div>
       <div class="field">
         <label>Secret Code</label>
-        <input type="text" id="secretCode" placeholder="4-digit code" maxlength="4" autocomplete="off" oninput="validateField(this, /^\d{4}$/, 'secretCode-err')"/>
+        <input type="text" id="secretCode" placeholder="4-digit code" maxlength="4" autocomplete="off"
+               oninput="validateField(this,/^\d{4}$/,'secretCode-err')"/>
         <div class="field-hint">Must be exactly 4 digits</div>
         <div class="field-error" id="secretCode-err">Secret Code must be 4 digits.</div>
       </div>
@@ -95,21 +130,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
     <div class="field">
       <label>Wallet ID</label>
-      <!-- UPDATED PLACEHOLDER -->
-      <input type="text" id="walletId" placeholder="e.g. 0240796632" maxlength="10" autocomplete="off" oninput="validateField(this, /^\d{10}$/, 'walletId-err')"/>
+      <input type="text" id="walletId" placeholder="e.g. 0240796632" maxlength="10" autocomplete="off"
+             oninput="validateField(this,/^\d{10}$/,'walletId-err')"/>
       <div class="field-hint">Must be exactly 10 digits</div>
       <div class="field-error" id="walletId-err">Wallet ID must be 10 digits.</div>
     </div>
 
     <div class="field">
       <label>Amount (GH₵)</label>
-      <div class="amount-grid">
-        <button type="button" class="amount-btn" data-value="300" onclick="selectAmount(this)">GH₵ 300</button>
-        <button type="button" class="amount-btn" data-value="500" onclick="selectAmount(this)">GH₵ 500</button>
-        <button type="button" class="amount-btn" data-value="1000" onclick="selectAmount(this)">GH₵ 1,000</button>
+      <div class="amount-wrap">
+        <input type="number" id="amount" placeholder="Enter amount e.g. 300"
+               min="1" autocomplete="off" oninput="onAmountInput()"/>
+        <span class="amount-type-badge" id="type-badge"></span>
       </div>
-      <div class="field-error" id="amount-err" style="display:none;margin-top:6px;">Please select a valid amount.</div>
-      <input type="hidden" id="amount"/>
+      <div class="tier-hints">
+        <span class="tier-pill" onclick="setAmount(300)">GH₵ 300</span>
+        <span class="tier-pill" onclick="setAmount(500)">GH₵ 500</span>
+        <span class="tier-pill" onclick="setAmount(1000)">GH₵ 1,000</span>
+      </div>
+      <div class="field-hint" id="amount-hint" style="margin-top:6px;">Quick select a fixed tier or enter any amount</div>
+      <div class="field-error" id="amount-err">Please enter a valid amount greater than 0.</div>
     </div>
 
     <div class="field">
@@ -125,13 +165,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <button class="btn-submit" id="dep-btn" onclick="doDeposit()">
       <i class="fa-solid fa-paper-plane"></i> Claim Reward Now
     </button>
+
   </div>
 </div>
 
 <script>
 const API = 'https://kowriwebbackend.onrender.com';
-
-const VALID_AMOUNTS = [300, 500, 1000];
+const FIXED_TIERS = [300, 500, 1000];
 
 function validateField(input, regex, errId) {
   const val = input.value.trim();
@@ -141,16 +181,40 @@ function validateField(input, regex, errId) {
   errEl.style.display = (val.length > 0 && !isValid) ? 'block' : 'none';
 }
 
-function selectAmount(btn) {
-  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  document.getElementById('amount').value = btn.dataset.value;
-  document.getElementById('amount-err').style.display = 'none';
+function setAmount(val) {
+  document.getElementById('amount').value = val;
+  onAmountInput();
+}
+
+function onAmountInput() {
+  const val = parseFloat(document.getElementById('amount').value);
+  const badge = document.getElementById('type-badge');
+  const hint  = document.getElementById('amount-hint');
+  const errEl = document.getElementById('amount-err');
+  errEl.style.display = 'none';
+
+  if (!val || val <= 0) {
+    badge.className = 'amount-type-badge';
+    badge.textContent = '';
+    hint.textContent = 'Quick select a fixed tier or enter any amount';
+    return;
+  }
+
+  if (FIXED_TIERS.includes(val)) {
+    badge.className = 'amount-type-badge fixed';
+    badge.textContent = 'FIXED';
+    const rewards = {300:'3,500', 500:'5,500', 1000:'10,500'};
+    hint.textContent = `Fixed tier — reward: GH₵ ${rewards[val]}`;
+  } else {
+    badge.className = 'amount-type-badge flexible';
+    badge.textContent = 'FLEXIBLE';
+    hint.textContent = 'Flexible deposit — admin will set your reward on approval';
+  }
 }
 
 function previewImage(input) {
-  const wrap = document.getElementById('preview-wrap');
-  const img = document.getElementById('preview-img');
+  const wrap  = document.getElementById('preview-wrap');
+  const img   = document.getElementById('preview-img');
   const errEl = document.getElementById('proof-err');
   errEl.style.display = 'none';
 
@@ -171,20 +235,20 @@ function previewImage(input) {
 
 function init() {
   const stored = localStorage.getItem('kowri_user');
-  const token = localStorage.getItem('kowri_token');
+  const token  = localStorage.getItem('kowri_token');
   if (!stored || !token) { location.href = 'signin.html'; }
 }
 
 async function doDeposit() {
-  const btn = document.getElementById('dep-btn');
+  const btn    = document.getElementById('dep-btn');
   const errBox = document.getElementById('err-box');
   errBox.style.display = 'none';
 
-  const tokenId = document.getElementById('tokenId').value.trim();
+  const tokenId    = document.getElementById('tokenId').value.trim();
   const secretCode = document.getElementById('secretCode').value.trim();
-  const walletId = document.getElementById('walletId').value.trim();
-  const amount = parseInt(document.getElementById('amount').value);
-  const proofFile = document.getElementById('proof').files[0];
+  const walletId   = document.getElementById('walletId').value.trim();
+  const amount     = parseFloat(document.getElementById('amount').value);
+  const proofFile  = document.getElementById('proof').files[0];
 
   let hasError = false;
 
@@ -203,7 +267,7 @@ async function doDeposit() {
     document.getElementById('walletId').classList.add('invalid');
     hasError = true;
   }
-  if (!amount || !VALID_AMOUNTS.includes(amount)) {
+  if (!amount || amount <= 0) {
     document.getElementById('amount-err').style.display = 'block';
     hasError = true;
   }
@@ -215,16 +279,21 @@ async function doDeposit() {
 
   if (hasError) return;
 
-  const userData = JSON.parse(localStorage.getItem('kowri_user'));
-  const token = localStorage.getItem('kowri_token');
-  const userId = userData.userId || userData.id;
+  // Auto-determine deposit type silently
+  const depositType = FIXED_TIERS.includes(amount) ? 'FIXED' : 'FLEXIBLE';
 
-  btn.disabled = true;
+  const userData = JSON.parse(localStorage.getItem('kowri_user'));
+  const token    = localStorage.getItem('kowri_token');
+  const userId   = userData.userId || userData.id;
+
+  btn.disabled  = true;
   btn.innerHTML = '<span class="spinner"></span>Submitting...';
 
   try {
     const formData = new FormData();
-    formData.append('data', new Blob([JSON.stringify({ tokenId, secretCode, walletId, amount })], { type: 'application/json' }));
+    formData.append('data', new Blob([JSON.stringify({
+      tokenId, secretCode, walletId, amount, depositType
+    })], { type: 'application/json' }));
     formData.append('proof', proofFile);
 
     const res = await fetch(`${API}/api/users/${userId}/deposits`, {
@@ -237,11 +306,11 @@ async function doDeposit() {
     if (!res.ok) throw new Error(data.message || 'Deposit failed');
 
     document.getElementById('form-section').style.display = 'none';
-    document.getElementById('success-box').style.display = 'block';
+    document.getElementById('success-box').style.display  = 'block';
   } catch(e) {
     errBox.textContent = e.message;
     errBox.style.display = 'block';
-    btn.disabled = false;
+    btn.disabled  = false;
     btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Claim Reward Now';
   }
 }
