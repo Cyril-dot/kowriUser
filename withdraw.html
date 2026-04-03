@@ -41,6 +41,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .success-card p{font-size:14px;color:#1e40af;}
 .success-card .btn-go{display:inline-block;margin-top:18px;background:#1d4ed8;color:#fff;font-family:'Sora',sans-serif;font-weight:700;padding:11px 24px;border-radius:9px;border:none;cursor:pointer;font-size:14px;}
 .info-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:14px 16px;font-size:13px;color:#166534;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;}
+.min-note{font-size:12px;color:var(--muted);margin-top:5px;}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @media(max-width:560px){.row2{grid-template-columns:1fr;}.body{padding:24px 16px;}.dash-nav{padding:12px 16px;}}
@@ -74,7 +75,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="s-icon"><i class="fa-solid fa-check" style="color:#fff;font-size:22px;"></i></div>
     <h3>Withdrawal Requested!</h3>
     <p>Your withdrawal request is pending admin approval. Funds will be sent to your account shortly.</p>
-    <!-- ✅ FIXED: was 'dashboard', now 'dashboard.html' -->
     <button class="btn-go" onclick="location.href='dashboard.html'">Back to Dashboard</button>
   </div>
 
@@ -113,7 +113,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     </div>
     <div class="field">
       <label>Amount (GH₵)</label>
-      <input type="number" id="amount" placeholder="0.00" min="1" step="0.01"/>
+      <input type="number" id="amount" placeholder="Min. GH₵ 2,000.00" min="2000" step="0.01"/>
+      <p class="min-note"><i class="fa-solid fa-circle-info" style="font-size:11px;"></i> Minimum withdrawal amount is GH₵ 2,000.00</p>
     </div>
     <button class="btn-submit" id="wit-btn" onclick="doWithdraw()">
       <i class="fa-solid fa-paper-plane"></i> Submit Withdrawal
@@ -123,6 +124,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <script>
 const API = 'https://kowriwebbackend.onrender.com';
+const MIN_WITHDRAWAL = 2000;
 let currentBalance = 0;
 
 async function init() {
@@ -133,22 +135,33 @@ async function init() {
   const userData = JSON.parse(stored);
   const userId   = userData.userId || userData.id;
 
-  // Fetch live balance from financial-summary and show in banner
   try {
     const res  = await fetch(`${API}/api/users/${userId}/financial-summary`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     const data = await res.json();
+
     if (res.ok && data.balance !== undefined) {
       currentBalance = parseFloat(data.balance);
       const formatted = currentBalance.toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       document.getElementById('bal-display').textContent = 'GH₵ ' + formatted;
 
-      // Warn visually if balance is zero or negative
-      if (currentBalance <= 0) {
+      // ── FIX: Show clear message if balance is below the minimum withdrawal ──
+      const errBox = document.getElementById('err-box');
+      if (currentBalance < MIN_WITHDRAWAL) {
+        const needed = (MIN_WITHDRAWAL - currentBalance).toLocaleString('en-GH', { minimumFractionDigits: 2 });
+        errBox.textContent   = `Minimum withdrawal is GH₵ 2,000.00. You need GH₵ ${needed} more to make a withdrawal.`;
+        errBox.style.display = 'block';
+        document.getElementById('wit-btn').disabled = true;
+
+        // Turn balance banner red
         document.getElementById('bal-display').style.color = '#dc2626';
         document.getElementById('balance-banner').style.background = '#fef2f2';
         document.getElementById('balance-banner').style.borderColor = '#fca5a5';
+      } else if (currentBalance <= 0) {
+        errBox.textContent   = 'Your balance is zero. Please make a deposit before withdrawing.';
+        errBox.style.display = 'block';
+        document.getElementById('wit-btn').disabled = true;
       }
     } else {
       document.getElementById('bal-display').textContent = 'Unavailable';
@@ -169,6 +182,7 @@ async function doWithdraw() {
   const accountNumber   = document.getElementById('accountNumber').value.trim();
   const amount          = parseFloat(document.getElementById('amount').value);
 
+  // ── Validation ──
   if (!accountName || !agentService || !networkProvider || !accountNumber || !amount) {
     errBox.textContent   = 'Please fill in all fields.';
     errBox.style.display = 'block';
@@ -180,7 +194,14 @@ async function doWithdraw() {
     return;
   }
 
-  // Client-side balance guard — catches it before hitting the server
+  // ── FIX: Client-side minimum withdrawal check ──
+  if (amount < MIN_WITHDRAWAL) {
+    errBox.textContent   = `Minimum withdrawal amount is GH₵ 2,000.00. You entered GH₵ ${amount.toLocaleString('en-GH', { minimumFractionDigits: 2 })}.`;
+    errBox.style.display = 'block';
+    return;
+  }
+
+  // ── Client-side balance guard ──
   if (currentBalance > 0 && amount > currentBalance) {
     errBox.textContent   = `Insufficient balance. Your available balance is GH₵ ${currentBalance.toLocaleString('en-GH', { minimumFractionDigits: 2 })}.`;
     errBox.style.display = 'block';
@@ -200,12 +221,21 @@ async function doWithdraw() {
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body:    JSON.stringify({ accountName, agentService, networkProvider, accountNumber, amount })
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Withdrawal request failed');
+
+    // ── FIX: Parse error message from backend properly ──
+    // Backend now returns 400 with { "message": "..." } for business errors
+    // instead of a generic 500
+    let data = {};
+    try { data = await res.json(); } catch(_) {}
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Withdrawal request failed. Please try again.');
+    }
 
     document.getElementById('form-section').style.display    = 'none';
     document.getElementById('balance-banner').style.display  = 'none';
     document.getElementById('success-box').style.display     = 'block';
+
   } catch(e) {
     errBox.textContent   = e.message;
     errBox.style.display = 'block';
