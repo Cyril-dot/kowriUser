@@ -20,7 +20,7 @@
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; color: var(--ink); background: #fff; overflow-x: hidden; }
 
-/* ── NAV ── */
+/* NAV */
 nav {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 56px; background: #fff;
@@ -28,6 +28,7 @@ nav {
   position: sticky; top: 0; z-index: 100;
 }
 .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.logo img { height: 40px; width: auto; }
 .logo-wordmark { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 20px; color: var(--ink); letter-spacing: -0.03em; }
 .nav-links { display: flex; gap: 40px; list-style: none; }
 .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; transition: color .18s; }
@@ -39,7 +40,7 @@ nav {
 }
 .btn-solid:hover { background: var(--green); }
 
-/* ── HERO ── */
+/* HERO */
 .hero {
   position: relative; width: 100%; height: 540px; overflow: hidden;
   background: #a7f3d0;
@@ -77,7 +78,7 @@ nav {
 }
 .btn-hero-signup:hover { background: var(--green); }
 
-/* ── REWARDS SECTION ── */
+/* REWARDS */
 .rewards {
   display: grid; grid-template-columns: 1fr 1fr;
   align-items: center; max-width: 1200px; margin: 0 auto; padding: 80px 56px;
@@ -116,7 +117,7 @@ nav {
 }
 .btn-signup:hover { background: var(--green); }
 
-/* ── SECURE PLATFORM ── */
+/* SECURE */
 .secure {
   display: grid; grid-template-columns: 1fr 1fr;
   align-items: start; gap: 80px; max-width: 1200px; margin: 0 auto; padding: 0 56px 80px;
@@ -140,7 +141,7 @@ nav {
 }
 .secure-img-ph i { font-size: 44px; }
 
-/* ── KB POS + QR ── */
+/* KB POS + QR */
 .kbqr {
   display: grid; grid-template-columns: 1fr 1fr;
   align-items: start; gap: 60px; max-width: 1200px; margin: 0 auto; padding: 0 56px 80px;
@@ -176,10 +177,8 @@ nav {
 .qr-text h3 { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 22px; color: var(--ink); margin-bottom: 12px; }
 .qr-text p { font-size: 14px; color: var(--muted); line-height: 1.75; }
 
-/* ── CTA / GET STARTED ── */
-.cta-section {
-  background: #e8f5e0; padding: 80px 56px; text-align: center;
-}
+/* CTA */
+.cta-section { background: #e8f5e0; padding: 80px 56px; text-align: center; }
 .cta-section h2 {
   font-family: 'Sora', sans-serif; font-weight: 800; font-size: clamp(26px, 4vw, 42px);
   color: var(--ink); letter-spacing: -0.03em; margin-bottom: 36px;
@@ -201,13 +200,14 @@ nav {
 }
 .btn-cta-solid:hover { background: var(--green); }
 
-/* ── FOOTER ── */
+/* FOOTER */
 footer { background: #e5e7eb; padding: 36px 56px 0; }
 .footer-main {
   display: flex; align-items: center; justify-content: space-between;
   padding-bottom: 24px; flex-wrap: wrap; gap: 20px;
 }
 .footer-logo-wrap { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.footer-logo-wrap img { height: 36px; width: auto; }
 .footer-social { display: flex; gap: 18px; }
 .footer-social a { color: var(--green); font-size: 22px; transition: color .18s; }
 .footer-social a:hover { color: var(--ink); }
@@ -223,7 +223,6 @@ footer { background: #e5e7eb; padding: 36px 56px 0; }
 .footer-legal a:hover { color: var(--green); }
 .footer-legal span { font-size: 12px; color: var(--muted); }
 
-/* ── RESPONSIVE ── */
 @media(max-width: 900px) {
   nav { padding: 14px 24px; } .nav-links { display: none; }
   .hero { height: 420px; } .hero-overlay { padding: 0 32px; }
@@ -234,39 +233,15 @@ footer { background: #e5e7eb; padding: 36px 56px 0; }
   .cta-section { padding: 60px 24px; }
   .footer-main { flex-direction: column; align-items: flex-start; }
 }
-@media(max-width: 580px) {
-  nav { padding: 12px 16px; }
-  .hero { height: 380px; } .hero-overlay { padding: 0 20px; }
-  .hero-overlay h1 { font-size: 30px; }
-  .kbqr-left, .kbqr-right { flex-direction: column; }
-  .kbpos-img-wrap { width: 100%; }
-  .qr-img-wrap { width: 100%; }
-  .cta-section { padding: 48px 16px; }
-  .cta-btns { flex-direction: column; gap: 0; }
-  .btn-cta-outline { border-radius: 8px 8px 0 0; width: 240px; justify-content: center; }
-  .btn-cta-solid { border-radius: 0 0 8px 8px; width: 240px; justify-content: center; }
-  .cta-sep { width: 240px; height: 1px; }
-  footer { padding: 24px 16px 0; }
-  .footer-legal { justify-content: flex-start; }
-}
 </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
 <nav>
   <a class="logo" href="#">
-    <svg width="34" height="34" viewBox="0 0 36 36" fill="none">
-      <defs>
-        <radialGradient id="lg" cx="40%" cy="30%" r="70%">
-          <stop offset="0%" stop-color="#4ade80"/>
-          <stop offset="100%" stop-color="#16a34a"/>
-        </radialGradient>
-      </defs>
-      <path d="M18 2C18 2 4 10 4 21C4 28.7 10.3 35 18 35C25.7 35 32 28.7 32 21C32 10 18 2 18 2Z" fill="url(#lg)"/>
-      <path d="M18 8C15 14 12 18 12 22C12 26 14.5 29.5 18 31.5C14 28.5 13 25 14 21C15.5 16 18 8 18 8Z" fill="white" opacity="0.28"/>
-    </svg>
-    <span class="logo-wordmark">kowri</span>
+    <img src="07d3a4e2-8cf5-43b7-8c90-df4419da67de.jfif" alt="Kowri"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'"/>
+    <span class="logo-wordmark" style="display:none;">kowri</span>
   </a>
   <ul class="nav-links">
     <li><a href="#">Personal</a></li>
@@ -276,34 +251,20 @@ footer { background: #e5e7eb; padding: 36px 56px 0; }
   <button class="btn-solid" onclick="location.href='signup.html'">Get Kowri</button>
 </nav>
 
-<!-- ── SECTION 1: HERO ── -->
 <section class="hero">
-  <!-- ↓ REPLACE with your hero image URL -->
-  <img class="hero-bg" src="https://www.kowri.app/images/features/business/feature_kowri_protect.jpg" alt="Kowri hero"
-    onerror="this.style.display='none'"/>
-  <div class="hero-ph" id="heroPh">
-    <i class="fa-regular fa-image"></i>
-    Replace with your hero image
-  </div>
+  <img class="hero-bg" src="https://www.kowri.app/images/features/business/feature_kowri_protect.jpg" alt="Kowri hero" onerror="this.style.display='none'"/>
+  <div class="hero-ph" id="heroPh"><i class="fa-regular fa-image"></i>Replace with your hero image</div>
   <div class="hero-overlay">
     <h1>Join Kowri<br>rewards now</h1>
     <p>Double Up your small token Details and get Big Rewards from Kowri Investment</p>
-    <button class="btn-hero-signup" onclick="location.href='signup.html'">
-      Sign Up &rsaquo;
-    </button>
+    <button class="btn-hero-signup" onclick="location.href='signup.html'">Sign Up &rsaquo;</button>
   </div>
 </section>
 
-<!-- ── SECTION 2: BIG REWARDS ── -->
 <div class="rewards">
   <div class="rewards-img-wrap">
-    <!-- ↓ REPLACE with your rewards ad image URL -->
-    <img src="https://mainkowri.com/images/ad.jpeg" alt="Big Rewards"
-      onerror="this.style.display='none'"/>
-    <div class="rewards-img-ph">
-      <i class="fa-regular fa-image"></i>
-      Replace with your image
-    </div>
+    <img src="https://mainkowri.com/images/ad.jpeg" alt="Big Rewards" onerror="this.style.display='none'"/>
+    <div class="rewards-img-ph"><i class="fa-regular fa-image"></i>Replace with your image</div>
   </div>
   <div class="rewards-text">
     <h2>Big Rewards Awaits You!</h2>
@@ -314,36 +275,22 @@ footer { background: #e5e7eb; padding: 36px 56px 0; }
   </div>
 </div>
 
-<!-- ── SECTION 3: SECURE PLATFORM ── -->
 <div class="secure">
   <div class="secure-text">
     <h2>Secure Platform</h2>
-    <p>
-      DO NOT SEND MONEY TO ANYONE FOR THE KOWRI REWARD. PLEASE WATCH OUR OLD VIDEO EXPLAINING THE KOWRI UPDATE PROCESS AND FOLLOW THE INSTRUCTIONS CAREFULLY TO COMPLETE IT SUCCESSFULLY. PLEASE WATCH THE PREVIOUS VIDEO TO HELP YOU UNDERSTAND THE PROCEDURES. NOTE THAT MOST OF THE INFORMATION IN THE VIDEO HAS BEEN UPDATED; THEREFORE, REFER TO IT FOR GUIDANCE ON THE PROCEDURES ONLY. CLICK ON CONTACT SALES IF YOU FACE ANY CHALLENGES.
-    </p>
+    <p>DO NOT SEND MONEY TO ANYONE FOR THE KOWRI REWARD. PLEASE WATCH OUR OLD VIDEO EXPLAINING THE KOWRI UPDATE PROCESS AND FOLLOW THE INSTRUCTIONS CAREFULLY TO COMPLETE IT SUCCESSFULLY. PLEASE WATCH THE PREVIOUS VIDEO TO HELP YOU UNDERSTAND THE PROCEDURES. NOTE THAT MOST OF THE INFORMATION IN THE VIDEO HAS BEEN UPDATED; THEREFORE, REFER TO IT FOR GUIDANCE ON THE PROCEDURES ONLY. CLICK ON CONTACT SALES IF YOU FACE ANY CHALLENGES.</p>
   </div>
   <div class="secure-img-wrap">
-    <!-- ↓ REPLACE with your secure illustration URL -->
-    <img src="https://www.elegantthemes.com/blog/wp-content/uploads/2022/06/wordpress-secure.png" alt="Secure illustration"
-      onerror="this.style.display='none'"/>
-    <div class="secure-img-ph">
-      <i class="fa-regular fa-image"></i>
-      Replace with your illustration
-    </div>
+    <img src="https://www.elegantthemes.com/blog/wp-content/uploads/2022/06/wordpress-secure.png" alt="Secure illustration" onerror="this.style.display='none'"/>
+    <div class="secure-img-ph"><i class="fa-regular fa-image"></i>Replace with your illustration</div>
   </div>
 </div>
 
-<!-- ── SECTION 4: KB POS + QR CODES ── -->
 <div class="kbqr">
   <div class="kbqr-left">
     <div class="kbpos-img-wrap">
-      <!-- ↓ REPLACE with your KB POS image URL -->
-      <img src="https://mainkowri.com/images/kb.jpeg" alt="KB POS"
-        onerror="this.style.display='none'"/>
-      <div class="kbpos-img-ph">
-        <i class="fa-regular fa-image"></i>
-        Replace with<br>KB POS image
-      </div>
+      <img src="https://mainkowri.com/images/kb.jpeg" alt="KB POS" onerror="this.style.display='none'"/>
+      <div class="kbpos-img-ph"><i class="fa-regular fa-image"></i>Replace with<br>KB POS image</div>
     </div>
     <div class="kbpos-text">
       <h3>KB POS</h3>
@@ -352,13 +299,8 @@ footer { background: #e5e7eb; padding: 36px 56px 0; }
   </div>
   <div class="kbqr-right">
     <div class="qr-img-wrap">
-      <!-- ↓ REPLACE with your QR code image URL -->
-      <img src="https://mainkowri.com/images/qr.jpeg" alt="QR Code"
-        onerror="this.style.display='none'"/>
-      <div class="qr-img-ph">
-        <i class="fa-solid fa-qrcode"></i>
-        Replace with<br>QR code image
-      </div>
+      <img src="https://mainkowri.com/images/qr.jpeg" alt="QR Code" onerror="this.style.display='none'"/>
+      <div class="qr-img-ph"><i class="fa-solid fa-qrcode"></i>Replace with<br>QR code image</div>
     </div>
     <div class="qr-text">
       <h3>QR Codes</h3>
@@ -367,34 +309,21 @@ footer { background: #e5e7eb; padding: 36px 56px 0; }
   </div>
 </div>
 
-<!-- ── SECTION 5: GET STARTED + FOOTER ── -->
 <div class="cta-section">
   <h2>Get started with Kowri today</h2>
   <div class="cta-btns">
-    <a href="https://t.me/KOWRIAGENT" target="_blank" class="btn-cta-outline">
-      Contact Sales
-    </a>
+    <a href="https://t.me/KOWRIAGENT" target="_blank" class="btn-cta-outline">Contact Sales</a>
     <div class="cta-sep"></div>
-    <button class="btn-cta-solid" onclick="location.href='signup.html'">
-      Collect with Kowri
-    </button>
+    <button class="btn-cta-solid" onclick="location.href='signup.html'">Collect with Kowri</button>
   </div>
 </div>
 
 <footer>
   <div class="footer-main">
     <a class="footer-logo-wrap" href="#">
-      <svg width="30" height="30" viewBox="0 0 36 36" fill="none">
-        <defs>
-          <radialGradient id="lfG2" cx="40%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#4ade80"/>
-            <stop offset="100%" stop-color="#16a34a"/>
-          </radialGradient>
-        </defs>
-        <path d="M18 2C18 2 4 10 4 21C4 28.7 10.3 35 18 35C25.7 35 32 28.7 32 21C32 10 18 2 18 2Z" fill="url(#lfG2)"/>
-        <path d="M18 8C15 14 12 18 12 22C12 26 14.5 29.5 18 31.5C14 28.5 13 25 14 21C15.5 16 18 8 18 8Z" fill="white" opacity="0.28"/>
-      </svg>
-      <span style="font-family:'Sora',sans-serif;font-weight:800;font-size:18px;color:#111827;letter-spacing:-0.03em;">kowri</span>
+      <img src="07d3a4e2-8cf5-43b7-8c90-df4419da67de.jfif" alt="Kowri"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'"/>
+      <span style="display:none;font-family:'Sora',sans-serif;font-weight:800;font-size:18px;color:#111827;letter-spacing:-0.03em;">kowri</span>
     </a>
     <div class="footer-social">
       <a href="#"><i class="fa-brands fa-facebook"></i></a>
@@ -402,12 +331,8 @@ footer { background: #e5e7eb; padding: 36px 56px 0; }
       <a href="#"><i class="fa-brands fa-instagram"></i></a>
     </div>
     <nav class="footer-nav">
-      <a href="#">About</a>
-      <a href="#">Promos</a>
-      <a href="#">Blog</a>
-      <a href="#">Contact</a>
-      <a href="#">Marketplace</a>
-      <a href="#">Merchant API</a>
+      <a href="#">About</a><a href="#">Promos</a><a href="#">Blog</a>
+      <a href="#">Contact</a><a href="#">Marketplace</a><a href="#">Merchant API</a>
     </nav>
   </div>
   <div class="footer-legal">
@@ -416,18 +341,5 @@ footer { background: #e5e7eb; padding: 36px 56px 0; }
     <span>SEVN Ghana Limited trades as Kowri</span>
   </div>
 </footer>
-
-<script>
-// Show placeholder only if image fails to load
-document.querySelectorAll('img').forEach(img => {
-  if (img.src.includes('YOUR_')) return;
-  img.addEventListener('load', () => {
-    const ph = img.nextElementSibling;
-    if (ph && ph.classList.contains('rewards-img-ph') || ph && ph.classList.contains('hero-ph') || ph && ph.classList.contains('secure-img-ph') || ph && ph.classList.contains('kbpos-img-ph') || ph && ph.classList.contains('qr-img-ph')) {
-      ph.style.display = 'none';
-    }
-  });
-});
-</script>
 </body>
 </html>
