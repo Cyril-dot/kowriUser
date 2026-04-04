@@ -35,15 +35,48 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-submit:hover{background:#1e40af;}
 .btn-submit:disabled{opacity:.6;cursor:not-allowed;}
 .error{background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:12px 14px;font-size:13px;color:#991b1b;margin-bottom:16px;display:none;}
-.success-card{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:28px;text-align:center;display:none;}
-.success-card .s-icon{width:56px;height:56px;background:#1d4ed8;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
-.success-card h3{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#1e3a8a;margin-bottom:6px;}
-.success-card p{font-size:14px;color:#1e40af;}
-.success-card .btn-go{display:inline-block;margin-top:18px;background:#1d4ed8;color:#fff;font-family:'Sora',sans-serif;font-weight:700;padding:11px 24px;border-radius:9px;border:none;cursor:pointer;font-size:14px;}
 .info-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:14px 16px;font-size:13px;color:#166534;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;}
 .min-note{font-size:12px;color:var(--muted);margin-top:5px;}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── Modal overlay ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.show{opacity:1;pointer-events:all;}
+.modal-box{background:#fff;border-radius:20px;padding:36px 32px;max-width:400px;width:90%;text-align:center;transform:scale(.92) translateY(12px);transition:transform .3s;}
+.modal-overlay.show .modal-box{transform:scale(1) translateY(0);}
+.modal-icon{width:72px;height:72px;border-radius:50%;background:#eff6ff;border:3px solid #bfdbfe;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.modal-icon i{font-size:28px;color:#1d4ed8;}
+.modal-box h2{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#1e3a8a;margin-bottom:8px;}
+.modal-box .sub{font-size:14px;color:#6b7280;margin-bottom:24px;line-height:1.6;}
+
+/* Ring countdown */
+.ring-wrap{position:relative;width:110px;height:110px;margin:0 auto 20px;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-track{fill:none;stroke:#e5e7eb;stroke-width:7;}
+.ring-prog{fill:none;stroke:#1d4ed8;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .9s linear;}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring-center .mins{font-family:'Sora',sans-serif;font-size:24px;font-weight:800;color:#1d4ed8;line-height:1;}
+.ring-center .unit{font-size:11px;color:#6b7280;margin-top:2px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+
+.progress-bar-wrap{background:#e5e7eb;border-radius:99px;height:6px;margin-bottom:6px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:#1d4ed8;border-radius:99px;transition:width .9s linear;}
+.progress-label{font-size:12px;color:#6b7280;text-align:right;margin-bottom:20px;}
+
+.status-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;text-align:left;}
+.step-row{display:flex;align-items:center;gap:10px;font-size:13px;color:#374151;}
+.step-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-dot.done{background:#1d4ed8;}
+.step-dot.done i{color:#fff;font-size:9px;}
+.step-dot.active{background:#eff6ff;border:2px solid #1d4ed8;}
+.step-dot.active .pulse{width:8px;height:8px;border-radius:50%;background:#1d4ed8;animation:pulse 1.2s ease-in-out infinite;}
+.step-dot.pending{background:#f3f4f6;border:2px solid #e5e7eb;}
+.step-dot.pending span{width:8px;height:8px;border-radius:50%;background:#d1d5db;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.7);}}
+
+.btn-modal-close{width:100%;background:#1d4ed8;color:#fff;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:13px;border:none;border-radius:10px;cursor:pointer;transition:background .2s;}
+.btn-modal-close:hover{background:#1e40af;}
+
 @media(max-width:560px){.row2{grid-template-columns:1fr;}.body{padding:24px 16px;}.dash-nav{padding:12px 16px;}}
 </style>
 </head>
@@ -62,7 +95,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <p>Request a withdrawal to your mobile money or bank account</p>
   </div>
 
-  <!-- Live balance banner -->
   <div class="balance-banner" id="balance-banner">
     <i class="fa-solid fa-wallet" style="color:#1d4ed8;font-size:16px;"></i>
     <span class="bal-label">Available Balance</span>
@@ -70,13 +102,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 
   <div class="error" id="err-box"></div>
-
-  <div class="success-card" id="success-box">
-    <div class="s-icon"><i class="fa-solid fa-check" style="color:#fff;font-size:22px;"></i></div>
-    <h3>Withdrawal Requested!</h3>
-    <p>Your withdrawal request is pending admin approval. Funds will be sent to your account shortly.</p>
-    <button class="btn-go" onclick="location.href='dashboard.html'">Back to Dashboard</button>
-  </div>
 
   <div class="form-card" id="form-section">
     <div class="field">
@@ -122,10 +147,60 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
+<!-- ── Processing popup modal ── -->
+<div class="modal-overlay" id="processing-modal">
+  <div class="modal-box">
+    <div class="modal-icon">
+      <i class="fa-solid fa-clock"></i>
+    </div>
+    <h2>Processing Your Withdrawal</h2>
+    <p class="sub">Your request has been received and is being reviewed by our team. Funds will be sent to your account once approved.</p>
+
+    <!-- Ring timer -->
+    <div class="ring-wrap">
+      <svg width="110" height="110" viewBox="0 0 110 110">
+        <circle class="ring-track" cx="55" cy="55" r="48"/>
+        <circle class="ring-prog" id="ring-prog" cx="55" cy="55" r="48"/>
+      </svg>
+      <div class="ring-center">
+        <span class="mins" id="countdown-display">--</span>
+        <span class="unit">min left</span>
+      </div>
+    </div>
+
+    <!-- Linear progress -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
+    </div>
+    <p class="progress-label" id="prog-label">Estimated wait: calculating…</p>
+
+    <!-- Status steps -->
+    <div class="status-steps">
+      <div class="step-row">
+        <div class="step-dot done"><i class="fa-solid fa-check"></i></div>
+        <span>Withdrawal request submitted</span>
+      </div>
+      <div class="step-row">
+        <div class="step-dot active"><div class="pulse"></div></div>
+        <span>Admin review in progress</span>
+      </div>
+      <div class="step-row">
+        <div class="step-dot pending"><span></span></div>
+        <span>Funds disbursed to your account</span>
+      </div>
+    </div>
+
+    <button class="btn-modal-close" onclick="goHome()">
+      <i class="fa-solid fa-house"></i> Back to Dashboard
+    </button>
+  </div>
+</div>
+
 <script>
 const API = 'https://kowriwebbackend.onrender.com';
 const MIN_WITHDRAWAL = 2000;
 let currentBalance = 0;
+let countdownInterval = null;
 
 async function init() {
   const stored = localStorage.getItem('kowri_user');
@@ -146,15 +221,12 @@ async function init() {
       const formatted = currentBalance.toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       document.getElementById('bal-display').textContent = 'GH₵ ' + formatted;
 
-      // ── FIX: Show clear message if balance is below the minimum withdrawal ──
       const errBox = document.getElementById('err-box');
       if (currentBalance < MIN_WITHDRAWAL) {
         const needed = (MIN_WITHDRAWAL - currentBalance).toLocaleString('en-GH', { minimumFractionDigits: 2 });
         errBox.textContent   = `Minimum withdrawal is GH₵ 2,000.00. You need GH₵ ${needed} more to make a withdrawal.`;
         errBox.style.display = 'block';
         document.getElementById('wit-btn').disabled = true;
-
-        // Turn balance banner red
         document.getElementById('bal-display').style.color = '#dc2626';
         document.getElementById('balance-banner').style.background = '#fef2f2';
         document.getElementById('balance-banner').style.borderColor = '#fca5a5';
@@ -171,6 +243,58 @@ async function init() {
   }
 }
 
+function startCountdown(totalMinutes) {
+  const circumference = 2 * Math.PI * 48; // r=48
+  const ring = document.getElementById('ring-prog');
+  ring.style.strokeDasharray = circumference;
+  ring.style.strokeDashoffset = 0;
+
+  let totalSeconds = totalMinutes * 60;
+  const startSeconds = totalSeconds;
+
+  function tick() {
+    const minsLeft = Math.ceil(totalSeconds / 60);
+    const elapsed  = startSeconds - totalSeconds;
+    const pct      = (elapsed / startSeconds) * 100;
+
+    document.getElementById('countdown-display').textContent = minsLeft;
+    document.getElementById('prog-bar').style.width = pct.toFixed(1) + '%';
+    document.getElementById('prog-label').textContent =
+      `Estimated wait: ~${minsLeft} minute${minsLeft !== 1 ? 's' : ''} remaining`;
+
+    // ring: dashoffset shrinks as time passes
+    ring.style.strokeDashoffset = circumference * (1 - elapsed / startSeconds);
+
+    if (totalSeconds <= 0) {
+      clearInterval(countdownInterval);
+      document.getElementById('countdown-display').textContent = '0';
+      document.getElementById('prog-bar').style.width = '100%';
+      document.getElementById('prog-label').textContent = 'Processing complete — funds being disbursed.';
+      // Activate last step
+      const steps = document.querySelectorAll('.step-dot');
+      steps[1].className = 'step-dot done';
+      steps[1].innerHTML = '<i class="fa-solid fa-check" style="color:#fff;font-size:9px;"></i>';
+      steps[2].className = 'step-dot done';
+      steps[2].innerHTML = '<i class="fa-solid fa-check" style="color:#fff;font-size:9px;"></i>';
+    }
+    totalSeconds--;
+  }
+
+  tick();
+  countdownInterval = setInterval(tick, 1000);
+}
+
+function showModal() {
+  const waitMinutes = Math.floor(Math.random() * 51) + 10; // 10–60
+  document.getElementById('processing-modal').classList.add('show');
+  startCountdown(waitMinutes);
+}
+
+function goHome() {
+  clearInterval(countdownInterval);
+  location.href = 'dashboard.html';
+}
+
 async function doWithdraw() {
   const btn    = document.getElementById('wit-btn');
   const errBox = document.getElementById('err-box');
@@ -182,7 +306,6 @@ async function doWithdraw() {
   const accountNumber   = document.getElementById('accountNumber').value.trim();
   const amount          = parseFloat(document.getElementById('amount').value);
 
-  // ── Validation ──
   if (!accountName || !agentService || !networkProvider || !accountNumber || !amount) {
     errBox.textContent   = 'Please fill in all fields.';
     errBox.style.display = 'block';
@@ -193,15 +316,11 @@ async function doWithdraw() {
     errBox.style.display = 'block';
     return;
   }
-
-  // ── FIX: Client-side minimum withdrawal check ──
   if (amount < MIN_WITHDRAWAL) {
     errBox.textContent   = `Minimum withdrawal amount is GH₵ 2,000.00. You entered GH₵ ${amount.toLocaleString('en-GH', { minimumFractionDigits: 2 })}.`;
     errBox.style.display = 'block';
     return;
   }
-
-  // ── Client-side balance guard ──
   if (currentBalance > 0 && amount > currentBalance) {
     errBox.textContent   = `Insufficient balance. Your available balance is GH₵ ${currentBalance.toLocaleString('en-GH', { minimumFractionDigits: 2 })}.`;
     errBox.style.display = 'block';
@@ -222,9 +341,6 @@ async function doWithdraw() {
       body:    JSON.stringify({ accountName, agentService, networkProvider, accountNumber, amount })
     });
 
-    // ── FIX: Parse error message from backend properly ──
-    // Backend now returns 400 with { "message": "..." } for business errors
-    // instead of a generic 500
     let data = {};
     try { data = await res.json(); } catch(_) {}
 
@@ -232,9 +348,8 @@ async function doWithdraw() {
       throw new Error(data.message || 'Withdrawal request failed. Please try again.');
     }
 
-    document.getElementById('form-section').style.display    = 'none';
-    document.getElementById('balance-banner').style.display  = 'none';
-    document.getElementById('success-box').style.display     = 'block';
+    // ── Show countdown modal on success ──
+    showModal();
 
   } catch(e) {
     errBox.textContent   = e.message;
