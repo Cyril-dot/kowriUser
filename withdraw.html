@@ -67,7 +67,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .balance-banner.low .bb-amount{color:#ea580c;}
 .balance-banner.zero .bb-amount{color:#dc2626;}
 
-/* Notice card — updated */
+/* Notice card */
 .notice-card{
   background:var(--green-light);border:1.5px solid #86efac;border-radius:var(--radius);
   padding:20px;margin-bottom:22px;display:flex;gap:14px;
@@ -106,6 +106,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .field textarea{resize:vertical;min-height:80px;}
 .field-hint{font-size:11px;color:var(--muted);margin-top:4px;}
 .field-error{font-size:11px;color:#dc2626;margin-top:4px;display:none;font-weight:600;}
+
 
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 
@@ -254,14 +255,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <span id="err-msg"></span>
   </div>
 
-  <!-- Notice card — updated message -->
+  <!-- Notice card -->
   <div class="notice-card">
     <div class="notice-icon"><i class="fa-solid fa-coins"></i></div>
     <div class="notice-body">
       <h4><i class="fa-solid fa-circle-info"></i> Important — Please Read</h4>
-    <p>
-  Before submitting your withdrawal request, please ensure your Mobile Money or bank account details are correct. Withdrawals are typically processed within <strong>15–30 minutes</strong> after approval. Thank you for choosing <strong>KOWRI GHANA</strong>.
-</p>    </div>
+      <p>
+        Before submitting your withdrawal request, please ensure your Mobile Money or bank account details are correct. Withdrawals are typically processed within <strong>15–30 minutes</strong> after approval. Thank you for choosing <strong>KOWRI GHANA</strong>.
+      </p>
+    </div>
   </div>
 
   <div class="form-card" id="form-section">
@@ -327,7 +329,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
     <div class="field">
       <label>Additional Note <span style="font-weight:400;color:var(--muted);font-size:12px;">(optional)</span></label>
-      <textarea id="note" placeholder="Any additional info for the admin (e.g. urgency, alternate contact)…"></textarea>
+      <textarea id="note" placeholder="Any additional info for the admin (e.g. urgency, alternate contact)…" oninput="enforceNoteLimit(this)"></textarea>
     </div>
 
     <button class="btn-submit" id="wit-btn" onclick="doWithdraw()">
@@ -385,8 +387,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <script>
 const API = 'https://kowriwebbackend-production.up.railway.app';
 const MIN_WITHDRAWAL = 2000;
+const NOTE_MAX = 80;
 let currentBalance = 0;
 let countdownInterval = null;
+
+function enforceNoteLimit(el){
+  if(el.value.length > NOTE_MAX){
+    el.value = el.value.slice(0, NOTE_MAX);
+  }
+}
 
 async function init(){
   const stored = localStorage.getItem('kowri_user');
@@ -473,7 +482,6 @@ function startCountdown(totalMinutes){
 }
 
 function showModal(){
-  // Fixed 15–30 min range to match the notice card message
   const wait = Math.floor(Math.random() * 16) + 15;
   document.getElementById('processing-modal').classList.add('show');
   startCountdown(wait);
