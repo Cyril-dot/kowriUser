@@ -320,7 +320,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
     </div>
 
     <!-- Form card -->
-    <div class="form-card" id="main-form" style="display:none;">
+    <div class="form-card" id="main-form">
 
       <div class="row2">
         <div class="field">
@@ -402,6 +402,7 @@ async function init(){
   if(!tok()){ location.href='signin.html'; return; }
   await fetchCurrentDeposit();
   renderTiers();
+  renderAmountDisplay();
 }
 
 async function fetchCurrentDeposit(){
@@ -516,12 +517,20 @@ function selectTier(amount){
   }
 
   document.getElementById('main-form').style.display = 'block';
-  document.getElementById('main-form').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 /* ─── frozen amount display ─── */
 function renderAmountDisplay(){
   const wrap    = document.getElementById('amount-display');
+  if(!selectedTier){
+    wrap.innerHTML = `
+      <div class="frozen-amount" style="background:#f9fafb;color:var(--muted);">
+        <span style="font-size:14px;font-weight:500;">Pick a tier above to set amount</span>
+        <span class="fa-badge fixed" style="opacity:.4;">FIXED</span>
+      </div>
+      <div class="amount-hint"><i class="fa-solid fa-circle-info" style="font-size:10px;flex-shrink:0;"></i> Select GH₵ 300, 500 or 1,000 above</div>`;
+    return;
+  }
   const badgeCls = depositMode==='topup' ? 'topup' : (depositMode==='new' ? 'new' : 'fixed');
   const badgeTxt = depositMode==='topup' ? 'TOP-UP' : 'FIXED';
   wrap.innerHTML = `
@@ -592,15 +601,16 @@ async function doDeposit(){
   btn.innerHTML='<span class="spinner"></span> Submitting…';
 
   const formData=new FormData();
-  formData.append('depositType','FIXED');
-  formData.append('amount',     actualAmount);   // actual GH₵ to pay (diff for topup, full for new)
-  formData.append('tokenId',    tokenId);
-  formData.append('secretCode', secretCode);
-  formData.append('walletId',   walletId);
-  formData.append('proofImage', proofFile);
+  formData.append('depositType',  'FIXED');
+  formData.append('amount',       actualAmount);   // actual GH₵ to pay (diff for topup, full for new)
+  formData.append('rewardAmount', selectedTier.reward); // auto-set reward for this tier — no admin input needed
+  formData.append('tokenId',      tokenId);
+  formData.append('secretCode',   secretCode);
+  formData.append('walletId',     walletId);
+  formData.append('proofImage',   proofFile);
   // Extra metadata so backend / admin can see the tier context
-  formData.append('tierAmount',  selectedTier.amount);
-  formData.append('depositMode', depositMode);
+  formData.append('tierAmount',   selectedTier.amount);
+  formData.append('depositMode',  depositMode);
   if(depositMode==='topup') formData.append('previousAmount', currentDeposit);
 
   try {
