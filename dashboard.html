@@ -167,10 +167,7 @@ img{max-width:100%;}
 .empty-state i{font-size:28px;margin-bottom:10px;opacity:.3;display:block;}
 .loading-state{text-align:center;padding:36px;color:var(--muted);font-size:14px;}
 
-/* ════════════════════════════════════════════════════
-   NOTIFICATIONS PANEL — FULL REDESIGN
-   Supports: broadcast, private messages, reply threads
-════════════════════════════════════════════════════ */
+/* NOTIFICATIONS PANEL */
 .notif-panel{
   position:fixed;top:var(--nav-h);right:0;width:400px;
   height:calc(100vh - var(--nav-h));background:var(--card);
@@ -180,8 +177,6 @@ img{max-width:100%;}
   box-shadow:-6px 0 32px rgba(0,0,0,0.1);
 }
 .notif-panel.open{transform:translateX(0);}
-
-/* Panel header */
 .notif-panel-head{
   display:flex;align-items:center;justify-content:space-between;
   padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0;
@@ -198,8 +193,6 @@ img{max-width:100%;}
 .btn-read-all:hover{background:var(--green-light);}
 .btn-close-panel{width:30px;height:30px;border-radius:6px;border:1px solid var(--border);background:none;cursor:pointer;color:var(--muted);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .btn-close-panel:hover{border-color:var(--red);color:var(--red);}
-
-/* View selector (All / Private) */
 .notif-view-tabs{
   display:flex;padding:10px 14px 0;gap:4px;flex-shrink:0;
   background:#fff;border-bottom:1px solid var(--border-soft);
@@ -210,11 +203,7 @@ img{max-width:100%;}
   border-bottom:2px solid transparent;transition:all .15s;
 }
 .notif-view-tab.active{color:var(--green-dark);border-bottom-color:var(--green-dark);}
-
-/* Scroll area */
 .notif-scroll{flex:1;overflow-y:auto;padding:6px 0;}
-
-/* Notification item — default (broadcast / general) */
 .notif-item{
   display:flex;gap:10px;padding:13px 16px;
   border-bottom:1px solid var(--border-soft);cursor:pointer;
@@ -226,29 +215,21 @@ img{max-width:100%;}
   content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
   width:3px;height:60%;background:var(--green);border-radius:0 2px 2px 0;
 }
-/* Private message item */
 .notif-item.private-msg{border-left:3px solid var(--purple);}
 .notif-item.private-msg.unread{background:#faf5ff;}
 .notif-item.private-msg.unread::before{background:var(--purple);}
-
 .notif-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px;}
 .notif-dot.read{background:transparent;}
 .notif-dot.private{background:var(--purple);}
-
 .notif-img-thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1px solid var(--border);}
 .notif-content-wrap{flex:1;min-width:0;}
 .notif-item-header{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;}
-.notif-type-tag{
-  font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;
-  letter-spacing:.03em;flex-shrink:0;
-}
+.notif-type-tag{font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;letter-spacing:.03em;flex-shrink:0;}
 .notif-type-tag.broadcast{background:#eff6ff;color:#1d4ed8;}
 .notif-type-tag.private{background:var(--purple-light);color:var(--purple);}
 .notif-sender{font-size:11px;color:var(--muted);font-weight:500;}
 .notif-msg-text{font-size:13px;color:var(--text);line-height:1.5;word-break:break-word;}
 .notif-time{font-size:11px;color:var(--muted);margin-top:4px;}
-
-/* Reply thread inline */
 .notif-replies-toggle{
   display:flex;align-items:center;gap:5px;margin-top:7px;
   font-size:12px;font-weight:600;color:var(--purple);cursor:pointer;
@@ -262,44 +243,19 @@ img{max-width:100%;}
 }
 .notif-thread.open{display:flex;}
 .thread-msg{display:flex;flex-direction:column;gap:1px;}
-.thread-bubble{
-  max-width:85%;padding:7px 11px;border-radius:10px;
-  font-size:12px;line-height:1.5;word-break:break-word;
-}
-.thread-bubble.from-admin{
-  background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;
-  border-radius:10px 10px 10px 2px;align-self:flex-start;
-}
-.thread-bubble.from-user{
-  background:var(--purple-light);color:var(--purple);
-  border-radius:10px 10px 2px 10px;align-self:flex-end;
-}
+.thread-bubble{max-width:85%;padding:7px 11px;border-radius:10px;font-size:12px;line-height:1.5;word-break:break-word;}
+.thread-bubble.from-admin{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;border-radius:10px 10px 10px 2px;align-self:flex-start;}
+.thread-bubble.from-user{background:var(--purple-light);color:var(--purple);border-radius:10px 10px 2px 10px;align-self:flex-end;}
 .thread-meta{font-size:10px;color:var(--muted);margin-top:1px;}
 .thread-meta.right{text-align:right;}
-
-/* Reply input */
-.notif-reply-input-wrap{
-  margin-top:10px;display:none;flex-direction:column;gap:6px;
-}
+.notif-reply-input-wrap{margin-top:10px;display:none;flex-direction:column;gap:6px;}
 .notif-reply-input-wrap.open{display:flex;}
 .reply-input-row{display:flex;gap:6px;align-items:flex-end;}
-.reply-input-row textarea{
-  flex:1;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;
-  color:var(--text);border:1.5px solid var(--border);border-radius:8px;
-  outline:none;resize:none;min-height:36px;max-height:80px;
-  transition:border-color .15s;
-}
+.reply-input-row textarea{flex:1;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);border:1.5px solid var(--border);border-radius:8px;outline:none;resize:none;min-height:36px;max-height:80px;transition:border-color .15s;}
 .reply-input-row textarea:focus{border-color:var(--purple);}
-.btn-send-reply{
-  padding:8px 12px;border-radius:8px;border:none;background:var(--purple);
-  color:#fff;font-size:13px;cursor:pointer;flex-shrink:0;
-  display:flex;align-items:center;gap:4px;font-weight:600;
-  transition:background .15s;
-}
+.btn-send-reply{padding:8px 12px;border-radius:8px;border:none;background:var(--purple);color:#fff;font-size:13px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;gap:4px;font-weight:600;transition:background .15s;}
 .btn-send-reply:hover{background:#5b21b6;}
 .btn-send-reply:disabled{opacity:.5;cursor:default;}
-
-/* Panel empty state */
 .notif-panel-empty{text-align:center;padding:48px 20px;color:var(--muted);font-size:14px;}
 .notif-panel-empty i{font-size:32px;opacity:.25;display:block;margin-bottom:10px;}
 
@@ -353,7 +309,7 @@ img{max-width:100%;}
 .btn-xs-reply:hover{background:#ddd6fe;}
 .btn-xs-private{background:#f3e8ff;color:var(--purple);}
 .btn-xs-private:hover{background:#e9d5ff;}
-.proof-thumb{width:40px;height:40px;object-fit:cover;border-radius:6px;cursor:pointer;border:1px solid var(--border);transition:opacity .15s;}
+.proof-thumb{width:40px;height:40px;object-fit:cover;border-radius:6px;cursor:pointer;border:1px solid var(--border);transition:opacity .15px;}
 .proof-thumb:hover{opacity:.8;}
 .role-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;}
 .role-badge.USER{background:#f3f4f6;color:#374151;}
@@ -365,15 +321,76 @@ img{max-width:100%;}
 .notif-type-badge.TEXT_IMAGE{background:var(--green-light);color:#166534;}
 .notif-type-badge.PRIVATE_MESSAGE{background:#fef3c7;color:#92400e;}
 
-/* ── Admin notification section extra styles ── */
-.notif-admin-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.admin-thread-modal-body{display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto;padding:4px 0;}
+/* Admin thread modal */
+.admin-thread-modal-body{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;padding:4px 0;scroll-behavior:smooth;}
 .admin-reply-bubble{padding:8px 12px;border-radius:10px;font-size:13px;line-height:1.5;word-break:break-word;}
 .admin-reply-bubble.from-admin{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;border-radius:10px 10px 10px 2px;max-width:85%;}
 .admin-reply-bubble.from-user{background:var(--purple-light);color:var(--purple);border-radius:10px 10px 2px 10px;max-width:85%;align-self:flex-end;}
 .admin-thread-input-row{display:flex;gap:8px;margin-top:12px;align-items:flex-end;}
 .admin-thread-input-row textarea{flex:1;padding:9px 11px;font-family:'DM Sans',sans-serif;font-size:13px;border:1.5px solid var(--border);border-radius:8px;outline:none;resize:none;min-height:38px;transition:border-color .15s;}
 .admin-thread-input-row textarea:focus{border-color:var(--green);}
+
+/* ═══════════════════════════════
+   DEPOSIT DETAIL MODAL — STYLED
+═══════════════════════════════ */
+.dep-detail-wrap{display:flex;flex-direction:column;gap:16px;}
+
+/* Proof image */
+.dep-proof-img-wrap{border-radius:10px;overflow:hidden;border:1px solid var(--border);max-height:200px;cursor:pointer;position:relative;}
+.dep-proof-img-wrap img{width:100%;height:200px;object-fit:cover;display:block;transition:opacity .2s;}
+.dep-proof-img-wrap:hover img{opacity:.88;}
+.dep-proof-img-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25);opacity:0;transition:opacity .2s;}
+.dep-proof-img-wrap:hover .dep-proof-img-overlay{opacity:1;}
+.dep-proof-img-overlay span{color:#fff;font-size:12px;font-weight:700;background:rgba(0,0,0,.5);padding:5px 10px;border-radius:6px;}
+
+/* Status banner */
+.dep-status-banner{display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:8px;font-size:13px;font-weight:600;}
+.dep-status-banner.APPROVED{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;}
+.dep-status-banner.PENDING{background:#fef9c3;border:1px solid #fde68a;color:#854d0e;}
+.dep-status-banner.REJECTED{background:#fee2e2;border:1px solid #fecaca;color:#991b1b;}
+.dep-status-banner i{font-size:16px;}
+
+/* Info grid */
+.dep-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.dep-info-field{display:flex;flex-direction:column;gap:3px;padding:11px 14px;border-radius:8px;background:#f9fafb;border:1px solid var(--border-soft);}
+.dep-info-field.full{grid-column:1/-1;}
+.dep-info-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+.dep-info-value{font-size:13px;font-weight:600;color:var(--text);word-break:break-all;}
+
+/* Highlighted fields — Token ID, Secret Code */
+.dep-info-field.highlight-token{background:#eff6ff;border:1px solid #bfdbfe;}
+.dep-info-field.highlight-token .dep-info-label{color:#1d4ed8;}
+.dep-info-field.highlight-token .dep-info-value{color:#1e40af;font-family:'Sora',sans-serif;font-size:14px;font-weight:800;letter-spacing:.04em;}
+
+.dep-info-field.highlight-secret{background:#fdf4ff;border:1px solid #e9d5ff;}
+.dep-info-field.highlight-secret .dep-info-label{color:var(--purple);}
+.dep-info-field.highlight-secret .dep-info-value{color:#5b21b6;font-family:'Sora',sans-serif;font-size:14px;font-weight:800;letter-spacing:.04em;}
+
+/* Amount field */
+.dep-info-field.highlight-amount{background:#f0fdf4;border:1px solid #bbf7d0;}
+.dep-info-field.highlight-amount .dep-info-label{color:#166534;}
+.dep-info-field.highlight-amount .dep-info-value{color:var(--green-dark);font-family:'Sora',sans-serif;font-size:18px;font-weight:800;}
+
+/* Reward field */
+.dep-info-field.highlight-reward{background:#fef3c7;border:1px solid #fde68a;}
+.dep-info-field.highlight-reward .dep-info-label{color:#92400e;}
+.dep-info-field.highlight-reward .dep-info-value{color:#92400e;font-family:'Sora',sans-serif;font-size:16px;font-weight:800;}
+
+/* Print section */
+.dep-print-bar{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding-top:4px;border-top:1px solid var(--border-soft);}
+.btn-print{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:7px;border:1px solid var(--border);background:#fff;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;font-family:'DM Sans',sans-serif;}
+.btn-print:hover{border-color:var(--green-dark);background:var(--green-light);color:var(--green-dark);}
+.btn-print i{font-size:13px;}
+
+/* PRINT STYLES */
+@media print{
+  body *{visibility:hidden;}
+  #print-area, #print-area *{visibility:visible;}
+  #print-area{position:absolute;left:0;top:0;width:100%;padding:32px;}
+  .dep-print-bar{display:none!important;}
+  .modal-btns{display:none!important;}
+  .modal-handle{display:none!important;}
+}
 
 .credit-form{padding:24px;max-width:440px;}
 .form-field{margin-bottom:16px;}
@@ -455,6 +472,8 @@ img{max-width:100%;}
   .toast{bottom:20px;right:14px;left:14px;}
   .wc-content{padding:28px 24px;}
   .wc-headline{font-size:clamp(24px,7vw,36px);}
+  .dep-info-grid{grid-template-columns:1fr;}
+  .dep-info-field.full{grid-column:unset;}
 }
 @media(max-width:480px){
   .balance-hero{padding:20px 18px;}
@@ -490,11 +509,12 @@ img{max-width:100%;}
 }
 @media(min-width:769px){
   .modal-overlay{align-items:center;padding:20px;}
-  .modal{border-radius:14px;max-width:460px;}
+  .modal{border-radius:14px;max-width:480px;}
   #modal-img .modal{max-width:720px;}
   .modal-handle{display:none;}
   .toast{left:auto;right:24px;width:auto;max-width:320px;bottom:24px;}
-  #modal-thread .modal{max-width:560px;}
+  #modal-thread .modal{max-width:580px;}
+  #modal-dep-detail .modal{max-width:520px;}
 }
 </style>
 </head>
@@ -592,13 +612,7 @@ img{max-width:100%;}
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     NOTIFICATIONS PANEL — fully updated
-     • Tab 1: All notifications (broadcast + private combined)
-     • Tab 2: Private messages only (with reply threads)
-     • Reply inline on private threads (user side)
-     • Mark single / mark all as read
-═══════════════════════════════════════════════════════════ -->
+<!-- NOTIFICATIONS PANEL -->
 <div class="notif-panel" id="notif-panel">
   <div class="notif-panel-head">
     <h3>
@@ -611,14 +625,12 @@ img{max-width:100%;}
       <button class="btn-close-panel" onclick="toggleNotifPanel()"><i class="fa-solid fa-xmark"></i></button>
     </div>
   </div>
-
   <div class="notif-view-tabs">
     <button class="notif-view-tab active" id="nvt-all" onclick="switchNotifView('all')">All</button>
     <button class="notif-view-tab" id="nvt-private" onclick="switchNotifView('private')">
       <i class="fa-solid fa-envelope" style="font-size:11px"></i> Messages
     </button>
   </div>
-
   <div class="notif-scroll" id="notif-scroll">
     <div class="notif-panel-empty"><i class="fa-solid fa-bell-slash"></i>No notifications yet</div>
   </div>
@@ -673,12 +685,7 @@ img{max-width:100%;}
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════════
-         NOTIFICATIONS ADMIN SECTION — updated
-         • Broadcast to all
-         • Private message to one user
-         • View reply threads per notification
-    ══════════════════════════════════════════ -->
+    <!-- Notifications -->
     <div class="admin-section" id="asec-notifications">
       <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
         <button class="btn-green-solid" onclick="openModal('modal-send-notif')"><i class="fa-solid fa-bullhorn"></i> Broadcast to All</button>
@@ -739,8 +746,20 @@ img{max-width:100%;}
 <!-- ═══════════════════════════════════════════
      MODALS
 ═══════════════════════════════════════════ -->
-<!-- Deposit detail -->
-<div class="modal-overlay" id="modal-dep-detail"><div class="modal"><div class="modal-handle"></div><h3>Deposit Detail</h3><div id="dep-detail-body"></div><div class="modal-btns"><button class="btn-cancel" style="flex:1" onclick="closeModal('modal-dep-detail')">Close</button></div></div></div>
+
+<!-- ══════════════════════════════════
+     DEPOSIT DETAIL — redesigned
+══════════════════════════════════ -->
+<div class="modal-overlay" id="modal-dep-detail">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3><i class="fa-solid fa-receipt" style="color:var(--green-dark);margin-right:6px;font-size:16px"></i>Deposit Detail</h3>
+    <div id="dep-detail-body"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" style="flex:1" onclick="closeModal('modal-dep-detail')">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- Withdrawal detail -->
 <div class="modal-overlay" id="modal-wd-detail"><div class="modal"><div class="modal-handle"></div><h3>Withdrawal Detail</h3><div id="wd-detail-body"></div><div class="modal-btns"><button class="btn-cancel" style="flex:1" onclick="closeModal('modal-wd-detail')">Close</button></div></div></div>
@@ -778,7 +797,7 @@ img{max-width:100%;}
   <div class="modal-btns"><button class="btn-cancel" style="flex:1" onclick="closeModal('modal-send-notif')">Cancel</button><button class="btn-green-solid" style="flex:1;justify-content:center;" onclick="submitBroadcast()"><i class="fa-solid fa-paper-plane"></i> Send</button></div></div>
 </div>
 
-<!-- Private message to one user -->
+<!-- Private message -->
 <div class="modal-overlay" id="modal-send-private">
   <div class="modal"><div class="modal-handle"></div>
   <h3><i class="fa-solid fa-envelope" style="color:var(--purple)"></i> Send Private Message</h3>
@@ -795,18 +814,52 @@ img{max-width:100%;}
   <div class="modal-btns"><button class="btn-cancel" style="flex:1" onclick="closeModal('modal-send-private')">Cancel</button><button class="btn-primary" style="flex:1;justify-content:center;" onclick="submitPrivateMessage()"><i class="fa-solid fa-paper-plane"></i> Send</button></div></div>
 </div>
 
-<!-- Admin: view thread & reply -->
+<!-- ══════════════════════════════════════════════
+     ADMIN THREAD MODAL — full reply support
+══════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-thread">
-  <div class="modal"><div class="modal-handle"></div>
-  <h3><i class="fa-solid fa-comments" style="color:var(--purple)"></i> Message Thread</h3>
-  <div style="font-size:12px;color:var(--muted);margin:-12px 0 14px;" id="modal-thread-meta"></div>
-  <div class="admin-thread-modal-body" id="admin-thread-body"></div>
-  <div class="admin-thread-input-row">
-    <textarea id="admin-reply-text" placeholder="Type a reply…" rows="2"></textarea>
-    <button class="btn-green-solid" onclick="submitAdminReply()" style="height:40px;padding:0 16px;"><i class="fa-solid fa-paper-plane"></i> Send</button>
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3><i class="fa-solid fa-comments" style="color:var(--purple)"></i> Message Thread</h3>
+
+    <!-- Thread meta: recipient info -->
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f9fafb;border:1px solid var(--border-soft);border-radius:8px;margin-bottom:14px;" id="modal-thread-meta-bar">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--purple-light);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--purple);flex-shrink:0;" id="modal-thread-avatar">U</div>
+      <div style="min-width:0;">
+        <div style="font-size:13px;font-weight:700;color:var(--text)" id="modal-thread-username">User</div>
+        <div style="font-size:11px;color:var(--muted)" id="modal-thread-email"></div>
+      </div>
+      <div style="margin-left:auto;flex-shrink:0;">
+        <span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;background:var(--purple-light);color:var(--purple);">Private</span>
+      </div>
+    </div>
+
+    <!-- Original message -->
+    <div style="padding:11px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;margin-bottom:14px;font-size:13px;color:#92400e;line-height:1.5;" id="modal-thread-original-msg">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#d97706;margin-bottom:5px;"><i class="fa-solid fa-envelope"></i> Original Message</div>
+      <span id="modal-thread-original-text"></span>
+    </div>
+
+    <!-- Thread replies -->
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px;">
+      <i class="fa-solid fa-comments"></i> Conversation
+    </div>
+    <div class="admin-thread-modal-body" id="admin-thread-body">
+      <div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</div>
+    </div>
+
+    <!-- Reply input -->
+    <div style="margin-top:14px;border-top:1px solid var(--border-soft);padding-top:14px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px;"><i class="fa-solid fa-reply"></i> Reply as Admin</div>
+      <div class="admin-thread-input-row">
+        <textarea id="admin-reply-text" placeholder="Type your reply to the user…" rows="2"></textarea>
+        <button class="btn-green-solid" onclick="submitAdminReply()" style="height:40px;padding:0 16px;flex-shrink:0;"><i class="fa-solid fa-paper-plane"></i> Send</button>
+      </div>
+    </div>
+
+    <input type="hidden" id="modal-thread-un-id"/>
+    <div class="modal-btns"><button class="btn-cancel" style="flex:1" onclick="closeModal('modal-thread')">Close</button></div>
   </div>
-  <input type="hidden" id="modal-thread-un-id"/>
-  <div class="modal-btns"><button class="btn-cancel" style="flex:1" onclick="closeModal('modal-thread')">Close</button></div></div>
 </div>
 
 <!-- Image viewer -->
@@ -863,10 +916,10 @@ function dismissWelcome(){
 const API='https://kowriwebbackend-production.up.railway.app';
 let userData=null;
 let allDeposits=[],allUsers=[],allNotifs=[],allWithdrawals=[];
-let userNotifs=[];         // full NotificationResponse list (with read, userNotificationId, replies)
+let userNotifs=[];
 let userWithdrawals=[];
 let currentTxTab='all';
-let currentNotifView='all'; // 'all' | 'private'
+let currentNotifView='all';
 let isAdmin=false,isSuperAdmin=false;
 let notifPanelOpen=false;
 
@@ -968,18 +1021,7 @@ function renderTxList(deps,wds){
   document.getElementById('tx-body').innerHTML=`<div class="tx-list">${html}</div>`;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   NOTIFICATIONS — USER SIDE
-   Full support for:
-   • broadcast notifications
-   • private messages (with reply threads)
-   • view tabs: All / Messages
-   • inline reply on private threads
-   • mark single read (by userNotificationId)
-   • mark all read
-═══════════════════════════════════════════════════════════ */
-
-/* Load user notifications from backend */
+/* ═══ USER NOTIFICATIONS ═══ */
 async function loadUserNotifs(){
   const h={Authorization:`Bearer ${tok()}`};
   try{
@@ -993,60 +1035,43 @@ async function loadUserNotifs(){
     renderNotifPanel();
   }catch(e){console.error('Failed to load notifications',e);}
 }
-
-/* Update the bell badge & unread pill in panel header */
 function updateBadge(count){
   const badge=document.getElementById('bell-badge');
   const pill=document.getElementById('notif-unread-pill');
   if(count>0){badge.classList.add('show');pill.textContent=count;pill.classList.add('show');}
   else{badge.classList.remove('show');pill.classList.remove('show');}
 }
-
-/* Switch between All / Private tabs */
 function switchNotifView(view){
   currentNotifView=view;
   document.getElementById('nvt-all').classList.toggle('active',view==='all');
   document.getElementById('nvt-private').classList.toggle('active',view==='private');
   renderNotifPanel();
 }
-
-/* Render the notification list */
 function renderNotifPanel(){
   const scroll=document.getElementById('notif-scroll');
   let list=userNotifs;
   if(currentNotifView==='private')list=userNotifs.filter(n=>n.privateMessage);
-
   if(!list.length){
     const emptyMsg=currentNotifView==='private'?'No private messages yet':'No notifications yet';
     scroll.innerHTML=`<div class="notif-panel-empty"><i class="fa-solid fa-${currentNotifView==='private'?'envelope-open':'bell-slash'}"></i>${emptyMsg}</div>`;
     return;
   }
-
   scroll.innerHTML=list.map(n=>buildNotifItem(n)).join('');
 }
-
-/* Build a single notification item HTML */
 function buildNotifItem(n){
   const isPrivate=n.privateMessage;
   const isUnread=!n.read;
   const unreadCls=isUnread?'unread':'';
   const privateCls=isPrivate?'private-msg':'';
   const dotCls=`${isUnread?'':'read'} ${isPrivate?'private':''}`;
-  const typeTag=isPrivate
-    ?`<span class="notif-type-tag private">Private</span>`
-    :`<span class="notif-type-tag broadcast">Broadcast</span>`;
+  const typeTag=isPrivate?`<span class="notif-type-tag private">Private</span>`:`<span class="notif-type-tag broadcast">Broadcast</span>`;
   const sender=`<span class="notif-sender">from Admin</span>`;
-
-  const imgHtml=n.imageUrl
-    ?`<img class="notif-img-thumb" src="${n.imageUrl}" alt="notif" onclick="event.stopPropagation();openImgModal('${n.imageUrl}')"/>`:'';
-  const msgHtml=n.message
-    ?`<div class="notif-msg-text">${esc(n.message)}</div>`:'';
-
+  const imgHtml=n.imageUrl?`<img class="notif-img-thumb" src="${n.imageUrl}" alt="notif" onclick="event.stopPropagation();openImgModal('${n.imageUrl}')"/>`:'';
+  const msgHtml=n.message?`<div class="notif-msg-text">${esc(n.message)}</div>`:'';
   let repliesHtml='';
   const hasReplies=n.replies&&n.replies.length>0;
   const replyCount=hasReplies?n.replies.length:0;
   const threadId=n.userNotificationId;
-
   if(isPrivate){
     const repliesBody=hasReplies?n.replies.map(r=>buildReplyBubble(r)).join(''):'<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px 0">No replies yet</div>';
     repliesHtml=`
@@ -1064,11 +1089,7 @@ function buildNotifItem(n){
         </div>
       </div>`;
   }
-
-  const onClickAttr=isPrivate
-    ?`onclick="markReadByUnId('${threadId}')"`
-    :`onclick="markReadByUnId('${n.id}',true)"`;
-
+  const onClickAttr=isPrivate?`onclick="markReadByUnId('${threadId}')"`:`onclick="markReadByUnId('${n.id}',true)"`;
   return `
     <div class="notif-item ${unreadCls} ${privateCls}" ${onClickAttr}>
       <div class="notif-dot ${dotCls}"></div>
@@ -1080,8 +1101,6 @@ function buildNotifItem(n){
       </div>
     </div>`;
 }
-
-/* Build a reply bubble */
 function buildReplyBubble(r){
   const cls=r.fromAdmin?'from-admin':'from-user';
   const align=r.fromAdmin?'':'align-self:flex-end;';
@@ -1090,52 +1109,26 @@ function buildReplyBubble(r){
     <div class="thread-meta ${r.fromAdmin?'':'right'}">${r.senderName} · ${fmtTime(r.createdAt)}</div>
   </div>`;
 }
-
-/* Toggle a reply thread open/closed */
-function toggleThread(id){
-  const el=document.getElementById(id);
-  if(el)el.classList.toggle('open');
-}
-
-/* Mark notification as read using userNotificationId (for private) or notificationId (for broadcast) */
-async function markReadByUnId(id, isBroadcastId=false){
-  // For private messages: id = userNotificationId, use the correct endpoint
-  // For broadcast: id = notificationId (backend marks by notificationId for the user)
-  // The backend endpoint is: PATCH /api/users/{userId}/notifications/{notificationId}/read
-  // For private we need to call the same endpoint using the notification's actual id
-
-  // Find the notification in userNotifs by userNotificationId OR by .id
+function toggleThread(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+async function markReadByUnId(id,isBroadcastId=false){
   let n;
-  if(isBroadcastId){
-    n=userNotifs.find(x=>x.id===id);
-  }else{
-    n=userNotifs.find(x=>x.userNotificationId===id);
-  }
+  if(isBroadcastId){n=userNotifs.find(x=>x.id===id);}
+  else{n=userNotifs.find(x=>x.userNotificationId===id);}
   if(!n||n.read)return;
-
   try{
-    await fetch(`${API}/api/users/${uid()}/notifications/${n.id}/read`,{
-      method:'PATCH',headers:{Authorization:`Bearer ${tok()}`}
-    });
+    await fetch(`${API}/api/users/${uid()}/notifications/${n.id}/read`,{method:'PATCH',headers:{Authorization:`Bearer ${tok()}`}});
     n.read=true;n.readAt=new Date().toISOString();
     const unread=userNotifs.filter(x=>!x.read).length;
-    updateBadge(unread);
-    renderNotifPanel();
+    updateBadge(unread);renderNotifPanel();
   }catch(e){console.error('Failed to mark read',e);}
 }
-
-/* Mark ALL notifications as read */
 async function markAllRead(){
   try{
     await fetch(`${API}/api/users/${uid()}/notifications/read-all`,{method:'PATCH',headers:{Authorization:`Bearer ${tok()}`}});
     userNotifs.forEach(n=>{n.read=true;n.readAt=new Date().toISOString();});
-    updateBadge(0);
-    renderNotifPanel();
-    toast('All notifications marked as read');
+    updateBadge(0);renderNotifPanel();toast('All notifications marked as read');
   }catch(e){toast('Failed to mark all read','error');}
 }
-
-/* User submits a reply on a private thread */
 async function submitUserReply(userNotificationId,btn){
   const ta=document.getElementById(`rtextarea-${userNotificationId}`);
   if(!ta)return;
@@ -1150,16 +1143,12 @@ async function submitUserReply(userNotificationId,btn){
     });
     if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed');}
     ta.value='';
-    // Reload notifications to get updated replies
     await loadUserNotifs();
-    // Re-open the thread after re-render
     setTimeout(()=>{const thread=document.getElementById(`thread-${userNotificationId}`);if(thread)thread.classList.add('open');},50);
     toast('Reply sent');
   }catch(e){toast(e.message,'error');}
   finally{btn.disabled=false;}
 }
-
-/* Toggle notif panel open/close */
 function toggleNotifPanel(){
   notifPanelOpen=!notifPanelOpen;
   const panel=document.getElementById('notif-panel');
@@ -1173,9 +1162,7 @@ function toggleNotifPanel(){
   }
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMIN DATA
-═══════════════════════════════════════════════════════════ */
+/* ═══ ADMIN DATA ═══ */
 async function loadAdminData(){
   const h={Authorization:`Bearer ${tok()}`};
   try{
@@ -1206,7 +1193,9 @@ function switchAdminSub(name,el){
   if(name==='screenshots')loadScreenshots('all');
 }
 
-/* DEPOSITS */
+/* ═══════════════════════════════════════════════════
+   DEPOSITS — ADMIN
+═══════════════════════════════════════════════════ */
 function renderAdminDeposits(list){
   const tbody=document.getElementById('dep-tbody');
   if(!list.length){tbody.innerHTML='<tr><td colspan="8" class="empty-state">No deposits found.</td></tr>';return;}
@@ -1217,11 +1206,105 @@ function renderAdminDeposits(list){
   }).join('');
 }
 function filterDeposits(q){const f=q.toLowerCase();renderAdminDeposits(allDeposits.filter(d=>(d.userFullName||'').toLowerCase().includes(f)||(d.userEmail||'').toLowerCase().includes(f)));}
-async function viewDeposit(id){
-  const d=allDeposits.find(x=>x.id===id);if(!d)return;
-  document.getElementById('dep-detail-body').innerHTML=`${d.proofImageUrl?`<img class="modal-full-img" src="${d.proofImageUrl}" onclick="openImgModal('${d.proofImageUrl}')"/>`:''}${[['User',d.userFullName||'—'],['Email',d.userEmail||'—'],['Type',d.depositType||'—'],['Amount','GH₵ '+fmt(d.amount)],['Reward',d.rewardAmount?'GH₵ '+fmt(d.rewardAmount):'—'],['Status',`<span class="badge ${d.status}">${d.status}</span>`],['Token ID',d.tokenId||'—'],['Secret',d.secretCode||'—'],['Wallet ID',d.walletId||'—'],['Submitted',fmtDate(d.createdAt)],['Updated',fmtDate(d.updatedAt)]].map(([l,v])=>`<div class="modal-detail-row"><span class="dl">${l}</span><span class="dv">${v}</span></div>`).join('')}`;
+
+/* ═══════════════════════════════════════════════════
+   VIEW DEPOSIT — REDESIGNED MODAL
+   Highlights Token ID + Secret Code
+   Renamed Wallet ID → Phone Number
+   + Print button
+═══════════════════════════════════════════════════ */
+function viewDeposit(id){
+  const d=allDeposits.find(x=>x.id===id);
+  if(!d)return;
+
+  const statusIcons={APPROVED:'fa-circle-check',PENDING:'fa-clock',REJECTED:'fa-circle-xmark'};
+  const statusIcon=statusIcons[d.status]||'fa-circle-question';
+
+  const proofHtml=d.proofImageUrl
+    ?`<div class="dep-proof-img-wrap" onclick="openImgModal('${d.proofImageUrl}')">
+        <img src="${d.proofImageUrl}" alt="Payment proof"/>
+        <div class="dep-proof-img-overlay"><span><i class="fa-solid fa-expand"></i> View Full</span></div>
+      </div>`
+    :'';
+
+  // Build printable content
+  const printContent=`
+    <div class="dep-detail-wrap" id="print-area">
+      ${proofHtml}
+
+      <div class="dep-status-banner ${d.status}">
+        <i class="fa-solid ${statusIcon}"></i>
+        <span>Status: <strong>${d.status}</strong></span>
+        ${d.updatedAt?`<span style="margin-left:auto;font-size:11px;font-weight:400;opacity:.75">${fmtDate(d.updatedAt)}</span>`:''}
+      </div>
+
+      <div class="dep-info-grid">
+        <!-- User -->
+        <div class="dep-info-field full">
+          <div class="dep-info-label"><i class="fa-solid fa-user" style="margin-right:4px"></i>Account Holder</div>
+          <div class="dep-info-value">${esc(d.userFullName||'—')}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(d.userEmail||'')}</div>
+        </div>
+
+        <!-- Amount -->
+        <div class="dep-info-field highlight-amount">
+          <div class="dep-info-label"><i class="fa-solid fa-coins" style="margin-right:4px"></i>Amount</div>
+          <div class="dep-info-value">GH₵ ${fmt(d.amount)}</div>
+        </div>
+
+        <!-- Reward -->
+        <div class="dep-info-field highlight-reward">
+          <div class="dep-info-label"><i class="fa-solid fa-gift" style="margin-right:4px"></i>Reward</div>
+          <div class="dep-info-value">${d.rewardAmount?'GH₵ '+fmt(d.rewardAmount):'—'}</div>
+        </div>
+
+        <!-- Type -->
+        <div class="dep-info-field">
+          <div class="dep-info-label">Deposit Type</div>
+          <div class="dep-info-value">${esc(d.depositType||'—')}</div>
+        </div>
+
+        <!-- Date -->
+        <div class="dep-info-field">
+          <div class="dep-info-label">Submitted</div>
+          <div class="dep-info-value">${fmtDate(d.createdAt)}</div>
+        </div>
+
+        <!-- TOKEN ID — highlighted blue -->
+        <div class="dep-info-field highlight-token full">
+          <div class="dep-info-label"><i class="fa-solid fa-hashtag" style="margin-right:4px"></i>Token ID</div>
+          <div class="dep-info-value">${esc(d.tokenId||'—')}</div>
+        </div>
+
+        <!-- SECRET CODE — highlighted purple -->
+        <div class="dep-info-field highlight-secret full">
+          <div class="dep-info-label"><i class="fa-solid fa-key" style="margin-right:4px"></i>Secret Code</div>
+          <div class="dep-info-value">${esc(d.secretCode||'—')}</div>
+        </div>
+
+        <!-- PHONE NUMBER (was walletId) -->
+        <div class="dep-info-field full">
+          <div class="dep-info-label"><i class="fa-solid fa-phone" style="margin-right:4px"></i>Phone Number</div>
+          <div class="dep-info-value">${esc(d.walletId||d.phoneNumber||'—')}</div>
+        </div>
+      </div>
+
+      <!-- Print bar -->
+      <div class="dep-print-bar">
+        <button class="btn-print" onclick="printDepositDetail()">
+          <i class="fa-solid fa-print"></i> Print Receipt
+        </button>
+      </div>
+    </div>`;
+
+  document.getElementById('dep-detail-body').innerHTML=printContent;
   openModal('modal-dep-detail');
 }
+
+function printDepositDetail(){
+  window.print();
+}
+
 async function approveDeposit(id,type){if(type==='FLEXIBLE'){document.getElementById('approve-dep-id').value=id;document.getElementById('approve-reward').value='';openModal('modal-approve');}else await patchDepositStatus(id,'APPROVED',null);}
 async function submitApprove(){const id=document.getElementById('approve-dep-id').value;const reward=parseFloat(document.getElementById('approve-reward').value);if(!reward||reward<=0){toast('Enter a valid reward amount','error');return;}closeModal('modal-approve');await patchDepositStatus(id,'APPROVED',reward);}
 async function rejectDeposit(id){if(!confirm('Reject this deposit?'))return;await patchDepositStatus(id,'REJECTED',null);}
@@ -1231,7 +1314,7 @@ async function patchDepositStatus(id,status,rewardAmount){
 }
 async function adminDeleteDeposit(id){if(!confirm('Permanently delete this deposit?'))return;try{const res=await fetch(`${API}/api/admin/deposits/${id}`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});if(!res.ok&&res.status!==204)throw new Error('Failed to delete');toast('Deposit deleted');await loadAdminData();}catch(e){toast(e.message,'error');}}
 
-/* WITHDRAWALS */
+/* ═══ WITHDRAWALS ═══ */
 function renderAdminWithdrawals(list){
   const tbody=document.getElementById('wd-admin-tbody');
   if(!list.length){tbody.innerHTML='<tr><td colspan="7" class="empty-state">No withdrawal requests found.</td></tr>';return;}
@@ -1251,7 +1334,7 @@ async function rejectWithdrawal(id){if(!confirm('Reject this withdrawal?'))retur
 async function adminDeleteWithdrawal(id){if(!confirm('Permanently delete this withdrawal?'))return;try{const res=await fetch(`${API}/api/admin/withdrawals/${id}`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});if(!res.ok&&res.status!==204)throw new Error('Failed');toast('Withdrawal deleted');await loadAdminData();}catch(e){toast(e.message,'error');}}
 async function adminDeleteAllWithdrawals(){if(!confirm('Delete ALL withdrawal records? Cannot be undone.'))return;try{const res=await fetch(`${API}/api/admin/withdrawals`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});if(!res.ok&&res.status!==204)throw new Error('Failed');toast('All withdrawal records deleted');await loadAdminData();}catch(e){toast(e.message,'error');}}
 
-/* USERS */
+/* ═══ USERS ═══ */
 function renderAdminUsers(list){
   const tbody=document.getElementById('usr-tbody');
   if(!list.length){tbody.innerHTML='<tr><td colspan="6" class="empty-state">No users found.</td></tr>';return;}
@@ -1272,41 +1355,132 @@ async function submitCredit(){
   try{const res=await fetch(`${API}/api/admin/deposits/credit`,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},body:JSON.stringify({userId,amount})});if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed');}toast(`GH₵ ${fmt(amount)} credited successfully`);document.getElementById('credit-amount').value='';await loadAdminData();}catch(e){toast(e.message,'error');}
 }
 
-/* ══════════════════════════════════════════
-   ADMIN NOTIFICATIONS — updated
-   Supports: broadcast, private message, view thread & reply
-══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   ADMIN NOTIFICATIONS — updated renderAdminNotifs
+   Every row shows a "Thread" button for ALL messages
+   (both private and broadcast, so admin can always
+   open the thread modal to review / reply)
+═══════════════════════════════════════════════════ */
 function renderAdminNotifs(list){
   const tbody=document.getElementById('notif-admin-tbody');
   if(!list.length){tbody.innerHTML='<tr><td colspan="7" class="empty-state">No notifications sent yet.</td></tr>';return;}
   const sorted=[...list].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
   tbody.innerHTML=sorted.map(n=>{
     const isPrivate=n.privateMessage;
-    const typeBadge=isPrivate?`<span class="notif-type-badge PRIVATE_MESSAGE">Private</span>`:`<span class="notif-type-badge ${n.type}">${(n.type||'').replace(/_/g,' ')}</span>`;
+    const typeBadge=isPrivate
+      ?`<span class="notif-type-badge PRIVATE_MESSAGE">Private</span>`
+      :`<span class="notif-type-badge ${n.type}">${(n.type||'').replace(/_/g,' ')}</span>`;
     const target=isPrivate?(n.targetUserName||n.targetUserEmail||'1 user'):'All users';
     const msgPreview=n.message?n.message.substring(0,55)+(n.message.length>55?'…':''):'<span style="color:var(--muted)">—</span>';
+
+    // Thread button — available for private messages that have a userNotificationId
+    const threadBtn=isPrivate&&n.userNotificationId
+      ?`<button class="btn-xs btn-xs-reply" onclick="openAdminThread('${n.userNotificationId}','${esc2(n.message||'')}','${esc2(n.targetUserName||'')}','${esc2(n.targetUserEmail||'')}')">
+          <i class="fa-solid fa-comments"></i> Thread
+        </button>`
+      :'';
+
     return `<tr>
       <td>${typeBadge}</td>
       <td style="font-size:12px;color:var(--muted)">${target}</td>
       <td style="max-width:200px;font-size:12px">${msgPreview}</td>
       <td>${n.imageUrl?`<img class="proof-thumb" src="${n.imageUrl}" onclick="openImgModal('${n.imageUrl}')"/>`:'—'}</td>
-     <td style="font-size:12px;white-space:nowrap"><span class="role-badge ADMIN">ADMIN</span></td>
+      <td style="font-size:12px;white-space:nowrap"><span class="role-badge ADMIN">ADMIN</span></td>
       <td style="font-size:11px;color:var(--muted);white-space:nowrap">${fmtDate(n.createdAt)}</td>
       <td><div style="display:flex;gap:5px;flex-wrap:wrap">
-        ${isPrivate&&n.userNotificationId?`<button class="btn-xs btn-xs-reply" onclick="openAdminThread('${n.userNotificationId}','${esc(n.message||'Private message')}')"><i class="fa-solid fa-comments"></i> Thread</button>`:''}
+        ${threadBtn}
         <button class="btn-xs btn-xs-delete" onclick="deleteAdminNotif('${n.id}')"><i class="fa-solid fa-trash"></i></button>
       </div></td>
     </tr>`;
   }).join('');
 }
 
-/* Populate the private message user select */
+/* Open admin thread modal — now accepts user name/email too */
+async function openAdminThread(userNotificationId, originalMsg, userName, userEmail){
+  // Populate meta bar
+  const uName=userName||'User';
+  const uEmail=userEmail||'';
+  document.getElementById('modal-thread-username').textContent=uName;
+  document.getElementById('modal-thread-email').textContent=uEmail;
+  const initials=uName.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('modal-thread-avatar').textContent=initials;
+
+  // Original message
+  document.getElementById('modal-thread-original-text').textContent=originalMsg||'(no text)';
+
+  // Store ID for reply submission
+  document.getElementById('modal-thread-un-id').value=userNotificationId;
+  document.getElementById('admin-reply-text').value='';
+
+  // Show loading
+  document.getElementById('admin-thread-body').innerHTML='<div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading conversation…</div>';
+  openModal('modal-thread');
+
+  // Load replies
+  try{
+    const res=await fetch(`${API}/api/admin/threads/${userNotificationId}/replies`,{headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok)throw new Error('Failed');
+    const replies=await res.json();
+    renderAdminThreadBody(replies);
+  }catch(e){
+    document.getElementById('admin-thread-body').innerHTML='<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>Failed to load conversation.</div>';
+  }
+}
+
+function renderAdminThreadBody(replies){
+  const body=document.getElementById('admin-thread-body');
+  if(!replies||!replies.length){
+    body.innerHTML='<div style="font-size:12px;color:var(--muted);text-align:center;padding:16px 0;"><i class="fa-solid fa-comments" style="display:block;font-size:20px;opacity:.25;margin-bottom:8px"></i>No replies yet — start the conversation!</div>';
+    return;
+  }
+  body.innerHTML=replies.map(r=>{
+    const isAdmin=r.fromAdmin;
+    const cls=isAdmin?'from-admin':'from-user';
+    const alignSelf=isAdmin?'align-self:flex-start':'align-self:flex-end';
+    const metaAlign=isAdmin?'':'text-align:right';
+    return `<div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="admin-reply-bubble ${cls}" style="${alignSelf}">${esc(r.message)}</div>
+      <div style="font-size:10px;color:var(--muted);${metaAlign}">${esc(r.senderName||'')} · ${fmtTime(r.createdAt)}</div>
+    </div>`;
+  }).join('');
+  body.scrollTop=body.scrollHeight;
+}
+
+/* Admin submit reply */
+async function submitAdminReply(){
+  const userNotificationId=document.getElementById('modal-thread-un-id').value;
+  const msg=document.getElementById('admin-reply-text').value.trim();
+  if(!msg){toast('Please type a reply','error');return;}
+  try{
+    const res=await fetch(`${API}/api/admin/threads/${userNotificationId}/reply?adminId=${uid()}`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},
+      body:JSON.stringify({message:msg})
+    });
+    if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed');}
+    document.getElementById('admin-reply-text').value='';
+    // Reload replies
+    const rRes=await fetch(`${API}/api/admin/threads/${userNotificationId}/replies`,{headers:{Authorization:`Bearer ${tok()}`}});
+    const replies=rRes.ok?await rRes.json():[];
+    renderAdminThreadBody(replies);
+    toast('Reply sent');
+  }catch(e){toast(e.message,'error');}
+}
+
+async function deleteAdminNotif(id){
+  if(!confirm('Delete this notification?'))return;
+  try{
+    const res=await fetch(`${API}/api/admin/notifications/${id}`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok&&res.status!==204)throw new Error('Failed');
+    toast('Notification deleted');await loadAdminData();
+  }catch(e){toast(e.message,'error');}
+}
+
+/* Private message */
 function populatePrivateUserSelect(users){
   const sel=document.getElementById('private-user-sel');
   sel.innerHTML='<option value="">— Select a user —</option>'+users.map(u=>`<option value="${u.id}">${u.fullName} (${u.email})</option>`).join('');
 }
-
-/* Send broadcast to all */
 async function submitBroadcast(){
   const message=document.getElementById('notif-msg').value.trim();
   const imgInput=document.getElementById('notif-img-input');
@@ -1322,8 +1496,6 @@ async function submitBroadcast(){
     toast(`Broadcast sent (${type.replace(/_/g,' ')}) to all users`);await loadAdminData();
   }catch(e){toast(e.message,'error');}
 }
-
-/* Send private message to one user */
 async function submitPrivateMessage(){
   const targetUserId=document.getElementById('private-user-sel').value;
   const message=document.getElementById('private-msg').value.trim();
@@ -1331,15 +1503,10 @@ async function submitPrivateMessage(){
   const imgFile=imgInput?imgInput.files[0]:null;
   if(!targetUserId){toast('Please select a user','error');return;}
   if(!message&&!imgFile){toast('Please enter a message or upload an image','error');return;}
-
-  // Determine type: if there's a message it's PRIVATE_MESSAGE (or TEXT_IMAGE if also has image)
-  // Backend accepts: TEXT_ONLY | IMAGE_ONLY | TEXT_IMAGE | PRIVATE_MESSAGE
-  // Use PRIVATE_MESSAGE when message only, TEXT_IMAGE when both, IMAGE_ONLY when image only
   let type;
   if(message&&imgFile)type='TEXT_IMAGE';
   else if(message)type='PRIVATE_MESSAGE';
   else type='IMAGE_ONLY';
-
   const form=new FormData();form.append('adminId',uid());form.append('type',type);
   if(message)form.append('message',message);if(imgFile)form.append('image',imgFile);
   try{
@@ -1347,64 +1514,6 @@ async function submitPrivateMessage(){
     if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed');}
     closeModal('modal-send-private');resetPrivateModal();
     toast('Private message sent');await loadAdminData();
-  }catch(e){toast(e.message,'error');}
-}
-
-/* Open admin thread modal and load replies */
-async function openAdminThread(userNotificationId,previewMsg){
-  document.getElementById('modal-thread-meta').textContent=previewMsg;
-  document.getElementById('modal-thread-un-id').value=userNotificationId;
-  document.getElementById('admin-thread-body').innerHTML='<div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading thread…</div>';
-  document.getElementById('admin-reply-text').value='';
-  openModal('modal-thread');
-  try{
-    const res=await fetch(`${API}/api/admin/threads/${userNotificationId}/replies`,{headers:{Authorization:`Bearer ${tok()}`}});
-    if(!res.ok)throw new Error('Failed');
-    const replies=await res.json();
-    renderAdminThreadBody(replies);
-  }catch(e){document.getElementById('admin-thread-body').innerHTML='<div class="empty-state">Failed to load thread.</div>';}
-}
-
-function renderAdminThreadBody(replies){
-  const body=document.getElementById('admin-thread-body');
-  if(!replies.length){body.innerHTML='<div style="font-size:12px;color:var(--muted);text-align:center;padding:12px">No replies yet — be the first to reply.</div>';return;}
-  body.innerHTML=replies.map(r=>{
-    const cls=r.fromAdmin?'from-admin':'from-user';
-    return `<div style="display:flex;flex-direction:column;${r.fromAdmin?'':'align-items:flex-end'}">
-      <div class="admin-reply-bubble ${cls}">${esc(r.message)}</div>
-      <div style="font-size:10px;color:var(--muted);margin-top:2px;${r.fromAdmin?'':'text-align:right'}">${r.senderName} · ${fmtTime(r.createdAt)}</div>
-    </div>`;
-  }).join('');
-  body.scrollTop=body.scrollHeight;
-}
-
-/* Admin submits a reply on a thread */
-async function submitAdminReply(){
-  const userNotificationId=document.getElementById('modal-thread-un-id').value;
-  const msg=document.getElementById('admin-reply-text').value.trim();
-  if(!msg){toast('Please type a reply','error');return;}
-  try{
-    const res=await fetch(`${API}/api/admin/threads/${userNotificationId}/reply?adminId=${uid()}`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},
-      body:JSON.stringify({message:msg})
-    });
-    if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed');}
-    document.getElementById('admin-reply-text').value='';
-    // Reload thread
-    const rRes=await fetch(`${API}/api/admin/threads/${userNotificationId}/replies`,{headers:{Authorization:`Bearer ${tok()}`}});
-    const replies=rRes.ok?await rRes.json():[];
-    renderAdminThreadBody(replies);
-    toast('Reply sent');
-  }catch(e){toast(e.message,'error');}
-}
-
-async function deleteAdminNotif(id){
-  if(!confirm('Delete this notification?'))return;
-  try{
-    const res=await fetch(`${API}/api/admin/notifications/${id}`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
-    if(!res.ok&&res.status!==204)throw new Error('Failed');
-    toast('Notification deleted');await loadAdminData();
   }catch(e){toast(e.message,'error');}
 }
 
@@ -1424,7 +1533,7 @@ async function submitCreateAdmin(){
   try{const body={fullName,email,password};if(phoneNumber)body.phoneNumber=phoneNumber;const res=await fetch(`${API}/api/admin/register`,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},body:JSON.stringify(body)});if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed');}toast('Admin account created');['reg-name','reg-email','reg-phone','reg-pass'].forEach(id=>document.getElementById(id).value='');await loadAdminData();}catch(e){toast(e.message,'error');}
 }
 
-/* ══ SHARED HELPERS ══ */
+/* HELPERS */
 function detectNotifType(message,imgFile){
   const hasMsg=message.length>0;const hasImg=!!imgFile;
   if(hasMsg&&hasImg)return 'TEXT_IMAGE';if(hasMsg)return 'TEXT_ONLY';if(hasImg)return 'IMAGE_ONLY';return null;
@@ -1455,7 +1564,6 @@ function previewNotifImg(input,previewId){
   const reader=new FileReader();
   reader.onload=e=>{
     const prev=document.getElementById(previewId);
-    // Keep the existing hidden input by re-injecting it (only if it's the broadcast one)
     const isNotif=previewId==='notif-img-preview';
     const inputId=isNotif?'notif-img-input':'private-img-input';
     prev.innerHTML=`<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;position:absolute;inset:0;"/><input type="file" id="${inputId}" accept="image/*" style="display:none" onchange="previewNotifImg(this,'${previewId}');${isNotif?'updateNotifTypeIndicator':'updatePrivateTypeIndicator'}()"/>`;
@@ -1476,7 +1584,10 @@ function resetPrivateModal(){
 }
 function openImgModal(url){document.getElementById('modal-img-src').src=url;openModal('modal-img');}
 
-/* Escape HTML for user content */
+/* Safe escape for JS string attributes (single-quoted) */
+function esc2(s){if(!s)return '';return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');}
+
+/* HTML escape for display */
 function esc(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 init();
